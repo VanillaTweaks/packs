@@ -26,7 +26,7 @@ class Version:
         return f"{self.major}.{self.minor}.{self.patch}"
 
     def __repr__(self):
-        return str(self)
+        return f'Version("{str(self)}")'
 
     def __iter__(self):
         yield "major", self.major

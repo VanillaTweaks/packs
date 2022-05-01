@@ -46,10 +46,11 @@ class BaseLocation:
 
     _namespace: str
     _path: str
-    _path_segments: tuple[str]
     _title: str | None
     _version: Version | None
     _external: bool
+
+    __path_segments: list[str]
 
     def __check_name(self, name: str):
         if not VALID_RESOURCE_NAME.match(name):
@@ -68,19 +69,19 @@ class BaseLocation:
         external: bool = False,
     ):
         self._namespace, _, self._path = base.partition(":")
-        self._path_segments = tuple(self._path.split("/"))
+        self.__path_segments = self._path.split("/")
         self._version = Version(version) if isinstance(version, str) else version
         self._title = title
         self._external = external
 
         self.__check_name(self._namespace)
-        for path_segment in self._path_segments:
+        for path_segment in self.__path_segments:
             self.__check_name(path_segment)
 
     def __truediv__(self, other: str):
         other_segments = other.split("/")
 
-        output_segments = [*self._path_segments]
+        output_segments = self.__path_segments[:]
 
         if not self._external:
             if other_segments[-1].startswith("_"):
@@ -100,7 +101,7 @@ class BaseLocation:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             )
 
-        return ".".join([self._namespace, *self._path_segments, key])
+        return ".".join([self._namespace, *self.__path_segments, key])
 
     def __str__(self):
         return f"{self._namespace}:{self._path}" if self._path else self._namespace
