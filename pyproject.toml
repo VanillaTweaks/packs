@@ -1,16 +1,16 @@
 [tool.poetry]
 name = "packs"
-version = "0.1.0"
+version = "1.0.0"
 description = "Some of the packs on https://vanillatweaks.net"
-authors = ["VanillaTweaks"]
+authors = ["VanillaTweaks <team@vanillatweaks.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-
-[tool.poetry.dev-dependencies]
 beet = ">=0.63.1"
 mecha = ">=0.48.2"
 bolt = ">=0.3.4"
+
+[tool.poetry.dev-dependencies]
 black = "^22.3.0"
 isort = "^5.10.1"
 
