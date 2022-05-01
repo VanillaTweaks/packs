@@ -14,34 +14,43 @@ class BaseLocation:
     """
     A representation of a base for Minecraft resource locations (namespaced IDs).
 
-    Examples:
+    >>> namespace = BaseLocation("namespace")
+    >>> something_else = BaseLocation("something:else")
+    >>> path = BaseLocation(namespace / "path")
+    >>> another_path = BaseLocation("namespace:another/path")
+    >>> subpath = BaseLocation(path / "subpath")
 
-    ```
-    namespace = BaseLocation("namespace")
-    something_else = BaseLocation("something:else")
-    path = BaseLocation(namespace / "path")
-    another_path = BaseLocation(namespace / "another/path")
-    subpath = BaseLocation(path / "subpath")
+    >>> str(namespace)
+    "namespace"
+    >>> str(another_path)
+    "namespace:another/path"
 
-    namespace / "resource" == "namespace:resource"
-    path / "resource" == "namespace:path/resource"
-    subpath / "resource" == "namespace:path/subpath/resource"
-    another_path / "another_resource" == "namespace:another/path/another_resource"
-    something_else / "directory/resource" == "something:else/directory/resource"
+    >>> namespace / "resource"
+    "namespace:resource"
+    >>> path / "resource"
+    "namespace:path/resource"
+    >>> subpath / "resource"
+    "namespace:path/subpath/resource"
+    >>> another_path / "another_resource"
+    "namespace:another/path/another_resource"
+    >>> something_else / "directory/resource"
+    "something:else/directory/resource"
 
-    namespace / "_resource" == f"namespace:{PRIVATE_PATH}/resource"
-    namespace / "path/_resource" == f"namespace:{PRIVATE_PATH}/path/resource"
-    path / "_resource" == f"namespace:{PRIVATE_PATH}/path/resource"
+    >>> namespace / "_resource"
+    f"namespace:{PRIVATE_PATH}/resource"
+    >>> namespace / "path/_resource"
+    f"namespace:{PRIVATE_PATH}/path/resource"
+    >>> path / "_resource"
+    f"namespace:{PRIVATE_PATH}/path/resource"
 
-    namespace.thing_1 == "namespace.thing_1"
-    path.thing_2 == "namespace.path.thing_2"
+    >>> namespace.thing_1
+    "namespace.thing_1"
+    >>> path.thing_2
+    "namespace.path.thing_2"
 
-    external_api = BaseLocation("external_pack:api", external=true)
-
-    external_api / "_test" == "external_pack:api/_test"
-
-    str(BaseLocation(base)) == base
-    ```
+    >>> external_api = BaseLocation("external_pack:api", external=true)
+    >>> external_api / "_test"
+    "external_pack:api/_test"
     """
 
     _namespace: str
