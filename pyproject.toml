@@ -11,8 +11,6 @@ python = "^3.10"
 beet = ">=0.63.1"
 mecha = ">=0.48.2"
 bolt = ">=0.3.4"
-
-# for dev formatting
 black = "^22.3.0"
 isort = "^5.10.1"
 

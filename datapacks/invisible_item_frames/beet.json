@@ -1,0 +1,12 @@
+{
+    "name": "invisible_item_frames",
+    "data_pack": {
+        "load": "src"
+    },
+    "pipeline": {
+
+    },
+    "meta": {
+        "generate_namespace": "invis"
+    }
+}
