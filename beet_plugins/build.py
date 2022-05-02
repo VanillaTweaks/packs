@@ -1,4 +1,5 @@
 import logging
+import re
 from pathlib import Path
 
 import yaml
@@ -6,7 +7,6 @@ from beet import Context, subproject
 from bolt import Runtime
 
 from lib.resource_location import ResourceLocation
-import re
 
 logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
@@ -77,9 +77,7 @@ def beet_default(ctx: Context):
                             ],
                         },
                         "require": ["beet_plugins.build.expose_globals", "bolt"],
-                        "pipeline": [
-                            "mecha",
-                        ],
+                        "pipeline": ["mecha"],
                     }
                 )
             )
