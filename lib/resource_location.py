@@ -1,7 +1,7 @@
 import re
+from functools import cache
 
 from .version import Version
-from functools import cache
 
 PRIVATE_PATH = "zz/do_not_run_or_packs_may_break"
 

@@ -1,14 +1,16 @@
 import re
-from dataclasses import dataclass
+from dataclasses import InitVar, dataclass, field
 
 version_pattern = re.compile(r"^(\d+).(\d+).(\d+)$")
 
 
 @dataclass(order=True)
 class Version:
-    major: int
-    minor: int
-    patch: int
+    version_string: InitVar[str]
+
+    major: int = field(init=False)
+    minor: int = field(init=False)
+    patch: int = field(init=False)
 
     def __init__(self, version_string: str):
         version_match = version_pattern.match(version_string)
