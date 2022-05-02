@@ -1,6 +1,6 @@
 [[package]]
 name = "beet"
-version = "0.63.1"
+version = "0.64.0"
 description = "The Minecraft pack development kit"
 category = "main"
 optional = false
@@ -124,7 +124,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "mecha"
-version = "0.48.2"
+version = "0.48.3"
 description = "A powerful Minecraft command library"
 category = "main"
 optional = false
@@ -243,8 +243,8 @@ content-hash = "b400667f98946b151fa6264bd8899543645b5517ec59e3ab725c58dfda66f9ac
 
 [metadata.files]
 beet = [
-    {file = "beet-0.63.1-py3-none-any.whl", hash = "sha256:7ccac89303a0c7dbfefb3913b154b3ef3148347b4e0e2d9fb63ef7421406359a"},
-    {file = "beet-0.63.1.tar.gz", hash = "sha256:19a3723ff0ac5fe80b2d57ffb30349e1e5654b78d30a6fd81bc5d3a2c7ba7687"},
+    {file = "beet-0.64.0-py3-none-any.whl", hash = "sha256:faf29bdb85ceedca749d7b00f2bdf8a08822e34a466f144e5e5a0ea0244ccea9"},
+    {file = "beet-0.64.0.tar.gz", hash = "sha256:a8bbff0dcc0b622aa0b5fc5d28dcfb7cb9ab5d9c867a2d44df6f1e5181540cde"},
 ]
 black = [
     {file = "black-22.3.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:2497f9c2386572e28921fa8bec7be3e51de6801f7459dffd6e62492531c47e09"},
@@ -338,8 +338,8 @@ markupsafe = [
     {file = "MarkupSafe-2.1.1.tar.gz", hash = "sha256:7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"},
 ]
 mecha = [
-    {file = "mecha-0.48.2-py3-none-any.whl", hash = "sha256:89de6b81ef762074d0d3a5f71053cac354b15c9305c22b110463d29231ab4e44"},
-    {file = "mecha-0.48.2.tar.gz", hash = "sha256:0e0fcaf9030dbc0f3cf3ede840bc6442b6f62cef47b608e625f74eb11cfd4fb7"},
+    {file = "mecha-0.48.3-py3-none-any.whl", hash = "sha256:518ef1c5f2693a41be362cfc0a6f2ee787b9930b5e64fd5ee401de32b8983cff"},
+    {file = "mecha-0.48.3.tar.gz", hash = "sha256:34e948410faa52c8c57a609f2316e70f4919e6356e0f3ccdfcd2019d15c8f899"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},

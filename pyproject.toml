@@ -6,8 +6,8 @@ authors = ["VanillaTweaks <team@vanillatweaks.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.63.1"
-mecha = ">=0.48.2"
+beet = ">=0.64.0"
+mecha = ">=0.48.3"
 bolt = ">=0.3.4"
 
 [tool.poetry.dev-dependencies]
