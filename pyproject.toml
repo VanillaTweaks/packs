@@ -9,6 +9,7 @@ python = "^3.10"
 beet = ">=0.64.0"
 mecha = ">=0.48.3"
 bolt = ">=0.3.4"
+PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
