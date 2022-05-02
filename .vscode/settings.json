@@ -15,10 +15,10 @@
     "python.linting.pylintEnabled": false,
     "[python]": {
         "editor.formatOnPaste": false,
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": false,
         "editor.formatOnSaveMode": "file",
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": false
         }
     }
 }
