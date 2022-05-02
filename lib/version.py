@@ -6,6 +6,8 @@ version_pattern = re.compile(r"^(\d+).(\d+).(\d+)$")
 
 @dataclass(order=True)
 class Version:
+    """Model for semantic versioning."""
+
     version_string: InitVar[str]
 
     major: int = field(init=False)

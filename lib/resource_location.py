@@ -14,9 +14,9 @@ class ResourceLocation:
 
     >>> namespace = ResourceLocation("namespace")
     >>> something_else = ResourceLocation("something:else")
-    >>> path = ResourceLocation(namespace / "path")
-    >>> another_path = ResourceLocation("namespace:another/path")
-    >>> subpath = ResourceLocation(path / "subpath")
+    >>> path = namespace / "path"
+    >>> another_path = "namespace:another/path"
+    >>> subpath = path / "subpath"
 
     >>> str(namespace)
     "namespace"
