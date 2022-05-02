@@ -10,7 +10,7 @@ CONVENTIONAL_RESOURCE_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
 
 
 class ResourceLocation:
-    """A representation of a base for Minecraft resource locations (namespaced IDs).
+    """A representation of a Minecraft resource location (namespaced ID) with some extra features.
 
     >>> namespace = ResourceLocation("namespace")
     >>> something_else = ResourceLocation("something:else")
