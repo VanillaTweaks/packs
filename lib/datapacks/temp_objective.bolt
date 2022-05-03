@@ -2,12 +2,10 @@ from lib.vt import vt
 
 temp_objective = vt / "temp_objective"
 
-temp = vt.temp
-
 function temp_objective / "_load":
     """A function that adds the `temp` objective.
 
     ⚠️ Should only ever be called from `pre_load_tag`.
     """
 
-    scoreboard objectives add temp dummy
+    scoreboard objectives add vt.temp dummy
