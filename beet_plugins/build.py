@@ -27,10 +27,15 @@ def beet_default(ctx: Context):
 
     # TODO: Support resource packs.
 
-    pattern: str | None = ctx.meta.get("packs")
-    assert isinstance(pattern, str)
+    pattern = ctx.meta.get("packs")
+    if not isinstance(pattern, str):
+        raise TypeError(
+            f"The following value of `packs` is not a string:\n{repr(pattern)}"
+        )
+
     paths = Path(".").glob(pattern)
 
+    # A mapping from each pack's path to a dictionary of the pack's config.
     pack_configs: dict[Path, dict[str, str]] = {}
 
     for path in paths:
@@ -39,7 +44,8 @@ def beet_default(ctx: Context):
 
         if VALID_PATH.match(path.as_posix()):
             raise ValueError(
-                f"The following path is not directly in `datapacks/<game version>/` or `resourcepacks/<game version>/`:\n{path}"
+                "The following path is not directly in `datapacks/<game version>/` or "
+                f"`resourcepacks/<game version>/`:\n{path}"
             )
 
         pack_config_path = path / "pack.yaml"
@@ -52,7 +58,7 @@ def beet_default(ctx: Context):
 
     for path in paths:
         try:
-            logger.info(f"Building {path}...")
+            logger.info("Building %s...", path)
 
             pack_config = pack_configs[path]
 
