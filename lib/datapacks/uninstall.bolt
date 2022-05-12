@@ -1,0 +1,15 @@
+from functools import cache
+from lib.resource_locations import vt, pack
+
+def uninstall(resource_location):
+    uninstall_function = resource_location / "_uninstall"
+
+    if resource_location == pack:
+        uninstall_function = resource_location / "uninstall"
+
+    # TODO: Ensure this doesn't duplicate entries in the tag.
+    merge function_tag (vt / "_uninstall") {"values": [uninstall_function]}
+
+    return uninstall_function
+
+uninstall = cache(uninstall)

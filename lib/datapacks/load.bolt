@@ -1,0 +1,17 @@
+from functools import cache
+from lib.resource_locations import vt
+
+ctx.require("beet.contrib.lantern_load.base")
+
+def load(resource_location):
+    set_load_status(vt)
+    set_load_status(resource_location)
+
+    load_function = resource_location / "_load"
+
+    # TODO: Ensure this doesn't duplicate entries in the tag.
+    merge function_tag load:load {"values": [load_function]}
+
+    return load_function
+
+load = cache(load)

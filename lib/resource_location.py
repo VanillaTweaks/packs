@@ -58,7 +58,7 @@ class ResourceLocation:
     _title: str | None
     _external: bool
     _namespace: str
-    _path: str
+    _path: str = ""
 
     def __init__(
         self,
@@ -120,6 +120,9 @@ class ResourceLocation:
             return f"{self.namespace}:{path}"
 
         return self.namespace
+
+    def __eq__(self, other: object):
+        return str(self) == str(other)
 
     def __repr__(self):
         return f"{type(self).__name__}({self})"

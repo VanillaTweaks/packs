@@ -1,0 +1,9 @@
+from lib.resource_location import ResourceLocation
+
+vt = ResourceLocation('vanillatweaks', title="Vanilla Tweaks")
+
+pack = ResourceLocation(
+    ctx.project_id,
+    version=ctx.project_version,
+    title=ctx.project_name,
+)

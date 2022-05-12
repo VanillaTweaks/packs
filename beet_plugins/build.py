@@ -4,9 +4,6 @@ from pathlib import Path
 
 import yaml
 from beet import Context, subproject
-from bolt import Runtime
-
-from lib.resource_location import ResourceLocation
 
 logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
@@ -89,12 +86,3 @@ def beet_default(ctx: Context):
             )
         except Exception as error:
             logger.exception(error)
-
-
-def expose_globals(ctx: Context):
-    runtime = ctx.inject(Runtime)
-    runtime.globals["pack"] = ResourceLocation(
-        ctx.project_id,
-        version=ctx.project_version,
-        title=ctx.project_name,
-    )

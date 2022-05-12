@@ -1,2 +1,0 @@
-ctx.require("beet.contrib.lantern_load.base")
-

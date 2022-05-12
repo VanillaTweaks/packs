@@ -1,0 +1,41 @@
+from functools import cache
+
+from lib:datapacks/load import load
+from lib:datapacks/uninstall import uninstall
+
+def score_name(resource_location):
+    # Gets the name of a resource location's `load.status` score.
+    #
+    # load_status.score_name(vt / "directory/test")
+    # "$vanillatweaks.directory.test"
+
+    namespace = resource_location["namespace"]
+    path = resource_location["path"]
+
+    return "$" + namespace + (path.replace("/", ".") if path else "")
+
+def set(resource_location):
+    # Sets a resource location's `load.status` score(s) on load and on uninstall.
+    #
+    # ⚠️ This already runs automatically for any resource location which `load` is
+    #   called on.
+
+    load_status_score_name = score_name(resource_location)
+
+    append function load(resource_location):
+        scoreboard players set load_status_score_name load.status 1
+
+    append function uninstall(resource_location):
+        # Set to -1 instead of 0 so predicates can distinguish between uninstalled and
+        #   not loaded.
+        scoreboard players set load_status_score_name load.status -1
+
+    if resource_location["version"]:
+        for key, value in resource_location["version"]:
+            append function load(resource_location):
+                scoreboard players set f"{load_status_score_name}.{key}" load.status value
+
+            append function uninstall(resource_location):
+                scoreboard players set f"{load_status_score_name}.{key}" load.status 0
+
+set = cache(set)
