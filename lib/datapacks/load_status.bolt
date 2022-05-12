@@ -12,7 +12,11 @@ def score_holder(resource_location):
     namespace = resource_location["namespace"]
     path = resource_location["path"]
 
-    return "$" + namespace + (path.replace("/", ".") if path else "")
+    value = "$" + namespace
+    if path:
+        value += "." + path.replace("/", ".")
+
+    return value
 
 def set(resource_location):
     # Sets a resource location's `load.status` score(s) on load and on uninstall.
