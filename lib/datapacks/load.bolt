@@ -11,8 +11,7 @@ def load(resource_location):
 
     load_function = resource_location / "_load"
 
-    # TODO: Ensure this doesn't duplicate entries in the tag.
-    merge function_tag load:load {"values": [load_function]}
+    append function_tag load:load {"values": [load_function]}
 
     return load_function
 
