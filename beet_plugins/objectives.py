@@ -20,12 +20,15 @@ OBJECTIVE_KEY = re.compile(
 
 
 class ObjectiveData:
+    value: str
     resource_location: str
     name: str
     criterion: str = "dummy"
     display: TextComponent | None = None
 
     def __init__(self, ctx: Context, value: str):
+        self.value = value
+
         match = OBJECTIVE_KEY.match(value)
         if match is None:
             raise ValueError(
@@ -95,6 +98,16 @@ def beet_default(ctx: Context):
 
     for value in config_objective_values:
         objective = ObjectiveData(ctx, value)
+
+        if objective.name in config_objectives:
+            conflicting_objective = config_objectives[objective.name]
+            raise ValueError(
+                "The following two objectives defined in the `config.yaml` files of "
+                "`lib` or the pack share a conflicting name:\n"
+                f"  - {conflicting_objective.value}\n"
+                f"  - {value}"
+            )
+
         config_objectives[objective.name] = objective
 
     ctx.meta["objectives"] = used_objectives
