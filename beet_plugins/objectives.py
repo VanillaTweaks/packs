@@ -21,6 +21,15 @@ OBJECTIVE_KEY = re.compile(
 pack_namespace: str
 
 
+def get_namespace(namespace: str):
+    if namespace == "vt":
+        namespace = "vanillatweaks"
+    elif namespace == "pack":
+        namespace = pack_namespace
+
+    return namespace
+
+
 class ObjectiveData:
     value: str
     resource_location: str
@@ -41,16 +50,15 @@ class ObjectiveData:
 
         namespace, colon_and_path, separator, name, criterion, display = match.groups()
 
-        if namespace == "vt":
-            namespace = "vanillatweaks"
-        elif namespace == "pack":
-            namespace = pack_namespace
-
+        namespace = get_namespace(namespace)
         resource_location = namespace + colon_and_path
 
         namespaced = separator == "."
         if namespaced:
             name = resource_location.replace(":", ".").replace("/", ".") + "." + name
+        else:
+            name_before_dot, name_dot, name_after_dot = name.partition(".")
+            name = get_namespace(name_before_dot) + name_dot + name_after_dot
 
         self.resource_location = resource_location
         self.name = name
@@ -62,6 +70,8 @@ class ObjectiveData:
     def __hash__(self):
         return hash(self.name)
 
+
+# TODO: Let objectives be added without being referenced in mcfunction.
 
 # A mapping from the name of each objective defined in the `config.yaml` files of both
 #  `lib` and the pack to that objective's data.
