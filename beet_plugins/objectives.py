@@ -58,6 +58,8 @@ class ObjectiveData:
         return hash(self.name)
 
 
+pack_namespace: str
+
 # A mapping from the name of each objective defined in the `config.yaml` files of both
 #  `lib` and the pack to that objective's data.
 config_objectives: dict[str, ObjectiveData] = {}
@@ -73,10 +75,19 @@ class ObjectiveVisitor(Visitor):
 
         if objective_name in config_objectives:
             used_objectives.add(config_objectives[objective_name])
+        elif objective_name.partition(".")[0] in {"vanillatweaks", pack_namespace}:
+            raise ValueError(
+                "The following objective is not defined in the `config.yaml` file of "
+                f"either `lib` or the pack: {repr(objective_name)}"
+            )
 
 
 def beet_default(ctx: Context):
+    global pack_namespace
+
     mech = ctx.inject(Mecha)
+
+    pack_namespace = ctx.project_id
 
     config_objective_values = frozenset[str](
         *ctx.meta["pack_config"]["objectives"], *ctx.meta["lib_config"]["objectives"]
