@@ -18,6 +18,8 @@ OBJECTIVE_KEY = re.compile(
     rf"(?: {OBJECTIVE_CRITERION}(?: {OBJECTIVE_DISPLAY}))$"
 )
 
+pack_namespace: str
+
 
 class ObjectiveData:
     value: str
@@ -26,7 +28,7 @@ class ObjectiveData:
     criterion: str = "dummy"
     display: TextComponent | None = None
 
-    def __init__(self, ctx: Context, value: str):
+    def __init__(self, value: str):
         self.value = value
 
         match = OBJECTIVE_KEY.match(value)
@@ -42,7 +44,7 @@ class ObjectiveData:
         if namespace == "vt":
             namespace = "vanillatweaks"
         elif namespace == "pack":
-            namespace = ctx.project_id
+            namespace = pack_namespace
 
         resource_location = namespace + colon_and_path
 
@@ -60,8 +62,6 @@ class ObjectiveData:
     def __hash__(self):
         return hash(self.name)
 
-
-pack_namespace: str
 
 # A mapping from the name of each objective defined in the `config.yaml` files of both
 #  `lib` and the pack to that objective's data.
@@ -97,7 +97,7 @@ def beet_default(ctx: Context):
     )
 
     for value in config_objective_values:
-        objective = ObjectiveData(ctx, value)
+        objective = ObjectiveData(value)
 
         if objective.name in config_objectives:
             conflicting_objective = config_objectives[objective.name]
