@@ -16,15 +16,48 @@ if objectives:
         elif resource_location == pack:
             resource_location = pack
 
-        # Prepend and not append so other commands in the load function can use this
-        #  objective.
-        prepend function load(resource_location):
+        def add_objective():
             if objective.display is None:
                 scoreboard objectives add objective.name objective.criterion
             else:
                 scoreboard objectives add objective.name objective.criterion objective.display
 
+        def remove_objective():
+            scoreboard objectives remove objective.name
+
+        if objective.name == vt.temp:
+            # Handle the temp objective uniquely.
+
+            load_temp_objective = resource_location / "_load"
+            function load_temp_objective:
+                # Adding the temp objective must be the first command in the function so
+                #  it still runs when the `maxCommandChainLength` is 1.
+                add_objective()
+
+                # Reset all temp scores just to periodically clean the scoreboard a bit.
+                scoreboard players reset * vt.temp
+
+            # Prepend instead of append to the `pre_load` tag so that other functions in
+            #  the `pre_load` tag can use the temp objective.
+            prepend function_tag load:pre_load {"values": [load_temp_objective]}
+
+            uninstall_temp_objective = resource_location / "_uninstall"
+            function uninstall_temp_objective:
+                remove_objective()
+
+            # Append instead of prepend to the uninstall tag so other functions in the
+            #  uninstall tag can use the temp objective.
+            append function_tag (vt / "_uninstall") {"values": [uninstall_temp_objective]}
+
+            continue
+
+
+        # Prepend and not append so other commands in the load function can use this
+        #  objective.
+        prepend function load(resource_location):
+            add_objective()
+
         # Append and not prepend so other commands in the uninstall function can use
         #  this objective.
         append function uninstall(resource_location):
-            scoreboard objectives remove objective.name
+            remove_objective()
