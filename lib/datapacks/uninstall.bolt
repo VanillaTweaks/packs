@@ -8,7 +8,7 @@ def uninstall(resource_location):
         uninstall_function = resource_location / "uninstall"
 
     # Prepend instead of append so things are uninstalled in the reverse order that they
-    #   are installed.
+    #  are installed.
     prepend function_tag (vt / "_uninstall") {"values": [uninstall_function]}
 
     return uninstall_function

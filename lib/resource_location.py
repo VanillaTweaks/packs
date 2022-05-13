@@ -52,7 +52,7 @@ class ResourceLocation:
     """
 
     # TODO: handle versioning for LL (specifically, creating a versioned path. ex: `rx.playerdb:impl/v2.0.1/<internals>`)
-    #   also consider how child base locations are created depending on that version (i.e. in __truediv__)
+    #  also consider how child base locations are created depending on that version (i.e. in __truediv__)
 
     _version: Version | None
     _title: str | None

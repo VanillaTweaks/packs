@@ -9,14 +9,14 @@ function load_temp_objective:
     # ⚠️ Should only ever be called from `pre_load_tag`.
 
     # Adding the temp objective must be the first command in the function so that it
-    #   still runs when the `maxCommandChainLength` is 1.
+    #  still runs when the `maxCommandChainLength` is 1.
     scoreboard objectives add vt.temp dummy
 
     # Reset all temp scores just to periodically keep the scoreboard a bit cleaner.
     scoreboard players reset * vt.temp
 
 # Prepend instead of append to the `pre_load` tag so that other functions in the
-#   `pre_load` tag can use the temp objective.
+#  `pre_load` tag can use the temp objective.
 prepend function_tag load:pre_load {"values": [load_temp_objective]}
 
 uninstall_temp_objective = temp_objective / "_uninstall"
@@ -24,5 +24,5 @@ function uninstall_temp_objective:
     scoreboard objectives remove vt.temp
 
 # Append instead of prepend to the uninstall tag so other uninstall functions in the
-#   uninstall tag can use the temp objective.
+#  uninstall tag can use the temp objective.
 append function_tag (vt / "_uninstall") {"values": [uninstall_temp_objective]}
