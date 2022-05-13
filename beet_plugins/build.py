@@ -24,53 +24,57 @@ def beet_default(ctx: Context):
 
     # TODO: Support resource packs.
 
-    pattern = ctx.meta.get("packs")
-    if not isinstance(pattern, str):
+    pack_pattern = ctx.meta.get("packs")
+    if not isinstance(pack_pattern, str):
         raise TypeError(
-            f"The following value of `packs` is not a string:\n{repr(pattern)}"
+            f"The following value of `packs` is not a string:\n{repr(pack_pattern)}"
         )
 
-    paths = Path(".").glob(pattern)
+    pack_paths = Path(".").glob(pack_pattern)
 
     # A mapping from each pack's path to a dictionary of the pack's config.
-    pack_configs: dict[Path, dict[str, str]] = {}
+    pack_configs: dict[Path, dict[str, object]] = {}
 
-    for path in paths:
-        if not path.is_dir():
+    for pack_path in pack_paths:
+        if not pack_path.is_dir():
             continue
 
-        if VALID_PATH.match(path.as_posix()):
+        if VALID_PATH.match(pack_path.as_posix()):
             raise ValueError(
                 "The following path is not directly in `datapacks/<game version>/` or "
-                f"`resourcepacks/<game version>/`:\n{path}"
+                f"`resourcepacks/<game version>/`:\n{pack_path}"
             )
 
-        pack_config_path = path / "pack.yaml"
+        pack_config_path = pack_path / "config.yaml"
         if not pack_config_path.is_file():
             raise FileNotFoundError(
-                f"The following path does not contain a `pack.yaml`:\n{path}"
+                f"The following path does not contain a `config.yaml`:\n{pack_path}"
             )
 
-        pack_configs[path] = yaml.safe_load(pack_config_path.read_text())
+        pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
-    for path in paths:
+    lib_config: dict[str, object] = yaml.safe_load(
+        Path("../../../lib/config.yaml").read_text()
+    )
+
+    for pack_path in pack_paths:
         try:
-            logger.info("Building %s...", path)
+            logger.info("Building %s...", pack_path)
 
-            pack_config = pack_configs[path]
+            pack_config = pack_configs[pack_path]
 
-            game_version = path.parts[1]
+            game_version = pack_path.parts[1]
 
             ctx.require(
                 subproject(
                     {
-                        "id": path.name,
+                        "id": pack_path.name,
                         "name": pack_config["title"],
                         "version": pack_config["version"],
-                        "directory": str(path),
+                        "directory": str(pack_path),
                         "output": "../../../dist",
                         "data_pack": {
-                            "load": [".", {f"data/{path.name}/modules": "."}],
+                            "load": [".", {f"data/{pack_path.name}/modules": "."}],
                             "description": [
                                 {
                                     "text": f"{pack_config['title']} {pack_config['version']} for MC {game_version}",
@@ -79,10 +83,12 @@ def beet_default(ctx: Context):
                                 {"text": "\nvanillatweaks.net", "color": "yellow"},
                             ],
                         },
-                        "require": ["beet_plugins.build.expose_globals", "bolt"],
+                        "require": ["beet_plugins.objectives", "bolt"],
                         "pipeline": ["mecha"],
+                        "meta": {"lib_config": lib_config, "pack_config": pack_config},
                     }
                 )
             )
+
         except Exception as error:
             logger.exception(error)

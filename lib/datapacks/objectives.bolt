@@ -1,0 +1,30 @@
+# `beet_plugins.objectives` always automatically loads this module.
+
+objectives = ctx.meta["objectives"]
+
+if objectives:
+    from lib.resource_location import ResourceLocation
+
+    from lib:datapacks import load, uninstall
+    from lib:resource_locations import vt, pack
+
+    # TODO: Sort the objectives.
+    for objective in objectives:
+        resource_location = ResourceLocation(objective.resource_location)
+        if resource_location == vt:
+            resource_location = vt
+        elif resource_location == pack:
+            resource_location = pack
+
+        # Prepend and not append so other commands in the load function can use this
+        #  objective.
+        prepend function load(resource_location):
+            if objective.display is None:
+                scoreboard objectives add objective.name objective.criterion
+            else:
+                scoreboard objectives add objective.name objective.criterion objective.display
+
+        # Append and not prepend so other commands in the uninstall function can use
+        #  this objective.
+        append function uninstall(resource_location):
+            scoreboard objectives remove objective.name

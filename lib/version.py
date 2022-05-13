@@ -1,7 +1,7 @@
 import re
 from dataclasses import InitVar, dataclass, field
 
-version_pattern = re.compile(r"^(\d+).(\d+).(\d+)$")
+VERSION_PATTERN = re.compile(r"^(\d+).(\d+).(\d+)$")
 
 
 @dataclass(order=True)
@@ -15,7 +15,7 @@ class Version:
     patch: int = field(init=False)
 
     def __init__(self, version_string: str):
-        version_match = version_pattern.match(version_string)
+        version_match = VERSION_PATTERN.match(version_string)
 
         if not version_match:
             raise ValueError(

@@ -3,5 +3,4 @@ version: 1.0.0
 listed: false
 
 objectives:
-  lectern_id: dummy
-  thing: namespaced trigger
+  - pack.lectern_id

@@ -22,7 +22,7 @@ def set(resource_location):
     # Sets a resource location's `load.status` score(s) on load and on uninstall.
     #
     # ⚠️ This already runs automatically for any resource location which `load` is
-    #   called on.
+    #  called on.
 
     load_status_score_holder = score_holder(resource_location)
 
@@ -31,7 +31,7 @@ def set(resource_location):
 
     append function uninstall(resource_location):
         # Set to -1 instead of 0 so predicates can distinguish between uninstalled and
-        #   not loaded.
+        #  not loaded.
         scoreboard players set load_status_score_holder load.status -1
 
     if resource_location["version"]:
