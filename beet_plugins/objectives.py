@@ -13,9 +13,9 @@ RESOURCE_LOCATION = rf"({NAME})(:{NAME}(?:/{NAME})*)?"
 OBJECTIVE_NAME = r"([-+._0-9A-Za-z]+)"
 OBJECTIVE_CRITERION = r"([._:A-Z_a-z])"
 OBJECTIVE_DISPLAY = r"(.+)"
-OBJECTIVE_KEY = re.compile(
+OBJECTIVE_VALUE = re.compile(
     rf"^{RESOURCE_LOCATION}( |\.){OBJECTIVE_NAME}"
-    rf"(?: {OBJECTIVE_CRITERION}(?: {OBJECTIVE_DISPLAY}))$"
+    rf"(?: {OBJECTIVE_CRITERION}(?: {OBJECTIVE_DISPLAY})?)?$"
 )
 
 pack_namespace: str
@@ -40,12 +40,12 @@ class ObjectiveData:
     def __init__(self, value: str):
         self.value = value
 
-        match = OBJECTIVE_KEY.match(value)
+        match = OBJECTIVE_VALUE.match(value)
         if match is None:
             raise ValueError(
                 "The following `config.yaml` objective value does not match the pattern"
                 ' `rf"^{RESOURCE_LOCATION}( |\\.){OBJECTIVE_NAME}(?: '
-                f'{{OBJECTIVE_CRITERION}}(?: {{OBJECTIVE_DISPLAY}}))$"`:\n{repr(value)}'
+                '{OBJECTIVE_CRITERION}(?: {OBJECTIVE_DISPLAY})?)?$"`:\n' + repr(value)
             )
 
         namespace, colon_and_path, separator, name, criterion, display = match.groups()
@@ -72,6 +72,7 @@ class ObjectiveData:
 
 
 # TODO: Let objectives be added without being referenced in mcfunction.
+# TODO: Let objectives be added when only referenced in JSON.
 
 # A mapping from the name of each objective defined in the `config.yaml` files of both
 #  `lib` and the pack to that objective's data.
