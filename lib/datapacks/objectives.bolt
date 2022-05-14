@@ -51,7 +51,6 @@ if objectives:
 
             continue
 
-
         # Prepend and not append so other commands in the load function can use this
         #  objective.
         prepend function load(resource_location):
