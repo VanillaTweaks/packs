@@ -1,3 +1,5 @@
+from functools import cache
+
 import lib:datapacks/scoreboard/objectives
 from lib:resource_locations import vt, pack
 
@@ -18,3 +20,6 @@ def constant(value):
         scoreboard players set vt.constants constant_score_holder value
 
     return constant_score_holder
+
+
+constant = cache(constant)
