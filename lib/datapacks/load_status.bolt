@@ -35,7 +35,7 @@ def set(resource_location):
 
     if resource_location["version"]:
         for key, value in resource_location["version"]:
-            append function load(resource_location):
+            prepend function load(resource_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" load.status value
 
             append function uninstall(resource_location):
