@@ -1,0 +1,25 @@
+import lib:datapacks/scoreboard/objectives
+from lib:resource_locations import vt, pack
+
+vt_constants = vt / "constants"
+
+objectives.add(vt_constants, vt.constants)
+
+
+def constant(value):
+    # Returns a score holder for the specified constant under the `vt.constants`
+    #  objective.
+    #
+    # >>> scoreboard players operation @s objective /= vt.constants constant(2)
+
+    constant_score_holder = "$" + value
+
+    # Prepend and not append so other commands in the load function can use this
+    #  constant.
+    prepend function load(pack):
+        scoreboard players set vt.constants constant_score_holder value
+
+    return constant_score_holder
+
+
+scoreboard players get vt.constants constant(4)
