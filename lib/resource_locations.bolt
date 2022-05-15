@@ -6,9 +6,7 @@ from lib.resource_location import ResourceLocation
 def temp(self):
     temp = super(VTResourceLocation, self).temp
 
-    temp_objective = self / "temp_objective"
-
-    load_temp_objective = temp_objective / "_load"
+    load_temp_objective = vt / "temp_objective/_load"
     function load_temp_objective:
         # Adding the temp objective must be the first command in the function so it
         #  still runs when the `maxCommandChainLength` is 1.
@@ -27,7 +25,7 @@ def temp(self):
 
     # Append instead of prepend to the uninstall tag so other functions in the uninstall
     #  tag can use the temp objective.
-    append function_tag (self / "_uninstall") {"values": [uninstall_temp_objective]}
+    append function_tag (vt / "_uninstall") {"values": [uninstall_temp_objective]}
 
     return temp
 
