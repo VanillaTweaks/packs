@@ -1,9 +1,7 @@
 import lib:datapacks/scoreboard/objectives
 from lib:resource_locations import vt, pack
 
-vt_constants = vt / "constants"
-
-objectives.add(vt_constants, vt.constants)
+objectives.add(vt / "constants", vt.constants)
 
 
 def constant(value):
