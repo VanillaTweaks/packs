@@ -18,6 +18,3 @@ def constant(value):
         scoreboard players set vt.constants constant_score_holder value
 
     return constant_score_holder
-
-
-scoreboard players get vt.constants constant(4)
