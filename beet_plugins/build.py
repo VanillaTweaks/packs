@@ -46,6 +46,7 @@ def beet_default(ctx: Context):
             )
 
         pack_config_path = pack_path / "config.yaml"
+
         if not pack_config_path.is_file():
             raise FileNotFoundError(
                 f"The following path does not contain a `config.yaml`:\n{pack_path}"
