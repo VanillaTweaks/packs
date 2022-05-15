@@ -53,10 +53,6 @@ def beet_default(ctx: Context):
 
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
-    lib_config: dict[str, object] = yaml.safe_load(
-        Path("../../../lib/config.yaml").read_text()
-    )
-
     for pack_path in pack_paths:
         try:
             logger.info("Building %s...", pack_path)
@@ -85,7 +81,7 @@ def beet_default(ctx: Context):
                         },
                         "require": ["beet_plugins.objectives", "bolt"],
                         "pipeline": ["mecha"],
-                        "meta": {"lib_config": lib_config, "pack_config": pack_config},
+                        "meta": {"pack_config": pack_config},
                     }
                 )
             )

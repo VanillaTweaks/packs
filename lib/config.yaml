@@ -1,5 +1,0 @@
-objectives:
-  - vt:temp_objective vt.temp
-  - vt:constants vt.constants
-  - vt:player_join_or_load.counter
-  - vt:function_recipes.crafted_knowledge_book minecraft.crafted:minecraft.knowledge_book

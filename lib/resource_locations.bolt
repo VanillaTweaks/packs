@@ -1,6 +1,40 @@
+from functools import cached_property
+
 from lib.resource_location import ResourceLocation
 
-vt = ResourceLocation('vanillatweaks', title="Vanilla Tweaks")
+def temp(self):
+    temp = super(VTResourceLocation, self).temp
+
+    temp_objective = self / "temp_objective"
+
+    load_temp_objective = temp_objective / "_load"
+    function load_temp_objective:
+        # Adding the temp objective must be the first command in the function so it
+        #  still runs when the `maxCommandChainLength` is 1.
+        scoreboard objectives add temp dummy
+
+        # Reset all temp scores just to periodically clean the scoreboard a bit.
+        scoreboard players reset * temp
+
+    # Prepend instead of append to the `pre_load` tag so that other functions in the
+    #  `pre_load` tag can use the temp objective.
+    prepend function_tag load:pre_load {"values": [load_temp_objective]}
+
+    uninstall_temp_objective = temp_objective / "_uninstall"
+    function uninstall_temp_objective:
+        scoreboard objectives remove temp
+
+    # Append instead of prepend to the uninstall tag so other functions in the uninstall
+    #  tag can use the temp objective.
+    append function_tag (self / "_uninstall") {"values": [uninstall_temp_objective]}
+
+    return temp
+
+VTResourceLocation = type("VTResourceLocation", (ResourceLocation,), {
+    "temp": cached_property(temp)
+})
+
+vt = VTResourceLocation("vanillatweaks", title="Vanilla Tweaks")
 
 pack = ResourceLocation(
     ctx.project_id,
