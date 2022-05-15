@@ -88,7 +88,10 @@ class ResourceLocation:
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
     @cache
-    def _get_path_segments(self):
+    def _get_path_segments(self) -> list[str]:
+        if self.path == "":
+            return []
+
         path_segments = self.path.split("/")
 
         if not self.external:
@@ -109,7 +112,7 @@ class ResourceLocation:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             )
 
-        return ".".join([self.namespace, *self.path.split("/"), key])
+        return ".".join([self.namespace, *self._get_path_segments(), key])
 
     def __getitem__(self, key: str):
         return getattr(self, f"_{key}")
