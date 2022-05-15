@@ -79,7 +79,7 @@ def beet_default(ctx: Context):
                                 {"text": "\nvanillatweaks.net", "color": "yellow"},
                             ],
                         },
-                        "require": ["beet_plugins.objectives", "bolt"],
+                        "require": ["bolt"],
                         "pipeline": ["mecha"],
                         "meta": {"pack_config": pack_config},
                     }
