@@ -1,5 +1,5 @@
 import re
-from functools import cache
+from functools import cached_property
 
 from lib.version import Version
 
@@ -77,7 +77,7 @@ class ResourceLocation:
         self._check_name(self.namespace)
 
         if colon:
-            for path_segment in self._get_path_segments():
+            for path_segment in self._path_segments:
                 self._check_name(path_segment)
 
     def _check_name(self, name: str):
@@ -87,8 +87,8 @@ class ResourceLocation:
         if not (CONVENTIONAL_RESOURCE_NAME.match(name) or self.external):
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
-    @cache
-    def _get_path_segments(self) -> tuple[str, ...]:
+    @cached_property
+    def _path_segments(self) -> tuple[str, ...]:
         if self.path == "":
             return ()
 
@@ -112,14 +112,14 @@ class ResourceLocation:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             )
 
-        return ".".join([self.namespace, *self._get_path_segments(), key])
+        return ".".join([self.namespace, *self._path_segments, key])
 
     def __getitem__(self, key: str):
         return getattr(self, f"_{key}")
 
     def __str__(self):
         if self.path:
-            path = "/".join(self._get_path_segments())
+            path = "/".join(self._path_segments)
             return f"{self.namespace}:{path}"
 
         return self.namespace
