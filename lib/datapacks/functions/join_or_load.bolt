@@ -1,0 +1,54 @@
+from functools import cache
+
+from lib:datapacks/functions/load import load
+from lib:datapacks/functions/clock import clock
+import lib:datapacks/objectives
+
+vt_join_or_load = vt / "join_or_load"
+
+counter = vt_join_or_load.counter
+objectives.add(vt_join_or_load, counter)
+
+join_or_load_tag = vt / "_join_or_load"
+
+append function load(vt_join_or_load):
+    # Reset all counters (including the global counter) to ensure all players are
+    #  detected as out of sync the next time they're online.
+    scoreboard players reset * counter
+
+append function clock("1t", vt_join_or_load):
+    execute as @a
+        # Check if the player's counter is not in sync with the global counter.
+        unless score @s counter = $global counter
+        # The player's counter is not in sync, so we know they joined the world or the
+        #  world loaded.
+        run function f"#{join_or_load_tag}"
+
+    # Increment the global counter, and sync all players' counters with it.
+    execute store result score @a counter
+        run scoreboard players add $global counter 1
+
+    # The reason we use counters instead of the `minecraft.custom:minecraft.leave_game`
+    #  criterion is because that criterion doesn't always detect leaving due to a crash.
+
+def on_join_or_load(function_or_function_tag):
+    # Adds a function (resource location) or function tag (resource location prefixed
+    #  with a hash) to the `vt / "_join_or_load"` tag.
+    #
+    # ⚠️ For simplicity, use `join_or_load` instead unless the resource location's
+    #  `join_or_load` function would only have one `function` command.
+
+    append function_tag join_or_load_tag {"values":[function_or_function_tag]}
+
+def join_or_load(resource_location):
+    # Runs something as any player who joins the world and as `@a` on load.
+    #
+    # ⚠️ To avoid creating an unnecessary function, use `on_join_or_load` instead if the
+    #  resource location's `join_or_load` function would otherwise only have one
+    #  `function` command.
+
+    join_or_load_function = resource_location / "_join_or_load"
+
+    on_join_or_load(join_or_load_function)
+
+    return join_or_load_function
