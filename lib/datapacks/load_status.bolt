@@ -1,7 +1,8 @@
 from functools import cache
 
-from lib:datapacks/load import load
-from lib:datapacks/uninstall import uninstall
+from lib:datapacks/functions/load import load
+from lib:datapacks/functions/uninstall import uninstall
+
 
 def score_holder(resource_location):
     # Gets the score holder of a resource location's `load.status` score.
@@ -15,6 +16,7 @@ def score_holder(resource_location):
     path_segments = resource_location["path_segments"]
 
     return "$" + ".".join([namespace, *path_segments]])
+
 
 def set(resource_location):
     # Sets a resource location's `load.status` score(s) on load and on uninstall.
@@ -39,5 +41,6 @@ def set(resource_location):
 
             append function uninstall(resource_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" load.status 0
+
 
 set = cache(set)

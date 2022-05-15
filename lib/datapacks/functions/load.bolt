@@ -5,6 +5,7 @@ from lib:resource_locations import vt
 
 ctx.require("beet.contrib.lantern_load.base")
 
+
 def load(resource_location):
     load_status.set(vt)
     load_status.set(resource_location)
@@ -14,5 +15,6 @@ def load(resource_location):
     append function_tag load:load {"values": [load_function]}
 
     return load_function
+
 
 load = cache(load)

@@ -2,6 +2,7 @@ from functools import cached_property
 
 from lib.resource_location import ResourceLocation
 
+
 def temp(self):
     temp = super(VTResourceLocation, self).temp
 
@@ -29,6 +30,7 @@ def temp(self):
     append function_tag (self / "_uninstall") {"values": [uninstall_temp_objective]}
 
     return temp
+
 
 VTResourceLocation = type("VTResourceLocation", (ResourceLocation,), {
     "temp": cached_property(temp)

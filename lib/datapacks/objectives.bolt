@@ -1,7 +1,9 @@
 from lib.resource_location import ResourceLocation
 
-from lib:datapacks import load, uninstall
+from lib:datapacks/functions/load import load
+from lib:datapacks/functions/uninstall import uninstall
 from lib:resource_locations import vt, pack
+
 
 def add(resource_location, name, criterion="dummy", display_name=None):
     # Adds an objective to `resource_location`'s load and uninstall functions.

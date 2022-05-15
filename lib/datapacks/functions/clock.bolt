@@ -1,0 +1,26 @@
+from functools import cache
+
+from lib:datapacks/functions/load import load
+from lib:datapacks/functions/uninstall import uninstall
+
+
+def clock(duration, resource_location):
+    # Runs a function one tick after the pack loads and then on a periodical schedule.
+
+    clock_function = resource_location / f"_{'tick' if duration == '1t' else duration}"
+
+    prepend function clock_function:
+        schedule function clock_function duration
+
+    append function load(resource_location):
+		# This is scheduled one tick ahead so that clock functions always run after the
+        #  load tag is fully complete.
+        schedule function clock_function 1t
+
+    prepend function uninstall(resource_location):
+        schedule clear clock_function
+
+    return clock_function
+
+
+clock = cache(clock)
