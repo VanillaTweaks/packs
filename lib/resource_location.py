@@ -10,18 +10,23 @@ CONVENTIONAL_RESOURCE_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
 
 
 class ResourceLocation:
-    """A representation of a Minecraft resource location (namespaced ID) with some extra features.
+    """A representation of a Minecraft resource location (namespaced ID) with some extra
+    features.
 
     >>> namespace = ResourceLocation("namespace")
     >>> something_else = ResourceLocation("something:else")
     >>> path = namespace / "path"
-    >>> another_path = "namespace:another/path"
+    >>> another_path = ResourceLocation("namespace:another/path")
     >>> subpath = path / "subpath"
 
     >>> str(namespace)
     "namespace"
     >>> str(another_path)
     "namespace:another/path"
+    >>> something_else["namespace"]
+    "something"
+    >>> another_path["path"]
+    "another/path"
 
     >>> namespace / "resource"
     "namespace:resource"
@@ -54,11 +59,12 @@ class ResourceLocation:
     # TODO: handle versioning for LL (specifically, creating a versioned path. ex: `rx.playerdb:impl/v2.0.1/<internals>`)
     #  also consider how child base locations are created depending on that version (i.e. in __truediv__)
 
+    _namespace: str
+    # The resource location's path, possibly with abstractions/shorthands.
+    _abstract_path: str | None
     _version: Version | None
     _title: str | None
     _external: bool
-    _namespace: str
-    _path: str = ""
 
     def __init__(
         self,
@@ -69,14 +75,16 @@ class ResourceLocation:
         title: str | None = None,
         external: bool = False,
     ):
-        self.namespace, colon, self.path = base.partition(":")
+        self._namespace, colon, path = base.partition(":")
         self.version = Version(version) if isinstance(version, str) else version
         self.title = title
         self.external = external
 
-        self._check_name(self.namespace)
+        self._check_name(self._namespace)
 
         if colon:
+            self._abstract_path = path
+
             for path_segment in self._path_segments:
                 self._check_name(path_segment)
 
@@ -89,10 +97,12 @@ class ResourceLocation:
 
     @cached_property
     def _path_segments(self) -> tuple[str, ...]:
-        if self.path == "":
+        """A tuple of the segments in the resource location's actual path."""
+
+        if self._abstract_path is None:
             return ()
 
-        path_segments = self.path.split("/")
+        path_segments = self._abstract_path.split("/")
 
         if not self.external:
             if path_segments[-1].startswith("_"):
@@ -101,10 +111,16 @@ class ResourceLocation:
 
         return tuple(path_segments)
 
-    def __truediv__(self, other: str):
-        path = f"{self.path}/{other}" if self.path else other
+    @cached_property
+    def _path(self) -> str | None:
+        """The resource location's actual path."""
 
-        return ResourceLocation(f"{self.namespace}:{path}", external=self._external)
+        return "/".join(self._path_segments) if self._path_segments else None
+
+    def __truediv__(self, other: str):
+        path = f"{self._abstract_path}/{other}" if self._abstract_path else other
+
+        return ResourceLocation(f"{self._namespace}:{path}", external=self._external)
 
     def __getattr__(self, key: str):
         if not CONVENTIONAL_RESOURCE_NAME.match(key):
@@ -112,23 +128,22 @@ class ResourceLocation:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             )
 
-        return ".".join([self.namespace, *self._path_segments, key])
+        return ".".join([self._namespace, *self._path_segments, key])
 
     def __getitem__(self, key: str):
         return getattr(self, f"_{key}")
 
     def __str__(self):
-        if self.path:
-            path = "/".join(self._path_segments)
-            return f"{self.namespace}:{path}"
+        if self._path is None:
+            return self._namespace
 
-        return self.namespace
+        return f"{self._namespace}:{self._path}"
 
     def __eq__(self, other: object):
         return str(self) == str(other)
 
     def __repr__(self):
-        return f"{type(self).__name__}({self})"
+        return f"{type(self).__name__}({repr(str(self))})"
 
     def __hash__(self):
         return hash(str(self))

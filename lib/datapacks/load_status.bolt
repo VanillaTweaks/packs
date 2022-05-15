@@ -2,21 +2,20 @@ from functools import cache
 
 from lib:datapacks/load import load
 from lib:datapacks/uninstall import uninstall
+from lib:resource_locations import pack
 
-def score_holder(resource_location):
+def score_holder(resource_location=pack):
     # Gets the score holder of a resource location's `load.status` score.
     #
-    # load_status.score_holder(vt / "directory/test")
-    # "$vanillatweaks.directory.test"
+    # >>> load_status.score_holder()
+    # "$" + pack["namespace"]
+    # >>> load_status.score_holder(vt / "example/directory")
+    # "$vanillatweaks.example.directory"
 
     namespace = resource_location["namespace"]
-    path = resource_location["path"]
+    path_segments = resource_location["path_segments"]
 
-    value = "$" + namespace
-    if path:
-        value += "." + path.replace("/", ".")
-
-    return value
+    return "$" + ".".join([namespace, *path_segments]])
 
 def set(resource_location):
     # Sets a resource location's `load.status` score(s) on load and on uninstall.
