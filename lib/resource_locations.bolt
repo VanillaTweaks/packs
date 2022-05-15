@@ -4,9 +4,13 @@ from lib.resource_location import ResourceLocation
 
 
 def temp(self):
+    # An objective only for temporary scores that can safely be reset anytime.
+
     temp = super(VTResourceLocation, self).temp
 
-    load_temp_objective = vt / "temp_objective/_load"
+    vt_temp_objective = vt / "temp_objective"
+
+    load_temp_objective = vt_temp_objective / "_load"
     function load_temp_objective:
         # Adding the temp objective must be the first command in the function so it
         #  still runs when the `maxCommandChainLength` is 1.
@@ -19,7 +23,7 @@ def temp(self):
     #  `pre_load` tag can use the temp objective.
     prepend function_tag load:pre_load {"values": [load_temp_objective]}
 
-    uninstall_temp_objective = temp_objective / "_uninstall"
+    uninstall_temp_objective = vt_temp_objective / "_uninstall"
     function uninstall_temp_objective:
         scoreboard objectives remove temp
 

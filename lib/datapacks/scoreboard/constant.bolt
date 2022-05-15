@@ -10,14 +10,14 @@ def constant(value):
     # Returns a score holder for the specified constant under the `vt.constants`
     #  objective.
     #
-    # >>> scoreboard players operation @s objective /= vt.constants constant(2)
+    # >>> scoreboard players operation @s objective /= constant(2) vt.constants
 
     constant_score_holder = "$" + value
 
     # Prepend and not append so other commands in the load function can use this
     #  constant.
     prepend function load(pack):
-        scoreboard players set vt.constants constant_score_holder value
+        scoreboard players set constant_score_holder vt.constants value
 
     return constant_score_holder
 
