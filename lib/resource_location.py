@@ -88,9 +88,9 @@ class ResourceLocation:
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
     @cache
-    def _get_path_segments(self) -> list[str]:
+    def _get_path_segments(self) -> tuple[str, ...]:
         if self.path == "":
-            return []
+            return ()
 
         path_segments = self.path.split("/")
 
@@ -99,7 +99,7 @@ class ResourceLocation:
                 path_segments[-1] = path_segments[-1].removesuffix("_")
                 path_segments.insert(0, PRIVATE_PATH)
 
-        return path_segments
+        return tuple(path_segments)
 
     def __truediv__(self, other: str):
         path = f"{self.path}/{other}" if self.path else other
