@@ -7,6 +7,9 @@ ctx.require("beet.contrib.lantern_load.base")
 
 
 def load(resource_location):
+    # Adds to a resource location's load function, which is (indirectly) called by
+    #  `#minecraft:load`.
+
     load_status.set(vt)
     load_status.set(resource_location)
 
