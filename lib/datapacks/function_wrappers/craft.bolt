@@ -103,7 +103,6 @@ def craft(
 
                 # Here is where other commands would be appended.
 
-
     advancement_file recipe_unlocked_advancement {
         "parent": vt_function_recipes_root,
         "criteria": {
