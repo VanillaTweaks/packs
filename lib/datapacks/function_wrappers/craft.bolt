@@ -45,9 +45,8 @@ function craft_any_function_recipe:
                 type=item,
                 limit=1,
                 nbt={Item:{id:"minecraft:knowledge_book"}},
-                # Ensure the knowledge book being killed doesn't have any NBT on it,
-                #  meaning it likely came from crafting output and can't possibly be a
-                #  meaningful item.
+                # Ensure the knowledge book being killed doesn't have any NBT on it, so
+                #  it likely came from crafting output and isn't a meaningful item.
                 nbt=!{Item:{tag:{}}},
             ]
     # Or if they bundled it, just let them have it.
@@ -76,7 +75,7 @@ def craft(
 
     # The crafting recipe that outputs a knowledge book.
     recipe = function_recipes / name
-    recipe recipe {
+    recipe_file recipe {
         **recipe_json,
         "result": {
             "item": "minecraft:knowledge_book",
