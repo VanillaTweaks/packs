@@ -1,7 +1,7 @@
 from lib.resource_location import ResourceLocation
 
-from lib:datapacks/functions/load import load
-from lib:datapacks/functions/uninstall import uninstall
+from lib:datapacks/function_wrappers/load import load
+from lib:datapacks/function_wrappers/uninstall import uninstall
 from lib:resource_locations import vt, pack
 
 

@@ -1,7 +1,7 @@
 from functools import cache
 
-from lib:datapacks/functions/load import load
-from lib:datapacks/functions/clock import clock
+from lib:datapacks/function_wrappers/load import load
+from lib:datapacks/function_wrappers/clock import clock
 import lib:datapacks/scoreboard/objectives
 from lib:resource_locations import vt
 

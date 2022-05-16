@@ -1,7 +1,7 @@
 from functools import cache
 
-from lib:datapacks/functions/load import load
-from lib:datapacks/functions/uninstall import uninstall
+from lib:datapacks/function_wrappers/load import load
+from lib:datapacks/function_wrappers/uninstall import uninstall
 
 
 def score_holder(resource_location):
