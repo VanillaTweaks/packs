@@ -105,6 +105,9 @@ class ResourceLocation:
         path_segments = self._abstract_path.split("/")
 
         if not self.external:
+            # The underscore has to be on the last path segment so that whether a
+            #  resource location is private must be explicitly set each time rather than
+            #  stored in a parent resource location and then forgotten about.
             if path_segments[-1].startswith("_"):
                 path_segments[-1] = path_segments[-1].removesuffix("_")
                 path_segments.insert(0, PRIVATE_PATH)
