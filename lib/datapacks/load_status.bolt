@@ -3,10 +3,11 @@ from functools import cache
 from lib:base_locations import pack
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
+from lib:datapacks/lantern_load import lantern_load
 
 
 def score_holder(base_location):
-    # Gets the score holder of a resource location's `load.status` score.
+    # Gets the score holder of a resource location's `lantern_load.status` score.
     #
     # >>> load_status.score_holder(pack)
     # "$" + pack["namespace"]
@@ -20,7 +21,7 @@ def score_holder(base_location):
 
 
 def set(base_location):
-    # Sets a resource location's `load.status` score(s) on load and on uninstall.
+    # Sets a resource location's `lantern_load.status` scores on load and on uninstall.
     #
     # ⚠️ This already runs automatically for any resource location which `load` is
     #  called on.
@@ -28,20 +29,20 @@ def set(base_location):
     load_status_score_holder = score_holder(base_location)
 
     append function load(base_location):
-        scoreboard players set load_status_score_holder load.status 1
+        scoreboard players set load_status_score_holder lantern_load.status 1
 
     append function uninstall(base_location):
         # Set to -1 instead of 0 so predicates can distinguish between uninstalled and
         #  not loaded.
-        scoreboard players set load_status_score_holder load.status -1
+        scoreboard players set load_status_score_holder lantern_load.status -1
 
     if base_location["version"]:
         for key, value in base_location["version"]:
             prepend function load(base_location):
-                scoreboard players set f"{load_status_score_holder}.{key}" load.status value
+                scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status value
 
             append function uninstall(base_location):
-                scoreboard players set f"{load_status_score_holder}.{key}" load.status 0
+                scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status 0
 
 
 set = cache(set)
@@ -69,7 +70,7 @@ def check(base_location=pack):
                 "type": 'minecraft:fixed',
                 "name": load_status.score_holder(base_location),
             },
-            "score": "load.status",
+            "score": lantern_load.status,
         },
         "range": 1,
     }

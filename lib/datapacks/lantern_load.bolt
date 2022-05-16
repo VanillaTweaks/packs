@@ -1,0 +1,3 @@
+ctx.require("beet.contrib.lantern_load.base")
+
+lantern_load = ResourceLocation("load", external=True)

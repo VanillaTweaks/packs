@@ -2,6 +2,8 @@ from functools import cached_property
 
 from lib.resource_location import ResourceLocation
 
+from lib:datapacks/lantern_load import lantern_load
+
 
 def temp(self):
     # An objective only for temporary scores that can safely be reset anytime.
@@ -21,7 +23,7 @@ def temp(self):
 
     # Prepend instead of append to the `pre_load` tag so that other functions in the
     #  `pre_load` tag can use the temp objective.
-    prepend function_tag load:pre_load {"values": [load_temp_objective]}
+    prepend function_tag (lantern_load / "pre_load") {"values": [load_temp_objective]}
 
     uninstall_temp_objective = vt_temp_objective / "_uninstall"
     function uninstall_temp_objective:

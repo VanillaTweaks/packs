@@ -1,9 +1,10 @@
 from functools import cache
 
+from lib.resource_location import ResourceLocation
+
 from lib:base_locations import vt
 from lib:datapacks import load_status
-
-ctx.require("beet.contrib.lantern_load.base")
+from lib:datapacks/lantern_load import lantern_load
 
 
 def load(base_location):
@@ -15,7 +16,7 @@ def load(base_location):
 
     load_function = base_location / "_load"
 
-    append function_tag load:load {"values": [load_function]}
+    append function_tag (lantern_load / "load") {"values": [load_function]}
 
     return load_function
 
