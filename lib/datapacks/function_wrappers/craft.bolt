@@ -1,0 +1,123 @@
+from lib:datapacks/function_wrappers/clock import clock
+import lib:datapacks/load_status
+import lib:datapacks/scoreboard/objectives
+from lib:resource_locations import vt
+
+vt_function_recipes = vt / "function_recipes"
+
+vt_function_recipes_root = vt_function_recipes / "root"
+advancement_file vt_function_recipes_root {
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible",
+        },
+    },
+}
+
+crafted_knowledge_book = vt_function_recipes.crafted_knowledge_book
+objectives.add(
+    vt_function_recipes,
+    crafted_knowledge_book,
+    "minecraft.crafted:minecraft.knowledge_book"
+)
+
+append function clock("1t", vt_function_recipes):
+    # Reset everyone's `craftedKnowledgeBook` score every tick in case they crafted a
+    #  knowledge book from a non-VT data pack.
+    # No need to do this for spectators since spectators can't craft.
+	scoreboard players reset @a[gamemode=!spectator] crafted_knowledge_book
+
+craft_any_function_recipe = vt_function_recipes / "_craft"
+function craft_any_function_recipe:
+    # This runs `as` and `at` any player who crafts any function recipe.
+
+    # Try to delete the knowledge book.
+
+    # Clear it from their inventory.
+    execute store success score $cleared_knowledge_book vt.temp
+        # I wish we could easily only clear the knowledge books without NBT on them, to
+        #  minimize incompatibilities.
+        run clear @s minecraft:knowledge_book 1
+    # If it wasn't directly in their inventory, kill it in case they tried to drop it.
+    execute if score $cleared_knowledge_book vt.temp matches 0
+        run schedule function (vt_function_recipes / "_kill_knowledge_book") 1t append:
+            kill @e[
+                type=item,
+                limit=1,
+                nbt={Item:{id:"minecraft:knowledge_book"}},
+                # Ensure the knowledge book being killed doesn't have any NBT on it,
+                #  meaning it likely came from crafting output and can't possibly be a
+                #  meaningful item.
+                nbt=!{Item:{tag:{}}},
+            ]
+    # Or if they bundled it, just let them have it.
+
+    # Reset the player's `crafted_knowledge_book` score so that it not being set to 1
+    #  can still be detected later in this tick.
+    scoreboard players reset @s crafted_knowledge_book
+
+
+def craft(
+    resource_location,
+    # The non-namespaced name of the recipe.
+    name,
+    # The crafting recipe JSON, excluding the `result`.
+    #
+    # The `type` must be either `minecraft:crafting_shaped` or
+    #  `minecraft:crafting_shapeless`.
+    recipe_json
+):
+    # Creates a crafting recipe that outputs a knowledge book which runs the returned
+    #  function `as` and `at` the player when taken from the crafting output.
+    #
+    # ⚠️ Always use this via `append function craft(...)`.
+
+    function_recipes = resource_location / "function_recipes"
+
+    # The crafting recipe that outputs a knowledge book.
+    recipe = function_recipes / name
+    recipe recipe {
+        **recipe_json,
+        "result": {
+            "item": "minecraft:knowledge_book",
+        },
+    }
+
+    recipe_unlocked_advancement = function_recipes / name
+
+    craft_recipe = recipe / "_craft"
+
+    unlock_recipe = recipe / "_unlock"
+    function unlock_recipe:
+        # This runs `as` and `at` any player who unlocks the recipe (e.g. due to
+        #  crafting the recipe or using `/recipe give`).
+
+        advancement revoke @s only recipe_unlocked_advancement
+        recipe take @s recipe
+
+        # Check if they actually crafted a knowledge book and aren't unlocking the
+        #  recipe by other means.
+        execute if score @s crafted_knowledge_book matches 1..
+            run function craft_recipe:
+                function craft_any_function_recipe
+
+                # Here is where other commands would be appended.
+
+
+    advancement_file recipe_unlocked_advancement {
+        "parent": vt_function_recipes_root,
+        "criteria": {
+            "recipe_unlocked": {
+                "trigger": "minecraft:recipe_unlocked",
+                "conditions": {
+                    "player": [load_status.check()], # TODO
+                    "recipe": recipe,
+                },
+            },
+        },
+        "rewards": {
+            "function": unlock_recipe,
+        },
+    }
+
+    return craft_recipe
