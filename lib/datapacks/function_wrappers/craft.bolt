@@ -1,8 +1,8 @@
+from lib:base_locations import vt
 from lib:datapacks/function_wrappers/clock import clock
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
 import lib:datapacks/load_status
 import lib:datapacks/scoreboard/objectives
-from lib:base_locations import vt
 
 vt_function_recipes = vt / "function_recipes"
 

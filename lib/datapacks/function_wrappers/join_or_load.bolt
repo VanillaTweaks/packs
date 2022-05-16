@@ -1,9 +1,9 @@
 from functools import cache
 
+from lib:base_locations import vt
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/clock import clock
 import lib:datapacks/scoreboard/objectives
-from lib:base_locations import vt
 
 vt_join_or_load = vt / "join_or_load"
 

@@ -1,7 +1,7 @@
 from functools import cache
 
-from lib:datapacks import load_status
 from lib:base_locations import vt
+from lib:datapacks import load_status
 
 ctx.require("beet.contrib.lantern_load.base")
 

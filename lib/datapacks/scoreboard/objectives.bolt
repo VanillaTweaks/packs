@@ -1,8 +1,8 @@
 from lib.resource_location import ResourceLocation
 
+from lib:base_locations import vt, pack
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
-from lib:base_locations import vt, pack
 
 
 def add(base_location, name, criterion="dummy", display_name=None):

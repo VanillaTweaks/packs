@@ -1,8 +1,8 @@
 from functools import cache
 
+from lib:base_locations import pack
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
-from lib:base_locations import pack
 
 
 def score_holder(base_location):
