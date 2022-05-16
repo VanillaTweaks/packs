@@ -28,7 +28,7 @@ append function clock("1t", vt_function_recipes):
     # No need to do this for spectators since spectators can't craft.
 	scoreboard players reset @a[gamemode=!spectator] crafted_knowledge_book
 
-craft_any_function_recipe = vt_function_recipes / "_craft"
+craft_any_function_recipe = vt_function_recipes / "_craft_any"
 function craft_any_function_recipe:
     # This runs `as` and `at` any player who crafts any function recipe.
 
@@ -75,8 +75,8 @@ def craft(
     function_recipes = base_location / "function_recipes"
 
     # The crafting recipe that outputs a knowledge book.
-    recipe = function_recipes / name
-    recipe_file recipe {
+    function_recipe = function_recipes / name
+    recipe_file function_recipe {
         **recipe_json,
         "result": {
             "item": "minecraft:knowledge_book",
@@ -85,8 +85,8 @@ def craft(
 
     recipe_unlocked_advancement = function_recipes / name
 
-    unlock_recipe = recipe / "_unlock"
-    craft_recipe = recipe / "_craft"
+    unlock_function_recipe = function_recipe / "_unlock"
+    craft_function_recipe = function_recipe / "_craft"
 
     advancement_file recipe_unlocked_advancement {
         "parent": vt_function_recipes_root,
@@ -95,26 +95,26 @@ def craft(
                 "trigger": "minecraft:recipe_unlocked",
                 "conditions": {
                     "player": [load_status.check()],
-                    "recipe": recipe,
+                    "recipe": function_recipe,
                 },
             },
         },
         "rewards": {
-            "function": unlock_recipe,
+            "function": unlock_function_recipe,
         },
     }
 
-    function unlock_recipe:
+    function unlock_function_recipe:
         # This runs `as` and `at` any player who unlocks the recipe (e.g. due to
         #  crafting the recipe or using `/recipe give`).
 
         advancement revoke @s only recipe_unlocked_advancement
-        recipe take @s recipe
+        recipe take @s function_recipe
 
         # Check if they actually crafted a knowledge book and aren't unlocking the
         #  recipe by other means.
         execute if score @s crafted_knowledge_book matches 1..
-            run function craft_recipe:
+            run function craft_function_recipe:
                 function craft_any_function_recipe
 
                 # Here is where other commands would be appended.
@@ -122,6 +122,6 @@ def craft(
     append function join_or_load(base_location):
         # Take the recipe in case they unlocked it before the `load_status.check()`
         #  succeeded.
-        recipe take @s recipe
+        recipe take @s function_recipe
 
-    return craft_recipe
+    return craft_function_recipe
