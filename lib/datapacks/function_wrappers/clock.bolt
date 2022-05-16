@@ -4,20 +4,20 @@ from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
 
 
-def clock(duration, resource_location):
+def clock(duration, base_location):
     # Runs a function one tick after the pack loads and then on a periodical schedule.
 
-    clock_function = resource_location / f"_{'tick' if duration == '1t' else duration}"
+    clock_function = base_location / f"_{'tick' if duration == '1t' else duration}"
 
     prepend function clock_function:
         schedule function clock_function duration
 
-    append function load(resource_location):
+    append function load(base_location):
 		# This is scheduled one tick ahead so that clock functions always run after the
         #  load tag is fully complete.
         schedule function clock_function 1t
 
-    prepend function uninstall(resource_location):
+    prepend function uninstall(base_location):
         schedule clear clock_function
 
     return clock_function

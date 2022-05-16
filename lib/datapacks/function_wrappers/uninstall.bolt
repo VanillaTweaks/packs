@@ -1,16 +1,16 @@
 from functools import cache
 
-from lib:resource_locations import vt, pack
+from lib:base_locations import vt, pack
 
 
-def uninstall(resource_location):
+def uninstall(base_location):
     # Adds to a resource location's uninstall function, and adds that uninstall function
     #  to the uninstall tag.
 
-    uninstall_function = resource_location / "_uninstall"
+    uninstall_function = base_location / "_uninstall"
 
-    if resource_location == pack:
-        uninstall_function = resource_location / "uninstall"
+    if base_location == pack:
+        uninstall_function = base_location / "uninstall"
 
     # Prepend instead of append so things are uninstalled in the reverse order that they
     #  are installed.

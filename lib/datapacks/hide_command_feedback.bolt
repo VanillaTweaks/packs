@@ -1,4 +1,4 @@
-from lib:resource_locations import vt
+from lib:base_locations import vt
 
 
 def hide_command_feedback():

@@ -2,10 +2,10 @@ from functools import cache
 
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
-from lib:resource_locations import pack
+from lib:base_locations import pack
 
 
-def score_holder(resource_location):
+def score_holder(base_location):
     # Gets the score holder of a resource location's `load.status` score.
     #
     # >>> load_status.score_holder(pack)
@@ -13,34 +13,34 @@ def score_holder(resource_location):
     # >>> load_status.score_holder(vt / "example/directory")
     # "$vanillatweaks.example.directory"
 
-    namespace = resource_location["namespace"]
-    path_segments = resource_location["path_segments"]
+    namespace = base_location["namespace"]
+    path_segments = base_location["path_segments"]
 
     return "$" + ".".join([namespace, *path_segments]])
 
 
-def set(resource_location):
+def set(base_location):
     # Sets a resource location's `load.status` score(s) on load and on uninstall.
     #
     # ⚠️ This already runs automatically for any resource location which `load` is
     #  called on.
 
-    load_status_score_holder = score_holder(resource_location)
+    load_status_score_holder = score_holder(base_location)
 
-    append function load(resource_location):
+    append function load(base_location):
         scoreboard players set load_status_score_holder load.status 1
 
-    append function uninstall(resource_location):
+    append function uninstall(base_location):
         # Set to -1 instead of 0 so predicates can distinguish between uninstalled and
         #  not loaded.
         scoreboard players set load_status_score_holder load.status -1
 
-    if resource_location["version"]:
-        for key, value in resource_location["version"]:
-            prepend function load(resource_location):
+    if base_location["version"]:
+        for key, value in base_location["version"]:
+            prepend function load(base_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" load.status value
 
-            append function uninstall(resource_location):
+            append function uninstall(base_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" load.status 0
 
 
@@ -60,14 +60,14 @@ set = cache(set)
 #  a `minecraft:recipe_unlocked` criterion, then you might want to take the recipe on
 #  `load_or_join` in case they unlocked it before the check succeeded. Otherwise they'd
 #  keep the recipe and be unable to earn the advancement.
-def check(resource_location=pack):
+def check(base_location=pack):
     return {
         "condition": 'minecraft:value_check',
         "value": {
             "type": 'minecraft:score',
             "target": {
                 "type": 'minecraft:fixed',
-                "name": load_status.score_holder(resource_location),
+                "name": load_status.score_holder(base_location),
             },
             "score": "load.status",
         },

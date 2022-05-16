@@ -3,7 +3,7 @@ from functools import cache
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/clock import clock
 import lib:datapacks/scoreboard/objectives
-from lib:resource_locations import vt
+from lib:base_locations import vt
 
 vt_join_or_load = vt / "join_or_load"
 
@@ -46,14 +46,14 @@ def on_join_or_load(function_or_function_tag):
 on_join_or_load = cache(on_join_or_load)
 
 
-def join_or_load(resource_location):
+def join_or_load(base_location):
     # Runs something as any player who joins the world and as `@a` on load.
     #
     # ⚠️ To avoid creating an unnecessary function, use `on_join_or_load` instead if the
     #  resource location's `join_or_load` function would otherwise only have one
     #  `function` command.
 
-    join_or_load_function = resource_location / "_join_or_load"
+    join_or_load_function = base_location / "_join_or_load"
 
     on_join_or_load(join_or_load_function)
 

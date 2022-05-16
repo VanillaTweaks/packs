@@ -1,19 +1,19 @@
 from functools import cache
 
 from lib:datapacks import load_status
-from lib:resource_locations import vt
+from lib:base_locations import vt
 
 ctx.require("beet.contrib.lantern_load.base")
 
 
-def load(resource_location):
+def load(base_location):
     # Adds to a resource location's load function, which is (indirectly) called by
     #  `#minecraft:load`.
 
     load_status.set(vt)
-    load_status.set(resource_location)
+    load_status.set(base_location)
 
-    load_function = resource_location / "_load"
+    load_function = base_location / "_load"
 
     append function_tag load:load {"values": [load_function]}
 

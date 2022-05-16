@@ -2,7 +2,7 @@ from lib:datapacks/function_wrappers/clock import clock
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
 import lib:datapacks/load_status
 import lib:datapacks/scoreboard/objectives
-from lib:resource_locations import vt
+from lib:base_locations import vt
 
 vt_function_recipes = vt / "function_recipes"
 
@@ -58,7 +58,7 @@ function craft_any_function_recipe:
 
 
 def craft(
-    resource_location,
+    base_location,
     # The non-namespaced name of the recipe.
     name,
     # The crafting recipe JSON, excluding the `result`.
@@ -72,7 +72,7 @@ def craft(
     #
     # ⚠️ Always use this via `append function craft(...)`.
 
-    function_recipes = resource_location / "function_recipes"
+    function_recipes = base_location / "function_recipes"
 
     # The crafting recipe that outputs a knowledge book.
     recipe = function_recipes / name
@@ -119,7 +119,7 @@ def craft(
 
                 # Here is where other commands would be appended.
 
-    append function join_or_load(resource_location):
+    append function join_or_load(base_location):
         # Take the recipe in case they unlocked it before the `load_status.check()`
         #  succeeded.
         recipe take @s recipe

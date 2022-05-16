@@ -2,15 +2,15 @@ from lib.resource_location import ResourceLocation
 
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
-from lib:resource_locations import vt, pack
+from lib:base_locations import vt, pack
 
 
-def add(resource_location, name, criterion="dummy", display_name=None):
-    # Adds an objective to `resource_location`'s load and uninstall functions.
+def add(base_location, name, criterion="dummy", display_name=None):
+    # Adds an objective to `base_location`'s load and uninstall functions.
 
     # Prepend and not append so other commands in the load function can use this
     #  objective.
-    prepend function load(resource_location):
+    prepend function load(base_location):
         if display_name is None:
             scoreboard objectives add name criterion
         else:
@@ -18,5 +18,5 @@ def add(resource_location, name, criterion="dummy", display_name=None):
 
     # Append and not prepend so other commands in the uninstall function can use
     #  this objective.
-    append function uninstall(resource_location):
+    append function uninstall(base_location):
         scoreboard objectives remove name
