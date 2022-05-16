@@ -62,6 +62,17 @@ def beet_default(ctx: Context):
 
             game_version = pack_path.parts[1]
 
+            description = [
+                {
+                    "text": (
+                        f"{pack_config['title']} {pack_config['version']}"
+                        f" for MC {game_version}"
+                    ),
+                    "color": "gold",
+                },
+                {"text": "\nvanillatweaks.net", "color": "yellow"},
+            ]
+
             ctx.require(
                 subproject(
                     {
@@ -71,14 +82,10 @@ def beet_default(ctx: Context):
                         "directory": str(pack_path),
                         "output": "../../../dist",
                         "data_pack": {
-                            "load": [".", {f"data/{pack_path.name}/modules": "."}],
-                            "description": [
-                                {
-                                    "text": f"{pack_config['title']} {pack_config['version']} for MC {game_version}",
-                                    "color": "gold",
-                                },
-                                {"text": "\nvanillatweaks.net", "color": "yellow"},
-                            ],
+                            # The `/_` is necessary so `bolt` resource locations can't
+                            #  conflict with `mcfunction` resource locations.
+                            "load": [".", {f"data/{pack_path.name}/modules/_": "."}],
+                            "description": description,
                         },
                         "require": ["bolt"],
                         "pipeline": ["mecha"],
