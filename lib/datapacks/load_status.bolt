@@ -2,6 +2,7 @@ from functools import cache
 
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
+from lib:resource_locations import pack
 
 
 def score_holder(resource_location):
@@ -44,3 +45,31 @@ def set(resource_location):
 
 
 set = cache(set)
+
+
+# Returns a predicate condition which ensures a resource location (the `pack` by
+#  default) is loaded.
+#
+# This should be included in the `player` condition of practically every technical
+#  advancement with a function reward, since otherwise an advancement's reward function
+#  could run even after everything is supposed to be uninstalled, or while the
+#  `function-permission-level` is too low.
+#
+# Be sure to account for what happens when a criterion is triggered but isn't granted
+#  due to this check failing. For example, if this check is included in the condition of
+#  a `minecraft:recipe_unlocked` criterion, then you might want to take the recipe on
+#  `load_or_join` in case they unlocked it before the check succeeded. Otherwise they'd
+#  keep the recipe and be unable to earn the advancement.
+def check(resource_location=pack):
+    return {
+        "condition": 'minecraft:value_check',
+        "value": {
+            "type": 'minecraft:score',
+            "target": {
+                "type": 'minecraft:fixed',
+                "name": load_status.score_holder(resource_location),
+            },
+            "score": "load.status",
+        },
+        "range": 1,
+    }

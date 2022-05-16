@@ -1,4 +1,5 @@
 from lib:datapacks/function_wrappers/clock import clock
+from lib:datapacks/function_wrappers/join_or_load import join_or_load
 import lib:datapacks/load_status
 import lib:datapacks/scoreboard/objectives
 from lib:resource_locations import vt
@@ -84,9 +85,25 @@ def craft(
 
     recipe_unlocked_advancement = function_recipes / name
 
+    unlock_recipe = recipe / "_unlock"
     craft_recipe = recipe / "_craft"
 
-    unlock_recipe = recipe / "_unlock"
+    advancement_file recipe_unlocked_advancement {
+        "parent": vt_function_recipes_root,
+        "criteria": {
+            "recipe_unlocked": {
+                "trigger": "minecraft:recipe_unlocked",
+                "conditions": {
+                    "player": [load_status.check()],
+                    "recipe": recipe,
+                },
+            },
+        },
+        "rewards": {
+            "function": unlock_recipe,
+        },
+    }
+
     function unlock_recipe:
         # This runs `as` and `at` any player who unlocks the recipe (e.g. due to
         #  crafting the recipe or using `/recipe give`).
@@ -102,20 +119,9 @@ def craft(
 
                 # Here is where other commands would be appended.
 
-    advancement_file recipe_unlocked_advancement {
-        "parent": vt_function_recipes_root,
-        "criteria": {
-            "recipe_unlocked": {
-                "trigger": "minecraft:recipe_unlocked",
-                "conditions": {
-                    "player": [load_status.check()], # TODO
-                    "recipe": recipe,
-                },
-            },
-        },
-        "rewards": {
-            "function": unlock_recipe,
-        },
-    }
+    append function join_or_load(resource_location):
+        # Take the recipe in case they unlocked it before the `load_status.check()`
+        #  succeeded.
+        recipe take @s recipe
 
     return craft_recipe
