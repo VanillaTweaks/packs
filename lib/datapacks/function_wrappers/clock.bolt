@@ -13,7 +13,7 @@ def clock(duration, base_location):
         schedule function clock_function duration
 
     append function load(base_location):
-		# This is scheduled one tick ahead so that clock functions always run after the
+        # This is scheduled one tick ahead so that clock functions always run after the
         #  load tag is fully complete.
         schedule function clock_function 1t
 

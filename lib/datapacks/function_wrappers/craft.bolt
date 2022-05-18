@@ -26,7 +26,7 @@ append function clock("1t", vt_function_recipes):
     # Reset everyone's `craftedKnowledgeBook` score every tick in case they crafted a
     #  knowledge book from a non-VT data pack.
     # No need to do this for spectators since spectators can't craft.
-	scoreboard players reset @a[gamemode=!spectator] crafted_knowledge_book
+    scoreboard players reset @a[gamemode=!spectator] crafted_knowledge_book
 
 craft_any_function_recipe = vt_function_recipes / "_craft_any"
 function craft_any_function_recipe:
