@@ -1,2 +1,2 @@
 pipeline:
-- beet_plugins.build
+- beet_plugins.main

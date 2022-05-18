@@ -12,24 +12,11 @@ VALID_PATH = re.compile(r"^(?:data|resource)packs/\d+\.\d+/[^/]+$")
 
 
 def beet_default(ctx: Context):
-    """Plugin to build packs.
-
-    Examples:
-    ```sh
-    beet -s 'meta.packs="datapacks/1.18/invisible_item_frames"'
-    beet -s 'meta.packs="datapacks/1.18/*"'
-    beet -s 'meta.packs="d*/1.18/*frame*"'
-    ```
-    """
+    """Plugin to build packs."""
 
     # TODO: Support resource packs.
 
-    pack_pattern = ctx.meta.get("packs")
-    if not isinstance(pack_pattern, str):
-        raise TypeError(
-            f"The following value of `packs` is not a string:\n{repr(pack_pattern)}"
-        )
-
+    pack_pattern = str(ctx.meta.get("pack_pattern"))
     pack_paths = Path(".").glob(pack_pattern)
 
     # A mapping from each pack's path to a dictionary of the pack's config.
