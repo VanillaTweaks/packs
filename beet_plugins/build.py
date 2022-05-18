@@ -17,8 +17,8 @@ def beet_default(ctx: Context):
     Examples:
     ```sh
     beet -s 'meta.packs="datapacks/1.18/invisible_item_frames"'
-    beet -s 'meta.packs="datapacks/1.18/*frame*"'
     beet -s 'meta.packs="datapacks/1.18/*"'
+    beet -s 'meta.packs="d*/1.18/*frame*"'
     ```
     """
 
@@ -39,7 +39,7 @@ def beet_default(ctx: Context):
         if not pack_path.is_dir():
             continue
 
-        if VALID_PATH.match(pack_path.as_posix()):
+        if not VALID_PATH.match(pack_path.as_posix()):
             raise ValueError(
                 "The following path is not directly in `datapacks/<game version>/` or "
                 f"`resourcepacks/<game version>/`:\n{pack_path}"
