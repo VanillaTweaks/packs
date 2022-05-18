@@ -16,12 +16,12 @@ def watch():
     run("watch")
 
 
-def run(command: str):
+def run(beet_command: str):
     subprocess.run(
         [
             "beet",
             "-s",
             f"meta.pack_pattern={repr(args.pack_pattern)}",
-            command,
+            beet_command,
         ]
     )
