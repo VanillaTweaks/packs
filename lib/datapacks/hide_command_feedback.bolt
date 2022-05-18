@@ -7,7 +7,7 @@ function hide_command_feedback:
     execute store result score $send_command_feedback vt.temp
         run gamerule sendCommandFeedback
     execute if score $send_command_feedback vt.temp matches 1
-        run function (vt / "_hide_command_feedback"):
+        run function (vt / "_change_command_feedback"):
             gamerule sendCommandFeedback false
 
             schedule function (vt / "_restore_command_feedback") 1t:
