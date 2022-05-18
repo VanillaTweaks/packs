@@ -15,9 +15,9 @@ def score_holder(base_location):
     # "$vanillatweaks.example.directory"
 
     namespace = base_location["namespace"]
-    path_segments = base_location["path_segments"]
+    path_components = base_location["path_components"]
 
-    return "$" + ".".join([namespace, *path_segments]])
+    return "$" + ".".join([namespace, *path_components]])
 
 
 def set(base_location):

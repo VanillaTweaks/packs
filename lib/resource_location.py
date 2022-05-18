@@ -85,8 +85,8 @@ class ResourceLocation:
         if colon:
             self._abstract_path = path
 
-            for path_segment in self._path_segments:
-                self._check_name(path_segment)
+            for path_component in self._path_components:
+                self._check_name(path_component)
 
     def _check_name(self, name: str):
         if not VALID_RESOURCE_NAME.match(name):
@@ -96,29 +96,29 @@ class ResourceLocation:
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
     @cached_property
-    def _path_segments(self) -> tuple[str, ...]:
-        """A tuple of the segments in the resource location's actual path."""
+    def _path_components(self) -> tuple[str, ...]:
+        """A tuple of the components of the resource location's actual path."""
 
         if self._abstract_path is None:
             return ()
 
-        path_segments = self._abstract_path.split("/")
+        path_components = self._abstract_path.split("/")
 
         if not self.external:
-            # The underscore has to be on the last path segment so that whether a
+            # The underscore has to be on the last path component so that whether a
             #  resource location is private must be explicitly set each time rather than
             #  stored in a parent resource location and then forgotten about.
-            if path_segments[-1].startswith("_"):
-                path_segments[-1] = path_segments[-1].removesuffix("_")
-                path_segments.insert(0, PRIVATE_PATH)
+            if path_components[-1].startswith("_"):
+                path_components[-1] = path_components[-1].removesuffix("_")
+                path_components.insert(0, PRIVATE_PATH)
 
-        return tuple(path_segments)
+        return tuple(path_components)
 
     @cached_property
     def _path(self) -> str | None:
         """The resource location's actual path."""
 
-        return "/".join(self._path_segments) if self._path_segments else None
+        return "/".join(self._path_components) if self._path_components else None
 
     def __truediv__(self, other: str):
         path = f"{self._abstract_path}/{other}" if self._abstract_path else other
@@ -131,7 +131,7 @@ class ResourceLocation:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             )
 
-        return ".".join([self._namespace, *self._path_segments, key])
+        return ".".join([self._namespace, *self._path_components, key])
 
     def __getitem__(self, key: str):
         return getattr(self, f"_{key}")
