@@ -33,29 +33,19 @@ append function clock("1t", vt_join_or_load):
     #  criterion is because that criterion doesn't always detect leaving due to a crash.
 
 
-def on_join_or_load(function_or_function_tag):
-    # Adds a function (resource location) or function tag (resource location prefixed
-    #  with a hash) to the `vt / "_join_or_load"` tag.
-    #
-    # ⚠️ For simplicity, use `join_or_load` instead unless the resource location's
-    #  `join_or_load` function would only have one `function` command.
-
-    append function_tag join_or_load_tag {"values":[function_or_function_tag]}
-
-
-on_join_or_load = cache(on_join_or_load)
-
-
 def join_or_load(base_location):
     # Runs something as any player who joins the world and as `@a` on load.
     #
-    # ⚠️ To avoid creating an unnecessary function, use `on_join_or_load` instead if the
-    #  resource location's `join_or_load` function would otherwise only have one
-    #  `function` command.
+    # ⚠️ To avoid creating an unnecessary function, use
+    #  `append function_tag join_or_load_tag` instead if the resource location's
+    #  `join_or_load` function would otherwise only have one `function` command.
+    #
+    # >>> append function join_or_load(pack):
+    # >>>     # This runs as any player who joins the world and as `@a` on load.
 
     join_or_load_function = base_location / "_join_or_load"
 
-    on_join_or_load(join_or_load_function)
+    append function_tag join_or_load_tag {"values": [join_or_load_function]}
 
     return join_or_load_function
 

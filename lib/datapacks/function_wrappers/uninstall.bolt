@@ -6,6 +6,9 @@ from lib:base_locations import vt, pack
 def uninstall(base_location):
     # Adds to a resource location's uninstall function, and adds that uninstall function
     #  to the uninstall tag.
+    #
+    # >>> append function uninstall(pack):
+    # >>>     # This runs on uninstall.
 
     uninstall_function = base_location / "_uninstall"
 
