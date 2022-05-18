@@ -1,7 +1,7 @@
 from functools import cache
 
 from lib:base_locations import vt, pack
-import lib:datapacks/scoreboard/objectives
+from lib:datapacks/scoreboard import objectives
 
 objectives.add(vt / "constants", vt.constants)
 
