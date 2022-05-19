@@ -41,11 +41,9 @@ def beet_default(ctx: Context):
 
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
-    for pack_path in pack_paths:
+    for pack_path, pack_config in pack_configs.items():
         try:
             logger.info("Building %s...", pack_path)
-
-            pack_config = pack_configs[pack_path]
 
             game_version = pack_path.parts[1]
 
