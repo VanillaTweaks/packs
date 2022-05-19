@@ -18,7 +18,7 @@ def Item(
 
     # The namespaced ID of the custom item.
     #
-    # Example: `ResourceLocation("wrenches:wrench")`
+    # Example: `ResourceLocation("rotation_wrench:wrench")`
     resource_location = base_location / name
 
     nbt_data = nbt.get("data", {})
