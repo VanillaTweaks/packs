@@ -12,12 +12,13 @@ def nbt_recipe(
     # Creates a crafting recipe that outputs a knowledge book which gives the player an
     #  item with custom NBT when taken from the crafting output.
 
-    recipe_json = {**recipe_json}
+    # Copy `recipe_json` so we don't mutate the original.
+    recipe_json = recipe_json.copy()
+    # Delete `result` since `craft` doesn't accept a recipe result.
+    result = recipe_json.pop("result")
 
-    item = recipe_json["result"]["item"]
-    result_count = recipe_json["result"].get("count", 1)
-
-    del recipe_json["result"]
+    item = result["item"]
+    result_count = result.get("count", 1)
 
     function craft(base_location, item.name, recipe_json):
         for _ in range(result_count):
