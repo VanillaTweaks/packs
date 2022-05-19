@@ -1,5 +1,4 @@
 import re
-from functools import cached_property
 
 from lib.version import Version
 
@@ -60,8 +59,12 @@ class ResourceLocation:
     #  also consider how child base locations are created depending on that version (i.e. in __truediv__)
 
     _namespace: str
+    # A tuple of the components of the resource location's actual path.
+    _path_components: tuple[str, ...] = ()
     # The resource location's path, possibly with abstractions/shorthands.
-    _abstract_path: str | None
+    _abstract_path: str | None = None
+    # The resource location's actual path.
+    _path: str | None = None
     _version: Version | None
     _title: str | None
     _external: bool
@@ -75,18 +78,32 @@ class ResourceLocation:
         title: str | None = None,
         external: bool = False,
     ):
-        self._namespace, colon, path = base.partition(":")
-        self.version = Version(version) if isinstance(version, str) else version
-        self.title = title
-        self.external = external
+        self._namespace, colon, abstract_path = base.partition(":")
+        self._version = Version(version) if isinstance(version, str) else version
+        self._title = title
+        self._external = external
 
         self._check_name(self._namespace)
 
         if colon:
-            self._abstract_path = path
+            self._abstract_path = abstract_path
+
+            path_components = abstract_path.split("/")
+
+            if not external:
+                # The underscore has to be on the last path component so that whether a
+                #  resource location is private must be explicitly set each time rather than
+                #  stored in a parent resource location and then forgotten about.
+                if path_components[-1].startswith("_"):
+                    path_components[-1] = path_components[-1].removesuffix("_")
+                    path_components.insert(0, PRIVATE_PATH)
+
+            self._path_components = tuple(path_components)
 
             for path_component in self._path_components:
                 self._check_name(path_component)
+
+            self._path = "/".join(path_components)
 
     def _check_name(self, name: str):
         if not VALID_RESOURCE_NAME.match(name):
@@ -94,31 +111,6 @@ class ResourceLocation:
 
         if not (CONVENTIONAL_RESOURCE_NAME.match(name) or self.external):
             raise ValueError(f"The following name is unconventional: {repr(name)}")
-
-    @cached_property
-    def _path_components(self) -> tuple[str, ...]:
-        """A tuple of the components of the resource location's actual path."""
-
-        if self._abstract_path is None:
-            return ()
-
-        path_components = self._abstract_path.split("/")
-
-        if not self.external:
-            # The underscore has to be on the last path component so that whether a
-            #  resource location is private must be explicitly set each time rather than
-            #  stored in a parent resource location and then forgotten about.
-            if path_components[-1].startswith("_"):
-                path_components[-1] = path_components[-1].removesuffix("_")
-                path_components.insert(0, PRIVATE_PATH)
-
-        return tuple(path_components)
-
-    @cached_property
-    def _path(self) -> str | None:
-        """The resource location's actual path."""
-
-        return "/".join(self._path_components) if self._path_components else None
 
     def __truediv__(self, other: str):
         path = f"{self._abstract_path}/{other}" if self._abstract_path else other
