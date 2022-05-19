@@ -44,17 +44,17 @@ def Item(
                                             **nbt_data,
                                             "vanillatweaks": {
                                                 **nbt_data_vanillatweaks,
-                                                "item": resource_location,
-                                            },
-                                        },
+                                                "item": resource_location
+                                            }
+                                        }
                                     }
-                                ),
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
+                                )
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 
     give_item = base_location / "give" / name
@@ -72,7 +72,7 @@ def Item(
         "resource_location": resource_location,
         "name": name,
         "give": give,
-        "__str__": item_str,
+        "__str__": item_str
     }
 
     return item

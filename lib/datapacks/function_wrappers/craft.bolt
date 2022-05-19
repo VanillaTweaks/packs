@@ -10,9 +10,9 @@ vt_function_recipes_root = vt_function_recipes / "root"
 advancement_file vt_function_recipes_root {
     "criteria": {
         "impossible": {
-            "trigger": "minecraft:impossible",
-        },
-    },
+            "trigger": "minecraft:impossible"
+        }
+    }
 }
 
 crafted_knowledge_book = vt_function_recipes.crafted_knowledge_book
@@ -47,7 +47,7 @@ function craft_any_function_recipe:
                 nbt={Item:{id:"minecraft:knowledge_book"}},
                 # Ensure the knowledge book being killed doesn't have any NBT on it, so
                 #  it likely came from crafting output and isn't a meaningful item.
-                nbt=!{Item:{tag:{}}},
+                nbt=!{Item:{tag:{}}}
             ]
     # Or if they bundled it, just let them have it.
 
@@ -78,8 +78,8 @@ def craft(
     recipe_file function_recipe {
         **recipe_json,
         "result": {
-            "item": "minecraft:knowledge_book",
-        },
+            "item": "minecraft:knowledge_book"
+        }
     }
 
     recipe_unlocked_advancement = function_recipes / name
@@ -94,13 +94,13 @@ def craft(
                 "trigger": "minecraft:recipe_unlocked",
                 "conditions": {
                     "player": [load_status.check()],
-                    "recipe": function_recipe,
-                },
-            },
+                    "recipe": function_recipe
+                }
+            }
         },
         "rewards": {
-            "function": unlock_function_recipe,
-        },
+            "function": unlock_function_recipe
+        }
     }
 
     function unlock_function_recipe:

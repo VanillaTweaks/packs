@@ -69,9 +69,9 @@ def check(base_location=pack):
             "type": 'minecraft:score',
             "target": {
                 "type": 'minecraft:fixed',
-                "name": load_status.score_holder(base_location),
+                "name": load_status.score_holder(base_location)
             },
-            "score": lantern_load.status,
+            "score": lantern_load.status
         },
-        "range": 1,
+        "range": 1
     }
