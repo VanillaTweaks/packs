@@ -1,0 +1,15 @@
+from lib:resource_locations import vt
+
+
+def give_loot_table(resource_location):
+    # Gives `@s` a loot table, working around
+    #  [MC-154422](https://bugs.mojang.com/browse/MC-154422) by first trying
+    #  `/loot give` and then falling back to `/loot spawn`.
+    #
+    # ⚠️ Assumes it is being executed `at @s`.
+
+    execute store result score $loot_give_result vt.temp
+        run loot give @s loot resource_location
+    execute if $loot_give_result vt.temp matches 0
+        anchored eyes
+        run loot spawn ^ ^ ^ loot resource_location

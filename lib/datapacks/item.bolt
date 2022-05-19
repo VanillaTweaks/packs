@@ -1,0 +1,78 @@
+from nbtlib import Compound
+
+from lib:give_loot_table import give_loot_table
+from lib:resource_locations import vt
+
+# TODO: Convert this to a class.
+def Item(
+    self,
+    base_location,
+    # The non-namespaced name of the item.
+    name,
+    # TODO: *,
+    # The ID of the actual item this is based on.
+    item,
+    nbt
+):
+    # An abstraction for a custom NBT item.
+
+    # The namespaced ID of the custom item.
+    #
+    # Example: `ResourceLocation("wrenches:wrench")`
+    resource_location = base_location / name
+
+    nbt_data = nbt.get("data", {})
+    nbt_data_vanillatweaks = nbt_data.get("vanillatweaks", {})
+
+    item_loot_table = base_location / "items" / name
+    loot_table item_loot_table {
+        "type": "minecraft:command",
+        "pools": [
+            {
+                "rolls": 1,
+                "entries": [
+                    {
+                        "type": "minecraft:item",
+                        "name": item,
+                        "functions": [
+                            {
+                                "function": "minecraft:set_nbt",
+                                "tag": Compound(
+                                    {
+                                        **nbt,
+                                        "data": {
+                                            **nbt_data,
+                                            "vanillatweaks": {
+                                                **nbt_data_vanillatweaks,
+                                                "item": resource_location,
+                                            },
+                                        },
+                                    }
+                                ),
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    }
+
+    give_item = base_location / "give" / name
+    function give_item:
+        give_loot_table(item_loot_table)
+
+    def give():
+        function give_item
+
+    def item_str():
+        return str(resource_location)
+
+    item = {
+        "base_location": base_location,
+        "resource_location": resource_location,
+        "name": name,
+        "give": give,
+        "__str__": item_str,
+    }
+
+    return item

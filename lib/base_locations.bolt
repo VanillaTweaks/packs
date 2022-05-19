@@ -36,6 +36,7 @@ def temp(self):
     return temp
 
 
+# TODO: Convert this to a class.
 VTResourceLocation = type("VTResourceLocation", (ResourceLocation,), {
     "temp": cached_property(temp)
 })
