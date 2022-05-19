@@ -10,6 +10,6 @@ def give_loot_table(resource_location):
 
     execute store result score $loot_give_result vt.temp
         run loot give @s loot resource_location
-    execute if $loot_give_result vt.temp matches 0
+    execute if score $loot_give_result vt.temp matches 0
         anchored eyes
         run loot spawn ^ ^ ^ loot resource_location
