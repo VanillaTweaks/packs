@@ -2,12 +2,12 @@
 # This is a temporary stand-in for built-in NBT literal support from `bolt`.
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Type
+from typing import Any, Type
 from beet import Context
 from bolt import AstValue, Runtime
 from mecha import Mecha, Parser
 from tokenstream import TokenStream, set_location
-from nbtlib import Numeric, Byte, Short, Long, Float, Double
+from nbtlib import Numeric, Byte, Short, Long, Float, Double, Compound, List
 import operator
 
 SUFFIXED_NUMBER = r"[+-]?(?:[0-9]*?\.[0-9]+|[0-9]+\.[0-9]*?|[1-9][0-9]*|0)(?:[eE][+-]?[0-9]+)?[bslfdBSLFD]\b"
@@ -37,12 +37,24 @@ def beet_default(ctx: Context):
     mc.spec.parsers["bolt:literal"] = NbtLiteralParser(
         parser=mc.spec.parsers["bolt:literal"]
     )
+    runtime = ctx.inject(Runtime)
+    runtime.globals.update(
+        {
+            "Byte": Byte,
+            "Short": Short,
+            "Long": Long,
+            "Float": Float,
+            "Double": Double,
+            "Compound": Compound,
+            "List": List,
+        }
+    )
 
 
 @dataclass
 class NbtLiteralParser:
     parser: Parser
-    number_suffixes: Dict[str, Type[Any]] = field(
+    number_suffixes: dict[str, Type[Any]] = field(
         default_factory=lambda: {
             "b": Byte,
             "s": Short,

@@ -1,4 +1,5 @@
 import argparse
+import json
 import subprocess
 
 parser = argparse.ArgumentParser(description="Build packs.")
@@ -21,7 +22,7 @@ def run(beet_command: str):
         [
             "beet",
             "-s",
-            f"meta.pack_pattern={repr(args.pack_pattern)}",
+            f"meta.pack_pattern={json.dumps(args.pack_pattern)}",
             beet_command,
         ]
     )

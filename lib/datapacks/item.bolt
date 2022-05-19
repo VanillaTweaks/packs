@@ -5,7 +5,6 @@ from lib:resource_locations import vt
 
 # TODO: Convert this to a class.
 def Item(
-    self,
     base_location,
     # The non-namespaced name of the item.
     name,

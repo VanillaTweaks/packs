@@ -16,7 +16,7 @@ def beet_default(ctx: Context):
 
     # TODO: Support resource packs.
 
-    pack_pattern = str(ctx.meta.get("pack_pattern"))
+    pack_pattern = ctx.meta.get("pack_pattern")
     pack_paths = Path(".").glob(pack_pattern)
 
     # A mapping from each pack's path to a dictionary of the pack's config.
@@ -69,9 +69,14 @@ def beet_default(ctx: Context):
                         "directory": str(pack_path),
                         "output": "../../../dist",
                         "data_pack": {
-                            # The `/_` is necessary so `bolt` resource locations can't
-                            #  conflict with `mcfunction` resource locations.
-                            "load": [".", {f"data/{pack_path.name}/modules/_": "."}],
+                            "load": [
+                                ".",
+                                # The `/_` is necessary so `bolt` resource locations
+                                #  can't conflict with `mcfunction` resource locations.
+                                {f"data/{pack_path.name}/modules/_": "."},
+                                # A temporary stand-in for lazy-loaded `bolt` modules.
+                                {"data/lib/modules": "../../../lib"},
+                            ],
                             "description": description,
                         },
                         "require": ["bolt", "beet_plugins.nbt_literals"],

@@ -1,0 +1,82 @@
+from lib:datapacks/scoreboard import objectives
+from lib:base_locations import pack
+from lib:datapacks/function_wrappers/clock import clock
+
+from lib.helpers import json_str
+
+objectives.add(pack, pack.item_frame_id)
+
+mark = pack / "_mark"
+function mark:
+    summon minecraft:marker ~ ~ ~ {Tags: [pack.marker]}
+    tag @s add pack.marked
+    tag @s add pack.no_item
+
+advancement pack / "summoned" {
+    "criteria": {
+        "summoned": {
+            "trigger": 'minecraft:summoned_entity',
+            "conditions": {
+                "type": 'minecraft:item_frame',
+                "nbt": Compound({EntityTag: {Tags: [pack.invisible]}})
+            }
+        }
+    },
+    "rewards": {
+        "function": function (pack / "_place"):
+            execute as @e[type=minecraft:item_frame, tag=pack.invisible, tag=!pack.marked, limit=1]
+                at @s
+                run function mark
+    }
+}
+
+invisible_item_frame = Item(
+    pack,
+    "invisible_item_frame",
+    "minecraft:item_frame",
+    {
+        display: {
+            Name: json_str(
+                [
+                    {"text": "Invisible Item Frame", "italic": False},
+                    {"translate": "item.minecraft.item_frame"}
+                ]
+            )
+        }
+    }
+)
+
+append function clock("1t", pack):
+    execute as @e[type=minecraft:item_frame, tag=!pack.has_id]
+        store result score @s pack.item_frame_id
+        run scoreboard players add $last_value pack.item_frame_id 1
+
+    execute as @e[type=minecraft:marker, tag=pack.has_id]
+        at @s
+        unless entity @e[type=minecraft:item_frame, tag=pack.invisible, distance=0]
+        align xyz
+        run function (pack / "_break"):
+            # TODO: Move selector to variable.
+            data merge entity @e[
+                dx=0,
+                dy=0,
+                dz=0,
+                type=minecraft:item,
+                nbt={
+                    PickupDelay: 10s,
+                    Item: {
+                        id: "minecraft:item_frame",
+                        Count: 1b
+                    }
+                },
+                nbt=!{Item: {tag: {EntityTag: {}}}},
+                limit=1
+            ] {Item: {tag: invisible_item_frame.nbt}}
+
+            kill @s
+
+
+append function clock("1s", pack):
+    execute as @e[type=minecraft:item_frame, tag=pack.invisible, tag=pack.no_item]
+        store success entity @s Invisible byte 1
+        if data entity @s {Invisible: 0b}
