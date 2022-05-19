@@ -1,0 +1,24 @@
+from lib:datapacks/function_wrappers/craft import craft
+
+def nbt_recipe(
+    base_location,
+    # The crafting recipe JSON, but with an `Item` as the `result` instead of a
+    #  Minecraft item resource location.
+    #
+    # The `type` must be either `minecraft:crafting_shaped` or
+    #  `minecraft:crafting_shapeless`.
+    recipe_json
+):
+    # Creates a crafting recipe that outputs a knowledge book which gives the player an
+    #  item with custom NBT when taken from the crafting output.
+
+    recipe_json = {**recipe_json}
+
+    item = recipe_json["result"]["item"]
+    result_count = recipe_json["result"].get("count", 1)
+
+    del recipe_json["result"]
+
+    function craft(base_location, item.name, recipe_json):
+        for _ in range(result_count):
+            item.give()
