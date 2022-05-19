@@ -74,7 +74,7 @@ def beet_default(ctx: Context):
                             "load": [".", {f"data/{pack_path.name}/modules/_": "."}],
                             "description": description,
                         },
-                        "require": ["bolt"],
+                        "require": ["bolt", "beet_plugins.nbt_literals"],
                         "pipeline": ["mecha"],
                         "meta": {"pack_config": pack_config},
                     }
