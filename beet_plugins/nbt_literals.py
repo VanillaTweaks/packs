@@ -1,14 +1,15 @@
 # type: ignore
 # This is a temporary stand-in for built-in NBT literal support from `bolt`.
 
+import operator
 from dataclasses import dataclass, field
 from typing import Any, Type
+
 from beet import Context
 from bolt import AstValue, Runtime
 from mecha import Mecha, Parser
+from nbtlib import Byte, Compound, Double, Float, List, Long, Numeric, Short, String
 from tokenstream import TokenStream, set_location
-from nbtlib import Numeric, Byte, Short, Long, Float, Double, Compound, List, String
-import operator
 
 SUFFIXED_NUMBER = r"[+-]?(?:[0-9]*?\.[0-9]+|[0-9]+\.[0-9]*?|[1-9][0-9]*|0)(?:[eE][+-]?[0-9]+)?[bslfdBSLFD]\b"
 

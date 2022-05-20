@@ -1,9 +1,8 @@
 from lib:datapacks/scoreboard/objectives import objectives
 from lib:base_locations import pack
 from lib:datapacks/function_wrappers/clock import clock
-from lib:datapacks/item import Item
 
-from lib.helpers import json_str
+from ./items import invisible_item_frame
 
 objectives.add(pack, pack.item_frame_id)
 
@@ -35,23 +34,6 @@ advancement (pack / "summoned_invisible_item_frame") {
         "function": str(place_invisible_item_frame)
     }
 }
-
-invisible_item_frame = Item(
-    pack,
-    "invisible_item_frame",
-    "minecraft:item_frame",
-    {
-        # TODO: Remove all constructors.
-        display: Compound({
-            Name: String(json_str(
-                [
-                    {"text": "Invisible Item Frame", "italic": False},
-                    {"translate": "item.minecraft.item_frame"}
-                ]
-            ))
-        })
-    }
-)
 
 append function clock("1t", pack):
     execute as @e[type=minecraft:item_frame, tag=!pack.has_id]

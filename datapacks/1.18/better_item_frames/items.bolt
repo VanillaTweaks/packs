@@ -1,0 +1,39 @@
+from lib.helpers import json_str
+
+from lib:base_locations import pack
+from lib:datapacks/item import Item
+from lib:datapacks/nbt_recipe import nbt_recipe
+
+invisible_item_frame = Item(
+    pack,
+    "invisible_item_frame",
+    "minecraft:item_frame",
+    {
+        # TODO: Remove all constructors.
+        display: Compound({
+            Name: String(json_str(
+                [
+                    {"text": "Invisible Item Frame", "italic": False},
+                    {"translate": "item.minecraft.item_frame"}
+                ]
+            ))
+        })
+    }
+)
+
+nbt_recipe(
+    pack,
+    {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+            "SSS",
+            "SGS",
+            "SSS"
+        ],
+        "key": {
+            "S": {"item": "minecraft:stick"},
+            "G": {"item": "minecraft:glass_pane"}
+        },
+        "result": {"item": invisible_item_frame}
+    }
+)

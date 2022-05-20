@@ -45,7 +45,8 @@ def join_or_load(base_location):
 
     join_or_load_function = base_location / "_join_or_load"
 
-    append function_tag join_or_load_tag {"values": [join_or_load_function]}
+    # TODO: Remove `str`.
+    append function_tag join_or_load_tag {"values": [str(join_or_load_function)]}
 
     return join_or_load_function
 

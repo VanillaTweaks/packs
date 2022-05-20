@@ -20,6 +20,6 @@ def nbt_recipe(
     result_item = result["item"]
     result_count = result.get("count", 1)
 
-    function craft(base_location, result_item.name, recipe_data):
+    append function craft(base_location, result_item.name, recipe_data):
         for _ in range(result_count):
             result_item.give()

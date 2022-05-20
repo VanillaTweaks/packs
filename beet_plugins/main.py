@@ -2,6 +2,7 @@ import logging
 import re
 from pathlib import Path
 
+import mecha
 import yaml
 from beet import Context, subproject
 import mecha
