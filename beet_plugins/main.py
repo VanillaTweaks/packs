@@ -71,10 +71,11 @@ def beet_default(ctx: Context):
                             "load": [
                                 # A temporary stand-in for lazy-loaded `bolt` modules.
                                 {"data/lib/modules": "../../../lib"},
-                                ".",
                                 # The `/_` is necessary so `bolt` resource locations
                                 #  can't conflict with `mcfunction` resource locations.
                                 {f"data/{pack_path.name}/modules/_": "."},
+                                # Load any normal `data` folders for non-bolt resources.
+                                ".",
                             ],
                             "description": description,
                         },
