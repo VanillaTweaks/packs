@@ -1,7 +1,7 @@
 from nbtlib import Compound
 
-from lib:give_loot_table import give_loot_table
-from lib:resource_locations import vt
+from lib:datapacks/give_loot_table import give_loot_table
+from lib:base_locations import vt
 
 # TODO: Convert this to a class.
 def Item(
@@ -36,18 +36,19 @@ def Item(
                         "functions": [
                             {
                                 "function": "minecraft:set_nbt",
+                                # TODO: Remove `.snbt()` and all constructors.
                                 "tag": Compound(
                                     {
                                         **nbt,
-                                        "data": {
+                                        "data": Compound({
                                             **nbt_data,
-                                            "vanillatweaks": {
+                                            "vanillatweaks": Compound({
                                                 **nbt_data_vanillatweaks,
-                                                "item": resource_location
-                                            }
-                                        }
+                                                "item": String(str(resource_location))
+                                            })
+                                        })
                                     }
-                                )
+                                ).snbt()
                             }
                         ]
                     }
@@ -66,12 +67,12 @@ def Item(
     def item_str():
         return str(resource_location)
 
-    item = {
+    return {
         "base_location": base_location,
         "resource_location": resource_location,
         "name": name,
+        "actual_item": item,
+        "nbt": nbt,
         "give": give,
         "__str__": item_str
     }
-
-    return item

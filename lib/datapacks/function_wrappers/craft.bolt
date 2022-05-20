@@ -1,13 +1,13 @@
 from lib:base_locations import vt
-from lib:datapacks import load_status
+from lib:datapacks/load_status import load_status
 from lib:datapacks/function_wrappers/clock import clock
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
-from lib:datapacks/scoreboard import objectives
+from lib:datapacks/scoreboard/objectives import objectives
 
 vt_function_recipes = vt / "function_recipes"
 
 vt_function_recipes_root = vt_function_recipes / "root"
-advancement_file vt_function_recipes_root {
+advancement vt_function_recipes_root {
     "criteria": {
         "impossible": {
             "trigger": "minecraft:impossible"
@@ -64,7 +64,7 @@ def craft(
     #
     # The `type` must be either `minecraft:crafting_shaped` or
     #  `minecraft:crafting_shapeless`.
-    recipe_json
+    recipe_data
 ):
     # Creates a crafting recipe that outputs a knowledge book which runs the returned
     #  function `as` and `at` the player when taken from the crafting output.
@@ -75,8 +75,8 @@ def craft(
 
     # The crafting recipe that outputs a knowledge book.
     function_recipe = function_recipes / name
-    recipe_file function_recipe {
-        **recipe_json,
+    recipe function_recipe {
+        **recipe_data,
         "result": {
             "item": "minecraft:knowledge_book"
         }
@@ -87,7 +87,7 @@ def craft(
     unlock_function_recipe = function_recipe / "_unlock"
     craft_function_recipe = function_recipe / "_craft"
 
-    advancement_file recipe_unlocked_advancement {
+    advancement recipe_unlocked_advancement {
         "parent": vt_function_recipes_root,
         "criteria": {
             "recipe_unlocked": {

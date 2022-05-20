@@ -8,7 +8,8 @@ from lib:datapacks/lantern_load import lantern_load
 def temp(self):
     # An objective only for temporary scores that can safely be reset anytime.
 
-    temp = super(VTResourceLocation, self).temp
+    # TODO: temp = super().temp
+    temp = "vanillatweaks.temp"
 
     vt_temp_objective = vt / "temp_objective"
 
@@ -23,7 +24,8 @@ def temp(self):
 
     # Prepend instead of append to the `pre_load` tag so that other functions in the
     #  `pre_load` tag can use the temp objective.
-    prepend function_tag (lantern_load / "pre_load") {"values": [load_temp_objective]}
+    # TODO: Remove `str`.
+    prepend function_tag (lantern_load / "pre_load") {"values": [str(load_temp_objective)]}
 
     uninstall_temp_objective = vt_temp_objective / "_uninstall"
     function uninstall_temp_objective:
@@ -31,7 +33,8 @@ def temp(self):
 
     # Append instead of prepend to the uninstall tag so other functions in the uninstall
     #  tag can use the temp objective.
-    append function_tag (vt / "_uninstall") {"values": [uninstall_temp_objective]}
+    # TODO: Remove `str`.
+    append function_tag (vt / "_uninstall") {"values": [str(uninstall_temp_objective)]}
 
     return temp
 

@@ -7,7 +7,7 @@ from beet import Context
 from bolt import AstValue, Runtime
 from mecha import Mecha, Parser
 from tokenstream import TokenStream, set_location
-from nbtlib import Numeric, Byte, Short, Long, Float, Double, Compound, List
+from nbtlib import Numeric, Byte, Short, Long, Float, Double, Compound, List, String
 import operator
 
 SUFFIXED_NUMBER = r"[+-]?(?:[0-9]*?\.[0-9]+|[0-9]+\.[0-9]*?|[1-9][0-9]*|0)(?:[eE][+-]?[0-9]+)?[bslfdBSLFD]\b"
@@ -47,6 +47,7 @@ def beet_default(ctx: Context):
             "Double": Double,
             "Compound": Compound,
             "List": List,
+            "String": String,
         }
     )
 

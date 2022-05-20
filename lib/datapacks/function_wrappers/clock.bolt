@@ -10,7 +10,11 @@ def clock(duration, base_location):
     # >>> append function clock('1t', pack):
     # >>>     # This runs every tick.
 
-    clock_function = base_location / f"_{'tick' if duration == '1t' else duration}"
+    clock_function_name = duration
+    if clock_function_name == "1t":
+        clock_function_name = "tick"
+
+    clock_function = base_location / f"_{clock_function_name}"
 
     prepend function clock_function:
         schedule function clock_function duration

@@ -96,7 +96,7 @@ class ResourceLocation:
                 #  stored in a parent resource location and then forgotten about.
                 if path_components[-1].startswith("_"):
                     path_components[-1] = path_components[-1].removesuffix("_")
-                    path_components.insert(0, PRIVATE_PATH)
+                    path_components = PRIVATE_PATH.split("/") + path_components
 
             self._path_components = tuple(path_components)
 

@@ -4,6 +4,7 @@ from pathlib import Path
 
 import yaml
 from beet import Context, subproject
+import mecha
 
 logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
@@ -68,12 +69,12 @@ def beet_default(ctx: Context):
                         "output": "../../../dist",
                         "data_pack": {
                             "load": [
+                                # A temporary stand-in for lazy-loaded `bolt` modules.
+                                {"data/lib/modules": "../../../lib"},
                                 ".",
                                 # The `/_` is necessary so `bolt` resource locations
                                 #  can't conflict with `mcfunction` resource locations.
                                 {f"data/{pack_path.name}/modules/_": "."},
-                                # A temporary stand-in for lazy-loaded `bolt` modules.
-                                {"data/lib/modules": "../../../lib"},
                             ],
                             "description": description,
                         },
@@ -84,5 +85,9 @@ def beet_default(ctx: Context):
                 )
             )
 
-        except Exception as error:
-            logger.exception(error)
+        except mecha.diagnostic.DiagnosticErrorSummary:
+            pass
+
+        # TODO: log error but avoid the bubble up
+        # except Exception as error:
+            # logger.exception(error)

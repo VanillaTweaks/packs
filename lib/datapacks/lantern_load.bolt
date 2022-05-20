@@ -1,3 +1,7 @@
-ctx.require("beet.contrib.lantern_load.base")
+from beet.contrib.lantern_load import base_data_pack
+
+from lib.resource_location import ResourceLocation
+
+base_data_pack(ctx)
 
 lantern_load = ResourceLocation("load", external=True)

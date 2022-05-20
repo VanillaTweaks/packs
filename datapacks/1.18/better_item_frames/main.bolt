@@ -1,6 +1,7 @@
-from lib:datapacks/scoreboard import objectives
+from lib:datapacks/scoreboard/objectives import objectives
 from lib:base_locations import pack
 from lib:datapacks/function_wrappers/clock import clock
+from lib:datapacks/item import Item
 
 from lib.helpers import json_str
 
@@ -12,21 +13,26 @@ function mark:
     tag @s add pack.marked
     tag @s add pack.no_item
 
-advancement pack / "summoned" {
+place_invisible_item_frame = (pack / "_place")
+function place_invisible_item_frame:
+    execute as @e[type=minecraft:item_frame, tag=pack.invisible, tag=!pack.marked, limit=1]
+        at @s
+        run function mark
+
+advancement (pack / "summoned_invisible_item_frame") {
     "criteria": {
         "summoned": {
-            "trigger": 'minecraft:summoned_entity',
+            "trigger": "minecraft:summoned_entity",
             "conditions": {
-                "type": 'minecraft:item_frame',
-                "nbt": Compound({EntityTag: {Tags: [pack.invisible]}})
+                "type": "minecraft:item_frame",
+                # TODO: Remove `.snbt()` and all constructors.
+                "nbt": Compound({EntityTag: Compound({Tags: List[String]([pack.invisible])})}).snbt()
             }
         }
     },
     "rewards": {
-        "function": function (pack / "_place"):
-            execute as @e[type=minecraft:item_frame, tag=pack.invisible, tag=!pack.marked, limit=1]
-                at @s
-                run function mark
+        # TODO: Remove `str`.
+        "function": str(place_invisible_item_frame)
     }
 }
 
@@ -35,14 +41,15 @@ invisible_item_frame = Item(
     "invisible_item_frame",
     "minecraft:item_frame",
     {
-        display: {
-            Name: json_str(
+        # TODO: Remove all constructors.
+        display: Compound({
+            Name: String(json_str(
                 [
                     {"text": "Invisible Item Frame", "italic": False},
                     {"translate": "item.minecraft.item_frame"}
                 ]
-            )
-        }
+            ))
+        })
     }
 )
 
