@@ -5,7 +5,6 @@ from pathlib import Path
 import mecha
 import yaml
 from beet import Context, subproject
-import mecha
 
 logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
