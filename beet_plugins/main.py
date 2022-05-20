@@ -91,4 +91,4 @@ def beet_default(ctx: Context):
 
         # TODO: log error but avoid the bubble up
         # except Exception as error:
-            # logger.exception(error)
+        #     logger.exception(error)
