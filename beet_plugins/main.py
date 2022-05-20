@@ -74,7 +74,8 @@ def beet_default(ctx: Context):
                                 # The `/_` is necessary so `bolt` resource locations
                                 #  can't conflict with `mcfunction` resource locations.
                                 {f"data/{pack_path.name}/modules/_": "."},
-                                # Load any normal `data` folders for non-bolt resources.
+                                # Load the pack as a normal pack directory with a `data`
+                                #  folder.
                                 ".",
                             ],
                             "description": description,
