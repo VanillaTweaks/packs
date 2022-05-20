@@ -1,6 +1,7 @@
 import argparse
 import json
 import subprocess
+from contextlib import suppress
 
 parser = argparse.ArgumentParser(description="Build packs.")
 parser.add_argument(
@@ -18,11 +19,12 @@ def watch():
 
 
 def run(beet_command: str):
-    subprocess.run(
-        [
-            "beet",
-            "-s",
-            f"meta.pack_pattern={json.dumps(args.pack_pattern)}",
-            beet_command,
-        ]
-    )
+    with suppress(KeyboardInterrupt):
+        subprocess.run(
+            [
+                "beet",
+                "-s",
+                f"meta.pack_pattern={json.dumps(args.pack_pattern)}",
+                beet_command,
+            ]
+        )
