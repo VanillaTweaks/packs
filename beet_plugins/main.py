@@ -42,6 +42,16 @@ def beet_default(ctx: Context):
 
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
+    pack_formats = {
+        str(pack_type): {
+            str(game_version): int(pack_format)
+            for game_version, pack_format in pack_type_formats
+        }
+        for pack_type, pack_type_formats in yaml.safe_load(
+            Path("./lib/pack_formats.yaml").read_text()
+        )
+    }
+
     for pack_path, pack_config in pack_configs.items():
         try:
             logger.info("Building %s...", pack_path)
@@ -79,6 +89,7 @@ def beet_default(ctx: Context):
                                 ".",
                             ],
                             "description": description,
+                            "pack_format": pack_formats["datapacks"][game_version],
                         },
                         "require": ["bolt", "beet_plugins.nbt_literals"],
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
