@@ -1,0 +1,24 @@
+from lib:datapacks/lantern_load import lantern_load
+from lib:datapacks/load_status import load_status
+from lib:base_locations import vt
+
+# A predicate condition that ensures VT is not uninstalled, since otherwise an
+#  advancement's reward function could run even after everything is supposed to be
+#  uninstalled.
+#
+# ⚠️ Only for use within `fault_checking` modules.
+vt_not_uninstalled = {
+    "condition": "minecraft:inverted",
+    "term": {
+        "condition": "minecraft:value_check",
+        "value": {
+            "type": "minecraft:score",
+            "target": {
+                "type": "minecraft:fixed",
+                "name": load_status.score_holder(vt)
+            },
+            "score": lantern_load.status
+        },
+        "range": -1
+    }
+}
