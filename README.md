@@ -18,16 +18,16 @@ poetry install
 
 ### Building
 
-You can build a data pack or a set of data packs using `poetry run build`.
+You can build a data pack or a set of data packs using `py run.py build` from inside the repo.
 
 Examples:
 ```sh
-poetry run build datapacks/1.18/invisible_item_frames
-poetry run build datapacks/1.18/*
-poetry run build d*/1.18/*frame*
+py run.py build "datapacks/1.18/better_item_frames"
+py run.py build "datapacks/1.18/*"
+py run.py build "d*/1.18/*frame*"
 ```
 
-To continually rebuild the project whenever files are changed, use `poetry run watch` in the same way.
+To continually rebuild the project whenever files are changed, use `py run.py watch` in the same way.
 
 ### Outputting Packs to Minecraft
 

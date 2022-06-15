@@ -3,13 +3,6 @@ name = "packs"
 version = "1.0.0"
 description = "Some of the packs on https://vanillatweaks.net"
 authors = ["VanillaTweaks <team@vanillatweaks.net>"]
-packages = [
-    { include = "scripts" },
-]
-
-[tool.poetry.scripts]
-build = "scripts.build:build"
-watch = "scripts.build:watch"
 
 [tool.poetry.dependencies]
 python = "^3.10"

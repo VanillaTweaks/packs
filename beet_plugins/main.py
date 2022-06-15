@@ -17,7 +17,7 @@ def beet_default(ctx: Context):
 
     # TODO: Support resource packs.
 
-    pack_pattern = ctx.meta.get("pack_pattern")
+    pack_pattern = str(ctx.meta.get("pack_pattern"))
     pack_paths = Path(".").glob(pack_pattern)
 
     # A mapping from each pack's path to a dictionary of the pack's config.
@@ -45,11 +45,11 @@ def beet_default(ctx: Context):
     pack_formats = {
         str(pack_type): {
             str(game_version): int(pack_format)
-            for game_version, pack_format in pack_type_formats
+            for game_version, pack_format in pack_type_formats.items()
         }
         for pack_type, pack_type_formats in yaml.safe_load(
             Path("./lib/pack_formats.yaml").read_text()
-        )
+        ).items()
     }
 
     for pack_path, pack_config in pack_configs.items():
