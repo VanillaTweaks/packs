@@ -4,6 +4,7 @@ from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
 
 
+@cache
 def clock(duration, base_location):
     # Runs a function one tick after the pack loads and then on a periodical schedule.
     #
@@ -28,6 +29,3 @@ def clock(duration, base_location):
         schedule clear clock_function
 
     return clock_function
-
-
-clock = cache(clock)

@@ -33,6 +33,7 @@ append function clock("1t", vt_join_or_load):
     #  criterion is because that criterion doesn't always detect leaving due to a crash.
 
 
+@cache
 def join_or_load(base_location):
     # Runs something as any player who joins the world and as `@a` on load.
     #
@@ -49,6 +50,3 @@ def join_or_load(base_location):
     append function_tag join_or_load_tag {"values": [str(join_or_load_function)]}
 
     return join_or_load_function
-
-
-join_or_load = cache(join_or_load)

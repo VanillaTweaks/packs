@@ -7,6 +7,7 @@ from lib:datapacks/load_status import load_status
 from lib:datapacks/lantern_load import lantern_load
 
 
+@cache
 def load(base_location):
     # Adds to a resource location's load function, which is (indirectly) called by
     #  `#minecraft:load`.
@@ -23,6 +24,3 @@ def load(base_location):
     append function_tag (lantern_load / "load") {"values": [str(load_function)]}
 
     return load_function
-
-
-load = cache(load)

@@ -7,6 +7,7 @@ from lib:datapacks/scoreboard/objectives import objectives
 objectives.add(vt / "constants", vt.constants)
 
 
+@cache
 def constant(value):
     # Returns a score holder for the specified constant under the `vt.constants`
     #  objective.
@@ -21,6 +22,3 @@ def constant(value):
         scoreboard players set constant_score_holder vt.constants value
 
     return constant_score_holder
-
-
-constant = cache(constant)

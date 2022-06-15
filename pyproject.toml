@@ -13,9 +13,9 @@ watch = "scripts.build:watch"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.64.0"
-mecha = ">=0.48.3"
-bolt = ">=0.3.4"
+beet = ">=0.67.1"
+mecha = ">=0.52.2"
+bolt = ">=0.7.1"
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]

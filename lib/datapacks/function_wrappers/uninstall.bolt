@@ -3,6 +3,7 @@ from functools import cache
 from lib:base_locations import vt, pack
 
 
+@cache
 def uninstall(base_location):
     # Adds to a resource location's uninstall function, and adds that uninstall function
     #  to the uninstall tag.
@@ -21,6 +22,3 @@ def uninstall(base_location):
     prepend function_tag (vt / "_uninstall") {"values": [str(uninstall_function)]}
 
     return uninstall_function
-
-
-uninstall = cache(uninstall)

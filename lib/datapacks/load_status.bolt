@@ -21,6 +21,7 @@ def score_holder(base_location):
 set_base_locations = set()
 
 
+@cache
 def set(base_location):
     # Sets a resource location's `lantern_load.status` scores on load and on uninstall.
     #
@@ -52,9 +53,6 @@ def set(base_location):
 
             append function uninstall(base_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status 0
-
-
-set = cache(set)
 
 
 def check(base_location=pack):
