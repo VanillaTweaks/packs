@@ -1,6 +1,6 @@
 [[package]]
 name = "beet"
-version = "0.67.1"
+version = "0.68.1"
 description = "The Minecraft pack development kit"
 category = "main"
 optional = false
@@ -43,15 +43,15 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "bolt"
-version = "0.7.1"
+version = "0.8.0"
 description = "Supercharge Minecraft commands with Python"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-beet = ">=0.67.0"
-mecha = ">=0.52.2"
+beet = ">=0.68.1"
+mecha = ">=0.54.1"
 
 [[package]]
 name = "click"
@@ -80,7 +80,7 @@ dev = ["pytest"]
 
 [[package]]
 name = "colorama"
-version = "0.4.4"
+version = "0.4.5"
 description = "Cross-platform colored terminal text."
 category = "main"
 optional = false
@@ -124,15 +124,15 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "mecha"
-version = "0.52.2"
+version = "0.54.1"
 description = "A powerful Minecraft command library"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-beet = ">=0.67.0"
-tokenstream = "1.4.1"
+beet = ">=0.68.1"
+tokenstream = "1.4.2"
 
 [[package]]
 name = "mypy-extensions"
@@ -206,7 +206,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "tokenstream"
-version = "1.4.1"
+version = "1.4.2"
 description = "A versatile token stream for handwritten parsers"
 category = "main"
 optional = false
@@ -243,8 +243,8 @@ content-hash = "7bb04cc1893884eee90388f0edef057adcdf8f885a12856c1e3c0b5c41a28774
 
 [metadata.files]
 beet = [
-    {file = "beet-0.67.1-py3-none-any.whl", hash = "sha256:1b849bef4133012f3f058ea7a56a2250b4afd9bc2bdf785c7d381bf3b2a7bca3"},
-    {file = "beet-0.67.1.tar.gz", hash = "sha256:cd874be2e4894be467043bebd6477b04ccebb8c52e5d5957db539371dd47c4b2"},
+    {file = "beet-0.68.1-py3-none-any.whl", hash = "sha256:49f865161831eab37202f5b74f99e97bafc0c8fc9375032a2bed93fff95e1aab"},
+    {file = "beet-0.68.1.tar.gz", hash = "sha256:92fccb6448a64f02fb7c92d2cafa253afc9482b4b0f9bdf1de6344ae4205f05b"},
 ]
 black = [
     {file = "black-22.3.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:2497f9c2386572e28921fa8bec7be3e51de6801f7459dffd6e62492531c47e09"},
@@ -272,8 +272,8 @@ black = [
     {file = "black-22.3.0.tar.gz", hash = "sha256:35020b8886c022ced9282b51b5a875b6d1ab0c387b31a065b84db7c33085ca79"},
 ]
 bolt = [
-    {file = "bolt-0.7.1-py3-none-any.whl", hash = "sha256:446bda68624209aa65228d0bc37f300093207d68b1c6b5426a5459c62e24ef1d"},
-    {file = "bolt-0.7.1.tar.gz", hash = "sha256:d05f3c390d92c9547ace60fbd49333ebd6852d93181f8f1d2c992be95243ad63"},
+    {file = "bolt-0.8.0-py3-none-any.whl", hash = "sha256:463f3f71afc218f88b08006d23010e9b6133d8fe2950ec14515c1076b2771903"},
+    {file = "bolt-0.8.0.tar.gz", hash = "sha256:fa06b7535e62de3dbb1f1cbe7a6f661f44cd8f3d9a7430749c29b236e7dbfe99"},
 ]
 click = [
     {file = "click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
@@ -284,8 +284,8 @@ click-help-colors = [
     {file = "click_help_colors-0.9.1-py3-none-any.whl", hash = "sha256:25a6bd22d8abbc72c18a416a1cf21ab65b6120bee48e9637829666cbad22d51d"},
 ]
 colorama = [
-    {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
-    {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+    {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
+    {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},
@@ -338,8 +338,8 @@ markupsafe = [
     {file = "MarkupSafe-2.1.1.tar.gz", hash = "sha256:7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"},
 ]
 mecha = [
-    {file = "mecha-0.52.2-py3-none-any.whl", hash = "sha256:69a49ec9273699d340eb4d8e63395f885437753b3503bec0eba5312f7303c52b"},
-    {file = "mecha-0.52.2.tar.gz", hash = "sha256:c16cb38435710d249ec9dd1b277e875c446d39b6b48a2e7cf4390e821449392e"},
+    {file = "mecha-0.54.1-py3-none-any.whl", hash = "sha256:e3ab536a1d98fd550f9552113c1fc062706309fe8a46e070f09c633dc092dca8"},
+    {file = "mecha-0.54.1.tar.gz", hash = "sha256:85100af58169db44d7ca653675f545307cd27dbf4940166cedc78163f6ada38d"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
@@ -454,8 +454,8 @@ pyyaml = [
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 tokenstream = [
-    {file = "tokenstream-1.4.1-py3-none-any.whl", hash = "sha256:66b42b059e1bda1b88dc54b63f4de935e1e8e2f1f746e06d5323e694d10d38fa"},
-    {file = "tokenstream-1.4.1.tar.gz", hash = "sha256:a3e65dea39ca75a3cbe68880f325cd65a0b957f952137bc8bd2eeca8b4a44df7"},
+    {file = "tokenstream-1.4.2-py3-none-any.whl", hash = "sha256:e4979949e3ca8ab68fe9e924005e668da5b262892c370daf043d767e8e509e4b"},
+    {file = "tokenstream-1.4.2.tar.gz", hash = "sha256:f106b0bd0ae629847485e8ddfc9ac3c479c6c2d8c9db164f9b666e9fda6608cf"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

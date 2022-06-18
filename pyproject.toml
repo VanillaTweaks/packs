@@ -6,9 +6,9 @@ authors = ["VanillaTweaks <team@vanillatweaks.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.67.1"
-mecha = ">=0.52.2"
-bolt = ">=0.7.1"
+beet = ">=0.68.1"
+mecha = ">=0.54.1"
+bolt = ">=0.8.0"
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
