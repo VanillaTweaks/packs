@@ -70,10 +70,9 @@ def beet_default(ctx: Context):
                         "minecraft": game_version,
                         "data_pack": {
                             "load": [
-                                # A temporary stand-in for lazy-loaded `bolt` modules.
                                 {"data/lib/modules": "../../../lib"},
                                 # The `/_` is necessary so `bolt` resource locations
-                                #  can't conflict with `mcfunction` resource locations.
+                                #  don't conflict with `mcfunction` resource locations.
                                 {f"data/{pack_path.name}/modules/_": "."},
                                 # Load the pack as a normal pack directory with a `data`
                                 #  folder.
@@ -81,9 +80,16 @@ def beet_default(ctx: Context):
                             ],
                             "description": description,
                         },
-                        "require": ["bolt", "beet_plugins.nbt_literals"],
+                        "require": [
+                            "bolt",
+                            "bolt.contrib.lazy",
+                            "beet_plugins.nbt_literals",
+                        ],
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
-                        "meta": {"pack_config": pack_config},
+                        "meta": {
+                            "pack_config": pack_config,
+                            "bolt_lazy": {"match": "lib:*"},
+                        },
                     }
                 )
             )
