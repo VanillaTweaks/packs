@@ -48,6 +48,8 @@ def beet_default(ctx: Context):
 
             game_version = pack_path.parts[1]
 
+            namespace = pack_path.name
+
             description = [
                 {
                     "text": (
@@ -62,7 +64,7 @@ def beet_default(ctx: Context):
             ctx.require(
                 subproject(
                     {
-                        "id": pack_path.name,
+                        "id": namespace,
                         "name": pack_config["title"],
                         "version": pack_config["version"],
                         "directory": str(pack_path),
@@ -73,7 +75,7 @@ def beet_default(ctx: Context):
                                 {"data/lib/modules": "../../../lib"},
                                 # The `/_` is necessary so `bolt` resource locations
                                 #  don't conflict with `mcfunction` resource locations.
-                                {f"data/{pack_path.name}/modules/_": "."},
+                                {f"data/{namespace}/modules/_": "."},
                                 # Load the pack as a normal pack directory with a `data`
                                 #  folder.
                                 ".",
@@ -82,13 +84,12 @@ def beet_default(ctx: Context):
                         },
                         "require": [
                             "bolt",
-                            "bolt.contrib.lazy",
                             "beet_plugins.nbt_literals",
                         ],
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
                         "meta": {
+                            "bolt": {"entrypoint": f"{namespace}:*"},
                             "pack_config": pack_config,
-                            "bolt_lazy": {"match": "lib:*"},
                         },
                     }
                 )
