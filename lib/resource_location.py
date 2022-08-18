@@ -92,8 +92,8 @@ class ResourceLocation:
 
             if not external:
                 # The underscore has to be on the last path component so that whether a
-                #  resource location is private must be explicitly set each time rather than
-                #  stored in a parent resource location and then forgotten about.
+                #  resource location is private must be explicitly set each time rather
+                #  than stored in a parent resource location and then forgotten about.
                 if path_components[-1].startswith("_"):
                     path_components[-1] = path_components[-1].removeprefix("_")
                     path_components = PRIVATE_PATH.split("/") + path_components

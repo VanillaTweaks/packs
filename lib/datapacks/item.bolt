@@ -7,7 +7,6 @@ from lib.resource_location import ResourceLocation
 from lib:datapacks/give_loot_table import give_loot_table
 from lib:base_locations import vt
 
-# TODO: Convert this to a class.
 @dataclass
 class Item:
     # An abstraction for a custom NBT item.
