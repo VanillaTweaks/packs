@@ -1,78 +1,83 @@
+from dataclasses import dataclass
+
 from nbtlib import Compound
+
+from lib.resource_location import ResourceLocation
 
 from lib:datapacks/give_loot_table import give_loot_table
 from lib:base_locations import vt
 
 # TODO: Convert this to a class.
-def Item(
-    base_location,
-    # The non-namespaced name of the item.
-    name,
-    # TODO: *,
-    # The ID of the actual item this is based on.
-    item,
-    nbt
-):
+@dataclass
+class Item:
     # An abstraction for a custom NBT item.
 
-    # The namespaced ID of the custom item.
-    #
-    # Example: `ResourceLocation("rotation_wrench:wrench")`
-    resource_location = base_location / name
+    # TODO: Use actual annotations.
+    __annotations__ = {
+        "base_location": ResourceLocation,
+        "name": str,
+        "real_item": str,
+        "nbt": dict[str, object]
+    }
 
-    nbt_data = nbt.get("data", {})
-    nbt_data_vanillatweaks = nbt_data.get("vanillatweaks", {})
+    base_location = field()
+    # The non-namespaced name of the item.
+    name = field()
+    # The ID of the actual item this is based on.
+    real_item = field()
+    nbt = field()
 
-    item_loot_table = base_location / "items" / name
-    loot_table item_loot_table {
-        "type": "minecraft:command",
-        "pools": [
+    def __post_init__(self):
+        # The namespaced ID of the custom item.
+        #
+        # Example: `ResourceLocation("rotation_wrench:wrench")`
+        self.resource_location = self.base_location / self.name
+
+        nbt_data = self.nbt.get("data", {})
+        nbt_data_vanillatweaks = nbt_data.get("vanillatweaks", {})
+
+        # TODO: Remove `.snbt()` and all constructors.
+        snbt = Compound(
             {
-                "rolls": 1,
-                "entries": [
-                    {
-                        "type": "minecraft:item",
-                        "name": item,
-                        "functions": [
-                            {
-                                "function": "minecraft:set_nbt",
-                                # TODO: Remove `.snbt()` and all constructors.
-                                "tag": Compound(
-                                    {
-                                        **nbt,
-                                        "data": Compound({
-                                            **nbt_data,
-                                            "vanillatweaks": Compound({
-                                                **nbt_data_vanillatweaks,
-                                                "item": String(str(resource_location))
-                                            })
-                                        })
-                                    }
-                                ).snbt()
-                            }
-                        ]
-                    }
-                ]
+                **self.nbt,
+                "data": Compound({
+                    **nbt_data,
+                    "vanillatweaks": Compound({
+                        **nbt_data_vanillatweaks,
+                        "item": String(str(self.resource_location))
+                    })
+                })
             }
-        ]
-    }
+        ).snbt()
 
-    give_item = base_location / "give" / name
-    function give_item:
-        give_loot_table(item_loot_table)
+        item_loot_table = self.base_location / "items" / self.name
+        loot_table item_loot_table {
+            "type": "minecraft:command",
+            "pools": [
+                {
+                    "rolls": 1,
+                    "entries": [
+                        {
+                            "type": "minecraft:item",
+                            "name": self._real_item,
+                            "functions": [
+                                {
+                                    "function": "minecraft:set_nbt",
+                                    "tag": snbt
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
 
-    def give():
-        function give_item
+        self._give_item = self.base_location / "give" / self.name
+        function self._give_item:
+            give_loot_table(item_loot_table)
 
-    def item_str():
-        return str(resource_location)
+    def give(self):
+        function self._give_item
 
-    return {
-        "base_location": base_location,
-        "resource_location": resource_location,
-        "name": name,
-        "actual_item": item,
-        "nbt": nbt,
-        "give": give,
-        "__str__": item_str
-    }
+    def __str__(self):
+        return str(self.resource_location)
