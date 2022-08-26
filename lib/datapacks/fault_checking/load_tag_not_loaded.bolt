@@ -14,6 +14,10 @@ from lib:datapacks/function_wrappers/uninstall import uninstall
 
 load_tag_not_loaded = vt / "load_tag_not_loaded"
 
+# A function tag which runs as close as possible to every tick in case `#minecraft:load`
+#  isn't working, using advancement reward functions and `#minecraft:tick`.
+tick = load_tag_not_loaded / "_tick"
+
 schedule_tick = load_tag_not_loaded / "_schedule_tick"
 function schedule_tick:
     schedule function f"#{tick}" 1t
@@ -25,7 +29,7 @@ function add_load_status_objective:
 add_temp_objective = load_tag_not_loaded / "_add_temp_objective"
 function add_temp_objective:
     # Don't add the `vt.temp` objective if VT is uninstalled.
-    execute unless load_status.get(vt) lantern_load.status matches -1
+    execute unless score load_status.get(vt) lantern_load.status matches -1
         run scoreboard objectives add vt.temp dummy
 
 # Checks if the pack's load tag failed to load, and displays a warning in chat if so.
@@ -37,7 +41,7 @@ function check_pack_load_tag_not_loaded:
 
     # Don't warn if the pack's load status is -1 (uninstalled) or 1 (loaded). We want to
     #  detect when it's installed but not loaded.
-    execute unless load_status.get(pack) lantern_load.status matches -1..1
+    execute unless score load_status.get(pack) lantern_load.status matches -1..1
         # Don't warn if warnings are already scheduled.
         unless score $load_tag_not_loaded.warn_scheduled vt.temp matches 1
         run function warn
@@ -46,7 +50,7 @@ HELP_URL = "https://vanillatweaks.net/help/load-tag-not-loaded"
 
 warn = load_tag_not_loaded / "_warn"
 function warn:
-    schedule function warn (60 * 2)s
+    schedule function warn f"{60 * 2}s"
     scoreboard players set $load_tag_not_loaded.warn_scheduled vt.temp 1
 
     tellraw @a [
@@ -67,9 +71,6 @@ function warn:
         "."
     ]
 
-# A function tag which runs as close as possible to every tick in case `#minecraft:load`
-#  isn't working, using advancement reward functions and `#minecraft:tick`.
-tick = load_tag_not_loaded / "_tick"
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
 #  tag should only have one command (including `function` commands).
 function_tag tick {

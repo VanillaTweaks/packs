@@ -4,14 +4,11 @@
 
 from lib:base_locations import vt
 from lib:datapacks/function_wrappers/uninstall import uninstall
+from lib:datapacks/lantern_load import lantern_load
 
 DEFAULT_MAX_COMMAND_CHAIN_LENGTH = 65536
 
 max_command_chain_length = vt / "max_command_chain_length"
-
-schedule_fix = max_command_chain_length / "_schedule"
-function schedule_fix:
-    schedule function f"#{fix}" 1t
 
 get = max_command_chain_length / "_get"
 function get:
@@ -20,17 +17,21 @@ function get:
 
 fix = max_command_chain_length / "_fix"
 function fix:
-    execute if score $max_command_chain_length vt.temp matches ..(DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1)
+    execute if score $max_command_chain_length vt.temp matches f"..{DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1}"
         run gamerule maxCommandChainLength DEFAULT_MAX_COMMAND_CHAIN_LENGTH
 
 warn = max_command_chain_length / "_warn"
 function warn:
-    execute if score $max_command_chain_length vt.temp matches ..(DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1)
+    execute if score $max_command_chain_length vt.temp matches f"..{DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1}"
         run tellraw @a [
             {"text": "Do not set the ", "color": "red"},
             {"text": "maxCommandChainLength", "color": "gold"},
             {"text": f" game rule below its default value of {DEFAULT_MAX_COMMAND_CHAIN_LENGTH}. Setting it too low often breaks data packs. For that reason, it has automatically been reset to the default value.", "color": "red"}
         ]
+
+schedule_fix = max_command_chain_length / "_schedule"
+function schedule_fix:
+    schedule function f"#{fix}" 1t
 
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
 #  tag should only have one command (including `function` commands).
