@@ -1,0 +1,40 @@
+from lib:base_locations import vt
+from lib:datapacks/function_wrappers/uninstall import uninstall
+
+DEFAULT_MAX_COMMAND_CHAIN_LENGTH = 65536
+
+max_command_chain_length = vt / "max_command_chain_length"
+
+schedule_fix = max_command_chain_length / "_schedule"
+function schedule_fix:
+    schedule function f"#{fix}" 1t
+
+get = max_command_chain_length / "_get"
+function get:
+    execute store result score $max_command_chain_length vt.temp
+        run gamerule maxCommandChainLength
+
+fix = max_command_chain_length / "_fix"
+function fix:
+    execute if score $max_command_chain_length vt.temp matches ..(DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1)
+        run gamerule maxCommandChainLength DEFAULT_MAX_COMMAND_CHAIN_LENGTH
+
+warn = max_command_chain_length / "_warn"
+function warn:
+    execute if score $max_command_chain_length vt.temp matches ..(DEFAULT_MAX_COMMAND_CHAIN_LENGTH - 1)
+        run tellraw @a [
+            {"text": "Do not set the ", "color": "red"},
+            {"text": "maxCommandChainLength", "color": "gold"},
+            {"text": f" game rule below its default value of {DEFAULT_MAX_COMMAND_CHAIN_LENGTH}. Setting it too low often breaks data packs. For that reason, it has automatically been reset to the default value.", "color": "red"}
+        ]
+
+# Checks the `maxCommandChainLength` game rule every tick to ensure it isn't set below
+#  the default. If it is, restores the default and warns against setting it lower.
+# In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
+#  tag should only have one command (including the `function` command).
+function_tag fix {"values": [schedule_fix, get, fix, warn]}
+
+append function_tag (lantern_load / "pre_load") {"values": [f"#{fix}"]}
+
+append function uninstall(max_command_chain_length):
+    schedule clear f"#{fix}"
