@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from nbtlib import Compound
 
@@ -11,7 +11,7 @@ from lib:base_locations import vt
 class Item:
     # An abstraction for a custom NBT item.
 
-    # TODO: Use actual annotations.
+    # TODO: Use actual annotations and remove the `field` import and calls.
     __annotations__ = {
         "base_location": ResourceLocation,
         "name": str,
