@@ -112,7 +112,7 @@ class ResourceLocation:
         if not (CONVENTIONAL_RESOURCE_NAME.match(name) or self.external):
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
-    def __truediv__(self, other: str):
+    def __truediv__(self, other: object):
         path = f"{self._abstract_path}/{other}" if self._abstract_path else other
 
         return ResourceLocation(f"{self._namespace}:{path}", external=self._external)
