@@ -1,4 +1,5 @@
 # Warns the server when the `function-permission-level` is too low.
+# TODO: Run this if any function exists.
 
 from lib:base_locations import vt
 from lib:datapacks/fault_checking/vt_not_uninstalled import vt_not_uninstalled
@@ -81,3 +82,6 @@ advancement (function_permission_level / "warn") {
 #  advancement from ever triggering for that player again.
 append function join_or_load(function_permission_level):
     advancement revoke @s from root_advancement
+
+# TODO: Remove this and import this module directly instead.
+function_permission_level = {"too_low_advancement": too_low_advancement}

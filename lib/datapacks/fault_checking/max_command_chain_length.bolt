@@ -1,5 +1,6 @@
 # Checks the `maxCommandChainLength` game rule every tick to ensure it isn't set below
 #  the default. If it is, restores the default and warns against setting it lower.
+# TODO: Run this if any function exists.
 
 from lib:base_locations import vt
 from lib:datapacks/function_wrappers/uninstall import uninstall
@@ -32,10 +33,13 @@ function warn:
         ]
 
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
-#  tag should only have one command (including the `function` command).
+#  tag should only have one command (including `function` commands).
 function_tag fix {"values": [schedule_fix, get, fix, warn]}
 
 append function_tag (lantern_load / "pre_load") {"values": [f"#{fix}"]}
 
 append function uninstall(max_command_chain_length):
     schedule clear f"#{fix}"
+
+# TODO: Remove this and import this module directly instead.
+max_command_chain_length = {"schedule_fix": schedule_fix}

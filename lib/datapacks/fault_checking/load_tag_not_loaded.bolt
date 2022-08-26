@@ -1,0 +1,195 @@
+# This checks for and warns against a common error where data packs add a missing function
+#  reference to their `#minecraft:load` tag, causing the entire `#minecraft:load` tag to
+#  fail to load for all data packs.
+
+from lib:base_locations import vt, pack
+from lib:datapacks/lantern_load import lantern_load
+from lib:datapacks/load_status import load_status
+from lib:datapacks/fault_checking/function_permission_level import function_permission_level
+from lib:datapacks/fault_checking/max_command_chain_length import max_command_chain_length
+from lib:datapacks/fault_checking/vt_not_uninstalled import vt_not_uninstalled
+from lib:datapacks/function_wrappers/join_or_load import join_or_load
+from lib:datapacks/function_wrappers/load import load
+from lib:datapacks/function_wrappers/uninstall import uninstall
+
+load_tag_not_loaded = vt / "load_tag_not_loaded"
+
+schedule_tick = load_tag_not_loaded / "_schedule_tick"
+function schedule_tick:
+    schedule function f"#{tick}" 1t
+
+add_load_status_objective = load_tag_not_loaded / "_add_load_status_objective"
+function add_load_status_objective:
+    scoreboard objectives add lantern_load.status dummy
+
+add_temp_objective = load_tag_not_loaded / "_add_temp_objective"
+function add_temp_objective:
+    # Don't add the `vt.temp` objective if VT is uninstalled.
+    execute unless load_status.get(vt) lantern_load.status matches -1
+        run scoreboard objectives add vt.temp dummy
+
+# Checks if the pack's load tag failed to load, and displays a warning in chat if so.
+check_pack_load_tag_not_loaded = pack / "load_tag_not_loaded/_check"
+function check_pack_load_tag_not_loaded:
+    # This method is unfortunately not foolproof, since it's possible that every pack's
+    #  load status could have been set by a past load despite the `#minecraft:load` tag
+    #  currently being broken, but it's better than nothing.
+
+    # Don't warn if the pack's load status is -1 (uninstalled) or 1 (loaded). We want to
+    #  detect when it's installed but not loaded.
+    execute unless load_status.get(pack) lantern_load.status matches -1..1
+        # Don't warn if warnings are already scheduled.
+        unless score $load_tag_not_loaded.warn_scheduled vt.temp matches 1
+        run function warn
+
+HELP_URL = "https://vanillatweaks.net/help/load-tag-not-loaded"
+
+warn = load_tag_not_loaded / "_warn"
+function warn:
+    schedule function warn (60 * 2)s
+    scoreboard players set $load_tag_not_loaded.warn_scheduled vt.temp 1
+
+    tellraw @a [
+        {"text": "At least one of this world's data packs has errors interfering with Vanilla Tweaks. To fix this, ", "color": "red"},
+        {
+            "text": "click here",
+            "color": "gold",
+            "hoverEvent": {
+                "action": "show_text",
+                "contents": [
+                    {"text": "Click to open", "color": "gray"},
+                    {"text": HELP_URL.replace("https://", ""), "color": "white"},
+                    "."
+                ]
+            },
+            "clickEvent": {"action": "open_url", "value": HELP_URL}
+        },
+        "."
+    ]
+
+# A function tag which runs as close as possible to every tick in case `#minecraft:load`
+#  isn't working, using advancement reward functions and `#minecraft:tick`.
+tick = load_tag_not_loaded / "_tick"
+# In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
+#  tag should only have one command (including `function` commands).
+function_tag tick {
+    "values": [
+        # Add the load status objective so that load status score checks work for the
+        #  rest of this tag.
+        add_load_status_objective,
+        # Add the `vt.temp` objective so that `vt.temp` score checks work for the rest
+        #  of this tag.
+        add_temp_objective,
+        # We schedule the `max_command_chain_length.fix` tag instead of running it
+        #  directly so it can't run multiple times each tick.
+        max_command_chain_length.schedule_fix,
+        schedule_tick,
+        check_pack_load_tag_not_loaded
+    ]
+}
+
+# We schedule the `tick` tag instead of running it directly so it can't run multiple
+#  times each tick.
+append function_tag minecraft:tick {"values": [schedule_tick]}
+# We run our `tick` tag from `#minecraft:load` because, although it's only useful when
+#  `#minecraft:load` is broken, starting to run it from `#minecraft:load` maximizes the
+#  chance it will still be running if `#minecraft:load` is broken later.
+append function_tag minecraft:load {"values": [schedule_tick]}
+
+def stop_warning():
+    schedule clear warn
+    scoreboard players set $load_tag_not_loaded.warn_scheduled vt.temp 0
+
+append function load(load_tag_not_loaded):
+	# If this runs, then `#minecraft:load` is working now.
+
+    stop_warning()
+
+append function uninstall(load_tag_not_loaded):
+    schedule clear f"#{tick}"
+    stop_warning()
+
+tick_trials = load_tag_not_loaded / "tick_trials"
+
+# The number of tick trial advancements to add (including the root).
+TICK_TRIAL_ADVANCEMENT_COUNT = 25
+# The chance that each tick trial advancement is granted each tick.
+TICK_TRIAL_ADVANCEMENT_CHANCE = 1 / 12000
+
+# Ensures the `function-permission-level` isn't too low, or else each tick trial
+#  advancement's reward function wouldn't work.
+function_permission_level_not_too_low = {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "player": {
+            "advancements": {
+                function_permission_level.too_low_advancement: false
+            }
+        }
+    }
+}
+
+tick_trial_advancement_chance = tick_trials / "chance"
+predicate tick_trial_advancement_chance [
+    vt_not_uninstalled,
+    function_permission_level_not_too_low,
+    {
+        "condition": "minecraft:random_chance",
+        "chance": TICK_TRIAL_ADVANCEMENT_CHANCE
+    }
+]
+
+root_tick_trial_advancement = tick_trials / "root"
+
+# If not for these advancements, the `tick` tag would have no means of running if the
+#  `#minecraft:load` and `#minecraft:tick` tags are both broken.
+for i in range(TRIAL_ADVANCEMENT_COUNT):
+    if i == 0:
+        tick_trial_advancement = root_tick_trial_advancement
+    else:
+        tick_trial_advancement = tick_trials / i
+
+    advancement tick_trial_advancement {
+        **({} if i == 0 else {"parent": root_tick_trial_advancement}),
+        "criteria": {
+            "tick": {
+                "trigger": "minecraft:tick",
+                "conditions": {
+                    "player": (
+                        [vt_not_uninstalled, function_permission_level_not_too_low]
+                        if i == 0
+                        # Add randomized time delays to all tick trial advancements but
+                        #  the root.
+                        else [
+                            {
+                                "condition": "minecraft:reference",
+                                "name": tick_trial_advancement_chance
+                            }
+                        ]
+                    )
+                }
+            }
+        },
+        "rewards": {
+            # The reason we schedule the `tick` tag instead of calling it directly is
+            #  because, otherwise, the `function` command would count toward the
+            #  `maxCommandChainLength`, preventing any commands in the function tag from
+            #  running.
+            # Additionally, scheduling it makes it only run once rather than for each
+            #  player.
+            "function": schedule_tick
+        }
+    }
+
+append function join_or_load(load_tag_not_loaded):
+	# If this runs, then `#minecraft:load` is working now.
+
+    # We can optimize by granting the tick trial advancements so they stop running their
+    #  checks.
+    advancement grant @s from root_tick_trial_advancement
+
+append function uninstall(load_tag_not_loaded):
+    # Revoke the tick trial advancements from everyone online to maximize the chance of
+    #  one of them initiating the `tick` tag schedule again after a reload.
+    advancement revoke @a from root_tick_trial_advancement

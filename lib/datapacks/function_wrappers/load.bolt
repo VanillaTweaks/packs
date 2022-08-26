@@ -7,6 +7,12 @@ from lib:datapacks/load_status import load_status
 from lib:datapacks/lantern_load import lantern_load
 
 
+# This is cached to prevent a circular import.
+@cache
+def import_load_tag_not_loaded_fault_check():
+    import lib:datapacks/fault_checking/load_tag_not_loaded
+
+
 @cache
 def load(base_location):
     # Adds to a resource location's load function, which is (indirectly) called by
@@ -22,5 +28,7 @@ def load(base_location):
 
     # TODO: Remove `str`.
     append function_tag (lantern_load / "load") {"values": [str(load_function)]}
+
+    import_load_tag_not_loaded_fault_check()
 
     return load_function
