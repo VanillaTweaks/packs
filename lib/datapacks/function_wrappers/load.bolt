@@ -11,7 +11,8 @@ from lib:datapacks/lantern_load import lantern_load
 # This is cached to prevent a circular import.
 @cache
 def import_load_tag_not_loaded_fault_check():
-    import lib:datapacks/fault_checking/load_tag_not_loaded
+    # TODO: Remove import aliases.
+    import lib:datapacks/fault_checking/load_tag_not_loaded as _
 
 
 @cache
