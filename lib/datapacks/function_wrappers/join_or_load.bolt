@@ -3,7 +3,8 @@ from functools import cache
 from lib:base_locations import vt
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/clock import clock
-from lib:datapacks/scoreboard/objectives import objectives
+# TODO: Remove import aliases.
+import lib:datapacks/scoreboard/objectives as objectives
 
 vt_join_or_load = vt / "join_or_load"
 

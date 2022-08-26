@@ -26,7 +26,8 @@ function revoke_too_low_advancement:
 #  `function-permission-level` is too low, in which case it cannot be revoked.
 too_low_advancement = function_permission_level / "too_low"
 advancement too_low_advancement {
-    "parent": root_advancement,
+    # TODO: Remove `str`.
+    "parent": str(root_advancement),
     "criteria": {
         "tick": {
             "trigger": "minecraft:tick",
@@ -36,7 +37,8 @@ advancement too_low_advancement {
         }
     },
     "rewards": {
-        "function": revoke_too_low_advancement
+        # TODO: Remove `str`.
+        "function": str(revoke_too_low_advancement)
     }
 }
 
@@ -48,9 +50,10 @@ function warn:
 
     me §7- §cError: The server's function permission level is set too low. It must be at least 2 for most data packs to work. An admin must open the server's §6server.properties§c file in any text editor, find §6function-permission-level§c, and set it equal to §62§c, which is the default. Then save/upload the edited file and restart the server.
 
-# TODO: Move the contents of this function to the resource definition directly.
+# TODO: Move the contents of this variable to the resource definition directly.
 warn_advancement_json = {
-    "parent": root_advancement,
+    # TODO: Remove `str`.
+    "parent": str(root_advancement),
     "criteria": {
         "has_too_low_advancement": {
             "trigger": "minecraft:tick",
@@ -63,7 +66,8 @@ warn_advancement_json = {
                         "predicate": {
                             "player": {
                                 "advancements": {
-                                    too_low_advancement: true
+                                    # TODO: Remove `str`.
+                                    str(too_low_advancement): true
                                 }
                             }
                         }
@@ -73,7 +77,8 @@ warn_advancement_json = {
         }
     },
     "rewards": {
-        "function": warn
+        # TODO: Remove `str`.
+        "function": str(warn)
     }
 }
 

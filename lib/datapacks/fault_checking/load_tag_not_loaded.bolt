@@ -30,7 +30,7 @@ function add_load_status_objective:
 add_temp_objective = load_tag_not_loaded / "_add_temp_objective"
 function add_temp_objective:
     # Don't add the `vt.temp` objective if VT is uninstalled.
-    execute unless score load_status.get(vt) lantern_load.status matches -1
+    execute unless score load_status.score_holder(vt) lantern_load.status matches -1
         run scoreboard objectives add vt.temp dummy
 
 # Checks if the pack's load tag failed to load, and displays a warning in chat if so.
@@ -42,7 +42,7 @@ function check_pack_load_tag_not_loaded:
 
     # Don't warn if the pack's load status is -1 (uninstalled) or 1 (loaded). We want to
     #  detect when it's installed but not loaded.
-    execute unless score load_status.get(pack) lantern_load.status matches -1..1
+    execute unless score load_status.score_holder(pack) lantern_load.status matches -1..1
         # Don't warn if warnings are already scheduled.
         unless score $load_tag_not_loaded.warn_scheduled vt.temp matches 1
         run function warn
@@ -76,27 +76,29 @@ function warn:
 #  tag should only have one command (including `function` commands).
 function_tag tick {
     "values": [
+        # TODO: Remove `str`s.
         # Add the load status objective so that load status score checks work for the
         #  rest of this tag.
-        add_load_status_objective,
+        str(add_load_status_objective),
         # Add the `vt.temp` objective so that `vt.temp` score checks work for the rest
         #  of this tag.
-        add_temp_objective,
+        str(add_temp_objective),
         # We schedule the `max_command_chain_length.fix` tag instead of running it
         #  directly so it can't run multiple times each tick.
-        max_command_chain_length.schedule_fix,
-        schedule_tick,
-        check_pack_load_tag_not_loaded
+        str(max_command_chain_length.schedule_fix),
+        str(schedule_tick),
+        str(check_pack_load_tag_not_loaded)
     ]
 }
 
+# TODO: Remove `str`s.
 # We schedule the `tick` tag instead of running it directly so it can't run multiple
 #  times each tick.
-append function_tag minecraft:tick {"values": [schedule_tick]}
+append function_tag minecraft:tick {"values": [str(schedule_tick)]}
 # We run our `tick` tag from `#minecraft:load` because, although it's only useful when
 #  `#minecraft:load` is broken, starting to run it from `#minecraft:load` maximizes the
 #  chance it will still be running if `#minecraft:load` is broken later.
-append function_tag minecraft:load {"values": [schedule_tick]}
+append function_tag minecraft:load {"values": [str(schedule_tick)]}
 
 def stop_warning():
     schedule clear warn
@@ -126,14 +128,15 @@ function_permission_level_not_too_low = {
     "predicate": {
         "player": {
             "advancements": {
-                function_permission_level.too_low_advancement: false
+                # TODO: Remove `str`.
+                str(function_permission_level.too_low_advancement): false
             }
         }
     }
 }
 
-tick_trial_advancement_chance = tick_trials / "chance"
-predicate tick_trial_advancement_chance [
+# TODO: Move the contents of this variable to the resource definition directly.
+tick_trial_advancement_chance_json = [
     vt_not_uninstalled,
     function_permission_level_not_too_low,
     {
@@ -142,29 +145,19 @@ predicate tick_trial_advancement_chance [
     }
 ]
 
+tick_trial_advancement_chance = tick_trials / "chance"
+predicate tick_trial_advancement_chance tick_trial_advancement_chance_json
+
 root_tick_trial_advancement = tick_trials / "root"
 
 # If not for these advancements, the `tick` tag would have no means of running if the
 #  `#minecraft:load` and `#minecraft:tick` tags are both broken.
-for i in range(TRIAL_ADVANCEMENT_COUNT):
+for i in range(TICK_TRIAL_ADVANCEMENT_COUNT):
     trial_tick_advancement_json = {
         "criteria": {
             "tick": {
                 "trigger": "minecraft:tick",
-                "conditions": {
-                    "player": (
-                        [vt_not_uninstalled, function_permission_level_not_too_low]
-                        if i == 0
-                        # Add randomized time delays to all tick trial advancements but
-                        #  the root.
-                        else [
-                            {
-                                "condition": "minecraft:reference",
-                                "name": tick_trial_advancement_chance
-                            }
-                        ]
-                    )
-                }
+                "conditions": {}
             }
         },
         "rewards": {
@@ -174,15 +167,32 @@ for i in range(TRIAL_ADVANCEMENT_COUNT):
             #  running.
             # Additionally, scheduling it makes it only run once rather than for each
             #  player.
-            "function": schedule_tick
+            # TODO: Remove `str`.
+            "function": str(schedule_tick)
         }
     }
 
     if i == 0:
         tick_trial_advancement = root_tick_trial_advancement
+
+        trial_tick_advancement_json["criteria"]["tick"]["conditions"]["player"] = [
+            # TODO: Remove `str`.
+            vt_not_uninstalled, function_permission_level_not_too_low
+        ]
+
     else:
         tick_trial_advancement = tick_trials / i
-        trial_tick_advancement_json["parent"] = root_tick_trial_advancement
+
+        # TODO: Remove `str`.
+        trial_tick_advancement_json["parent"] = str(root_tick_trial_advancement)
+        # Add randomized time delays to all tick trial advancements but the root.
+        trial_tick_advancement_json["criteria"]["tick"]["conditions"]["player"] = [
+            {
+                "condition": "minecraft:reference",
+                # TODO: Remove `str`.
+                "name": str(tick_trial_advancement_chance)
+            }
+        ]
 
     advancement tick_trial_advancement trial_tick_advancement_json
 
