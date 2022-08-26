@@ -48,8 +48,8 @@ function warn:
 
     me §7- §cError: The server's function permission level is set too low. It must be at least 2 for most data packs to work. An admin must open the server's §6server.properties§c file in any text editor, find §6function-permission-level§c, and set it equal to §62§c, which is the default. Then save/upload the edited file and restart the server.
 
-# An advancement which is only granted when the `function-permission-level` is too low.
-advancement (function_permission_level / "warn") {
+# TODO: Move the contents of this function to the resource definition directly.
+warn_advancement_json = {
     "parent": root_advancement,
     "criteria": {
         "has_too_low_advancement": {
@@ -77,11 +77,11 @@ advancement (function_permission_level / "warn") {
     }
 }
 
+# An advancement which is only granted when the `function-permission-level` is too low.
+advancement (function_permission_level / "warn") warn_advancement_json
+
 # If not for this, a player could keep these advancements forever if they were granted
 #  them while the `function-permission-level` was too low, which would prevent the
 #  advancement from ever triggering for that player again.
 append function join_or_load(function_permission_level):
     advancement revoke @s from root_advancement
-
-# TODO: Remove this and import this module directly instead.
-function_permission_level = {"too_low_advancement": too_low_advancement}

@@ -78,13 +78,9 @@ def check(base_location=pack):
             "type": 'minecraft:score',
             "target": {
                 "type": 'minecraft:fixed',
-                "name": load_status.score_holder(base_location)
+                "name": score_holder(base_location)
             },
             "score": lantern_load.status
         },
         "range": 1
     }
-
-
-# TODO: Remove this and import this module directly instead.
-load_status = {"score_holder": score_holder, "set": set, "check": check}

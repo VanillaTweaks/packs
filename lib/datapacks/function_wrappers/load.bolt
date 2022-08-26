@@ -3,7 +3,8 @@ from functools import cache
 from lib.resource_location import ResourceLocation
 
 from lib:base_locations import vt
-from lib:datapacks/load_status import load_status
+# TODO: Remove import aliases.
+import lib:datapacks/load_status as load_status
 from lib:datapacks/lantern_load import lantern_load
 
 

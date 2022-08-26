@@ -41,6 +41,3 @@ append function_tag (lantern_load / "pre_load") {"values": [f"#{fix}"]}
 
 append function uninstall(max_command_chain_length):
     schedule clear f"#{fix}"
-
-# TODO: Remove this and import this module directly instead.
-max_command_chain_length = {"schedule_fix": schedule_fix}

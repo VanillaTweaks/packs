@@ -20,7 +20,3 @@ def add(base_location, name, criterion="dummy", display_name=None):
     #  this objective.
     append function uninstall(base_location):
         scoreboard objectives remove name
-
-
-# TODO: Remove this and import this module directly instead.
-objectives = {"add": add}

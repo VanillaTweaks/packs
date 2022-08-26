@@ -1,12 +1,13 @@
-# This checks for and warns against a common error where data packs add a missing function
-#  reference to their `#minecraft:load` tag, causing the entire `#minecraft:load` tag to
-#  fail to load for all data packs.
+# This checks for and warns against a common error where data packs add a missing
+#  function reference to their `#minecraft:load` tag, causing the entire
+#  `#minecraft:load` tag to fail to load for all data packs.
 
 from lib:base_locations import vt, pack
 from lib:datapacks/lantern_load import lantern_load
-from lib:datapacks/load_status import load_status
-from lib:datapacks/fault_checking/function_permission_level import function_permission_level
-from lib:datapacks/fault_checking/max_command_chain_length import max_command_chain_length
+# TODO: Remove import aliases.
+import lib:datapacks/load_status as load_status
+import lib:datapacks/fault_checking/function_permission_level as function_permission_level
+import lib:datapacks/fault_checking/max_command_chain_length as max_command_chain_length
 from lib:datapacks/fault_checking/vt_not_uninstalled import vt_not_uninstalled
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
 from lib:datapacks/function_wrappers/load import load
@@ -146,13 +147,7 @@ root_tick_trial_advancement = tick_trials / "root"
 # If not for these advancements, the `tick` tag would have no means of running if the
 #  `#minecraft:load` and `#minecraft:tick` tags are both broken.
 for i in range(TRIAL_ADVANCEMENT_COUNT):
-    if i == 0:
-        tick_trial_advancement = root_tick_trial_advancement
-    else:
-        tick_trial_advancement = tick_trials / i
-
-    advancement tick_trial_advancement {
-        **({} if i == 0 else {"parent": root_tick_trial_advancement}),
+    trial_tick_advancement_json = {
         "criteria": {
             "tick": {
                 "trigger": "minecraft:tick",
@@ -182,6 +177,14 @@ for i in range(TRIAL_ADVANCEMENT_COUNT):
             "function": schedule_tick
         }
     }
+
+    if i == 0:
+        tick_trial_advancement = root_tick_trial_advancement
+    else:
+        tick_trial_advancement = tick_trials / i
+        trial_tick_advancement_json["parent"] = root_tick_trial_advancement
+
+    advancement tick_trial_advancement trial_tick_advancement_json
 
 append function join_or_load(load_tag_not_loaded):
 	# If this runs, then `#minecraft:load` is working now.
