@@ -1,3 +1,6 @@
+# Checks the `maxCommandChainLength` game rule every tick to ensure it isn't set below
+#  the default. If it is, restores the default and warns against setting it lower.
+
 from lib:base_locations import vt
 from lib:datapacks/function_wrappers/uninstall import uninstall
 
@@ -28,8 +31,6 @@ function warn:
             {"text": f" game rule below its default value of {DEFAULT_MAX_COMMAND_CHAIN_LENGTH}. Setting it too low often breaks data packs. For that reason, it has automatically been reset to the default value.", "color": "red"}
         ]
 
-# Checks the `maxCommandChainLength` game rule every tick to ensure it isn't set below
-#  the default. If it is, restores the default and warns against setting it lower.
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
 #  tag should only have one command (including the `function` command).
 function_tag fix {"values": [schedule_fix, get, fix, warn]}
