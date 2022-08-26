@@ -2,11 +2,11 @@ from functools import cache
 
 from lib.resource_location import ResourceLocation
 
-from lib:datapacks/lantern_load import lantern_load
-
 
 @cache
 def add_temp_objective():
+    from lib:datapacks/lantern_load import lantern_load
+
     vt_temp_objective = vt / "temp_objective"
 
     load_temp_objective = vt_temp_objective / "_load"
