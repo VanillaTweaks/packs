@@ -33,20 +33,6 @@ function add_temp_objective:
     execute unless score load_status.score_holder(vt) lantern_load.status matches -1
         run scoreboard objectives add vt.temp dummy
 
-# Checks if the pack's load tag failed to load, and displays a warning in chat if so.
-check_pack_load_tag_not_loaded = pack / "load_tag_not_loaded/_check"
-function check_pack_load_tag_not_loaded:
-    # This method is unfortunately not foolproof, since it's possible that every pack's
-    #  load status could have been set by a past load despite the `#minecraft:load` tag
-    #  currently being broken, but it's better than nothing.
-
-    # Don't warn if the pack's load status is -1 (uninstalled) or 1 (loaded). We want to
-    #  detect when it's installed but not loaded.
-    execute unless score load_status.score_holder(pack) lantern_load.status matches -1..1
-        # Don't warn if warnings are already scheduled.
-        unless score $load_tag_not_loaded.warn_scheduled vt.temp matches 1
-        run function warn
-
 HELP_URL = "https://vanillatweaks.net/help/load-tag-not-loaded"
 
 warn = load_tag_not_loaded / "_warn"
@@ -62,7 +48,7 @@ function warn:
             "hoverEvent": {
                 "action": "show_text",
                 "contents": [
-                    {"text": "Click to open", "color": "gray"},
+                    {"text": "Click to open ", "color": "gray"},
                     {"text": HELP_URL.replace("https://", ""), "color": "white"},
                     "."
                 ]
@@ -71,6 +57,20 @@ function warn:
         },
         "."
     ]
+
+# Checks if the pack's load tag failed to load, and displays a warning in chat if so.
+check_pack_load_tag_not_loaded = pack / "load_tag_not_loaded/_check"
+function check_pack_load_tag_not_loaded:
+    # This method is unfortunately not foolproof, since it's possible that every pack's
+    #  load status could have been set by a past load despite the `#minecraft:load` tag
+    #  currently being broken, but it's better than nothing.
+
+    # Don't warn if the pack's load status is -1 (uninstalled) or 1 (loaded). We want to
+    #  detect when it's installed but not loaded.
+    execute unless score load_status.score_holder(pack) lantern_load.status matches -1..1
+        # Don't warn if warnings are already scheduled.
+        unless score $load_tag_not_loaded.warn_scheduled vt.temp matches 1
+        run function warn
 
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
 #  tag should only have one command (including `function` commands).
