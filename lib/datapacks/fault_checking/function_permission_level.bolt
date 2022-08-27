@@ -17,10 +17,6 @@ advancement root_advancement {
 }
 
 revoke_too_low_advancement = function_permission_level / "_revoke_too_low_advancement"
-function revoke_too_low_advancement:
-    # Revoke immediately so that no player can ever have the `too_low_advancement` for a
-    #  full tick as long as the `function-permission-level` isn't too low.
-    advancement revoke @s only too_low_advancement
 
 # An advancement granted to all players and immediately revoked every tick, unless the
 #  `function-permission-level` is too low, in which case it cannot be revoked.
@@ -41,6 +37,11 @@ advancement too_low_advancement {
         "function": str(revoke_too_low_advancement)
     }
 }
+
+function revoke_too_low_advancement:
+    # Revoke immediately so that no player can ever have the `too_low_advancement` for a
+    #  full tick as long as the `function-permission-level` isn't too low.
+    advancement revoke @s only too_low_advancement
 
 warn = function_permission_level / "_warn"
 function warn:
@@ -66,8 +67,7 @@ warn_advancement_json = {
                         "predicate": {
                             "player": {
                                 "advancements": {
-                                    # TODO: Remove `str`.
-                                    str(too_low_advancement): true
+                                    too_low_advancement: true
                                 }
                             }
                         }

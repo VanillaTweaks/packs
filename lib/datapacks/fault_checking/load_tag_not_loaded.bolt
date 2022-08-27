@@ -128,8 +128,7 @@ function_permission_level_not_too_low = {
     "predicate": {
         "player": {
             "advancements": {
-                # TODO: Remove `str`.
-                str(function_permission_level.too_low_advancement): false
+                function_permission_level.too_low_advancement: false
             }
         }
     }

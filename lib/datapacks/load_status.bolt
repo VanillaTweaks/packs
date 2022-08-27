@@ -28,7 +28,7 @@ def set(base_location):
     # ⚠️ This already runs automatically for any resource location which `load` is
     #  called on.
 
-    if base_location not in set_base_locations:
+    if base_location in set_base_locations:
         return
     set_base_locations.add(base_location)
 
