@@ -65,7 +65,8 @@ warn_advancement_json = {
                         "condition": "minecraft:entity_properties",
                         "entity": "this",
                         "predicate": {
-                            "player": {
+                            "type_specific": {
+                                "type": "player",
                                 "advancements": {
                                     too_low_advancement: true
                                 }

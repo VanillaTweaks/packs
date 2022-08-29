@@ -3,7 +3,7 @@ from lib:datapacks/lantern_load import lantern_load
 import lib:datapacks/load_status as load_status
 from lib:base_locations import vt
 
-# A predicate condition that ensures VT is not uninstalled, since otherwise an
+# A predicate object that ensures VT is not uninstalled, since otherwise an
 #  advancement's reward function could run even after everything is supposed to be
 #  uninstalled.
 #

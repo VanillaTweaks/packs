@@ -126,7 +126,8 @@ function_permission_level_not_too_low = {
     "condition": "minecraft:entity_properties",
     "entity": "this",
     "predicate": {
-        "player": {
+        "type_specific": {
+            "type": "player",
             "advancements": {
                 function_permission_level.too_low_advancement: false
             }
