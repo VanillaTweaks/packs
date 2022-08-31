@@ -88,6 +88,7 @@ def beet_default(ctx: Context):
                         ],
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
                         "meta": {
+                            "autosave": {"link": True},
                             "bolt": {"entrypoint": f"{namespace}:*"},
                             "pack_config": pack_config,
                         },
