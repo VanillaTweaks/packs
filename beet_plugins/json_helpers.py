@@ -1,21 +1,7 @@
-from beet import Context
-from bolt import Runtime
-
-from bolt.helpers import converter
-from mecha import AstJson, AstJsonValue
-
 from typing import Any
-from dataclasses import dataclass
 
-
-@dataclass(frozen=True)
-class AstJsonCustomValue(AstJson):
-    @classmethod
-    def from_value(cls, value: Any) -> AstJson:
-        if hasattr(value, "_get_ast_json_value_"):
-            return AstJsonValue(value=value._get_ast_json_value_())
-        else:
-            return AstJson.from_value(value)
+from beet import Context
+from mecha import AstJson, AstJsonValue
 
 
 def get_custom_json_values(ctx: Context):
@@ -23,6 +9,12 @@ def get_custom_json_values(ctx: Context):
     the returned value in its place in the compiled JSON.
     """
 
-    ctx.inject(Runtime).helpers["interpolate_json"] = converter(
-        AstJsonCustomValue.from_value
-    )
+    initial_from_value = AstJson.from_value
+
+    def from_value(value: Any) -> AstJson:
+        if hasattr(value, "_get_ast_json_value_"):
+            return AstJsonValue(value=value._get_ast_json_value_())
+        else:
+            return initial_from_value(value)
+
+    AstJson.from_value = from_value
