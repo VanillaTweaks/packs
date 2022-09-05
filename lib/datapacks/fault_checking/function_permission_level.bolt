@@ -22,8 +22,7 @@ revoke_too_low_advancement = function_permission_level / "_revoke_too_low_advanc
 #  `function-permission-level` is too low, in which case it cannot be revoked.
 too_low_advancement = function_permission_level / "too_low"
 advancement too_low_advancement {
-    # TODO: Remove `str`.
-    "parent": str(root_advancement),
+    "parent": root_advancement,
     "criteria": {
         "tick": {
             "trigger": "minecraft:tick",
@@ -33,8 +32,7 @@ advancement too_low_advancement {
         }
     },
     "rewards": {
-        # TODO: Remove `str`.
-        "function": str(revoke_too_low_advancement)
+        "function": revoke_too_low_advancement
     }
 }
 
@@ -53,8 +51,7 @@ function warn:
 
 # TODO: Move the contents of this variable to the resource definition directly.
 warn_advancement_json = {
-    # TODO: Remove `str`.
-    "parent": str(root_advancement),
+    "parent": root_advancement,
     "criteria": {
         "has_too_low_advancement": {
             "trigger": "minecraft:tick",
@@ -78,8 +75,7 @@ warn_advancement_json = {
         }
     },
     "rewards": {
-        # TODO: Remove `str`.
-        "function": str(warn)
+        "function": warn
     }
 }
 

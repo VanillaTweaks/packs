@@ -28,8 +28,7 @@ def load(base_location):
 
     load_function = base_location / "_load"
 
-    # TODO: Remove `str`.
-    append function_tag (lantern_load / "load") {"values": [str(load_function)]}
+    append function_tag (lantern_load / "load") {"values": [load_function]}
 
     import_load_tag_not_loaded_fault_check()
 

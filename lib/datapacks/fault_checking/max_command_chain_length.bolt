@@ -35,8 +35,7 @@ function schedule_fix:
 
 # In case the `maxCommandChainLength` is 1 (the minimum value), each function in this
 #  tag should only have one command (including `function` commands).
-# TODO: Remove `str`s.
-function_tag fix {"values": [str(schedule_fix), str(get), str(fix), str(warn)]}
+function_tag fix {"values": [schedule_fix, get, fix, warn]}
 
 append function_tag (lantern_load / "pre_load") {"values": [f"#{fix}"]}
 

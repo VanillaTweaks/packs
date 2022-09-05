@@ -18,7 +18,6 @@ def uninstall(base_location):
 
     # Prepend instead of append so things are uninstalled in the reverse order that they
     #  are installed.
-    # TODO: Remove `str`.
-    prepend function_tag (vt / "_uninstall") {"values": [str(uninstall_function)]}
+    prepend function_tag (vt / "_uninstall") {"values": [uninstall_function]}
 
     return uninstall_function

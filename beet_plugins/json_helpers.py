@@ -23,4 +23,6 @@ def get_custom_json_values(ctx: Context):
     the returned value in its place in the compiled JSON.
     """
 
-    ctx.inject(Runtime).helpers["get_custom_json_values"] = converter(AstJsonCustomValue.from_value)
+    ctx.inject(Runtime).helpers["interpolate_json"] = converter(
+        AstJsonCustomValue.from_value
+    )

@@ -76,29 +76,27 @@ function check_pack_load_tag_not_loaded:
 #  tag should only have one command (including `function` commands).
 function_tag tick {
     "values": [
-        # TODO: Remove `str`s.
         # Add the load status objective so that load status score checks work for the
         #  rest of this tag.
-        str(add_load_status_objective),
+        add_load_status_objective,
         # Add the `vt.temp` objective so that `vt.temp` score checks work for the rest
         #  of this tag.
-        str(add_temp_objective),
+        add_temp_objective,
         # We schedule the `max_command_chain_length.fix` tag instead of running it
         #  directly so it can't run multiple times each tick.
-        str(max_command_chain_length.schedule_fix),
-        str(schedule_tick),
-        str(check_pack_load_tag_not_loaded)
+        max_command_chain_length.schedule_fix,
+        schedule_tick,
+        check_pack_load_tag_not_loaded
     ]
 }
 
-# TODO: Remove `str`s.
 # We schedule the `tick` tag instead of running it directly so it can't run multiple
 #  times each tick.
-append function_tag minecraft:tick {"values": [str(schedule_tick)]}
+append function_tag minecraft:tick {"values": [schedule_tick]}
 # We run our `tick` tag from `#minecraft:load` because, although it's only useful when
 #  `#minecraft:load` is broken, starting to run it from `#minecraft:load` maximizes the
 #  chance it will still be running if `#minecraft:load` is broken later.
-append function_tag minecraft:load {"values": [str(schedule_tick)]}
+append function_tag minecraft:load {"values": [schedule_tick]}
 
 def stop_warning():
     schedule clear warn
@@ -167,8 +165,7 @@ for i in range(TICK_TRIAL_ADVANCEMENT_COUNT):
             #  running.
             # Additionally, scheduling it makes it only run once rather than for each
             #  player.
-            # TODO: Remove `str`.
-            "function": str(schedule_tick)
+            "function": schedule_tick
         }
     }
 
@@ -176,21 +173,18 @@ for i in range(TICK_TRIAL_ADVANCEMENT_COUNT):
         tick_trial_advancement = root_tick_trial_advancement
 
         trial_tick_advancement_json["criteria"]["tick"]["conditions"]["player"] = [
-            # TODO: Remove `str`.
             vt_not_uninstalled, function_permission_level_not_too_low
         ]
 
     else:
         tick_trial_advancement = tick_trials / i
 
-        # TODO: Remove `str`.
-        trial_tick_advancement_json["parent"] = str(root_tick_trial_advancement)
+        trial_tick_advancement_json["parent"] = root_tick_trial_advancement
         # Add randomized time delays to all tick trial advancements but the root.
         trial_tick_advancement_json["criteria"]["tick"]["conditions"]["player"] = [
             {
                 "condition": "minecraft:reference",
-                # TODO: Remove `str`.
-                "name": str(tick_trial_advancement_chance)
+                "name": tick_trial_advancement_chance
             }
         ]
 

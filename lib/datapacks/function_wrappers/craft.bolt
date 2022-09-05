@@ -89,21 +89,18 @@ def craft(
     craft_function_recipe = function_recipe / "_craft"
 
     advancement recipe_unlocked_advancement {
-        # TODO: Remove `str`.
-        "parent": str(vt_function_recipes_root),
+        "parent": vt_function_recipes_root,
         "criteria": {
             "recipe_unlocked": {
                 "trigger": "minecraft:recipe_unlocked",
                 "conditions": {
                     "player": [load_status.check()],
-                    # TODO: Remove `str`.
-                    "recipe": str(function_recipe)
+                    "recipe": function_recipe
                 }
             }
         },
         "rewards": {
-            # TODO: Remove `str`.
-            "function": str(unlock_function_recipe)
+            "function": unlock_function_recipe
         }
     }
 

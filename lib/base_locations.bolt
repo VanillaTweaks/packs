@@ -20,8 +20,7 @@ def add_temp_objective():
 
     # Prepend instead of append to the `pre_load` tag so that other functions in the
     #  `pre_load` tag can use the temp objective.
-    # TODO: Remove `str`.
-    prepend function_tag (lantern_load / "pre_load") {"values": [str(load_temp_objective)]}
+    prepend function_tag (lantern_load / "pre_load") {"values": [load_temp_objective]}
 
     uninstall_temp_objective = vt_temp_objective / "_uninstall"
     function uninstall_temp_objective:
@@ -29,8 +28,7 @@ def add_temp_objective():
 
     # Append instead of prepend to the uninstall tag so other functions in the uninstall
     #  tag can use the temp objective.
-    # TODO: Remove `str`.
-    append function_tag (vt / "_uninstall") {"values": [str(uninstall_temp_objective)]}
+    append function_tag (vt / "_uninstall") {"values": [uninstall_temp_objective]}
 
 
 class VTResourceLocation(ResourceLocation):
