@@ -59,7 +59,7 @@ class Item:
                     "entries": [
                         {
                             "type": "minecraft:item",
-                            "name": self._real_item,
+                            "name": self.real_item,
                             "functions": [
                                 {
                                     "function": "minecraft:set_nbt",
@@ -72,12 +72,9 @@ class Item:
             ]
         }
 
-        self._give_item = self.base_location / "give" / self.name
-        function self._give_item:
+        self.give = self.base_location / "give" / self.name
+        function self.give:
             give_loot_table(item_loot_table)
-
-    def give(self):
-        function self._give_item
 
     def __str__(self):
         return str(self.resource_location)

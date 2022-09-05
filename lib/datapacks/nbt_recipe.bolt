@@ -22,4 +22,4 @@ def nbt_recipe(
 
     append function craft(base_location, result_item.name, recipe_data):
         for _ in range(result_count):
-            result_item.give()
+            function result_item.give
