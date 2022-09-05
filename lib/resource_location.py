@@ -112,6 +112,9 @@ class ResourceLocation:
         if not (CONVENTIONAL_RESOURCE_NAME.match(name) or self.external):
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
+    def _get_ast_json_value_(self):
+        return str(self)
+
     def __truediv__(self, other: object):
         path = f"{self._abstract_path}/{other}" if self._abstract_path else other
 

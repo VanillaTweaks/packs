@@ -85,6 +85,7 @@ def beet_default(ctx: Context):
                         "require": [
                             "bolt",
                             "beet_plugins.nbt_literals",
+                            "beet_plugins.json_helpers.get_custom_json_values",
                         ],
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
                         "meta": {
