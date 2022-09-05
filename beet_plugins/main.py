@@ -35,11 +35,11 @@ def beet_default(ctx: Context):
                 f"`resourcepacks/<game version>/`:\n{pack_path}"
             )
 
-        pack_config_path = pack_path / "config.yaml"
+        pack_config_path = pack_path / "pack.yaml"
 
         if not pack_config_path.is_file():
             raise FileNotFoundError(
-                f"The following path does not contain a `config.yaml`:\n{pack_path}"
+                f"The following path does not contain a `pack.yaml`:\n{pack_path}"
             )
 
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
