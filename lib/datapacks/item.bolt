@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from nbtlib import Compound
 
 from lib.resource_location import ResourceLocation
+from lib.types import Unknown
 
 from lib:datapacks/give_loot_table import give_loot_table
 from lib:base_locations import vt
@@ -16,7 +17,7 @@ class Item:
         "base_location": ResourceLocation,
         "name": str,
         "real_item": str,
-        "nbt": dict[str, object]
+        "nbt": dict[str, Unknown]
     }
 
     base_location = field()

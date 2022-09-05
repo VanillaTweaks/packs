@@ -6,6 +6,8 @@ import mecha
 import yaml
 from beet import Context, subproject
 
+from lib.types import Unknown
+
 logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
 
@@ -21,7 +23,7 @@ def beet_default(ctx: Context):
     pack_paths = Path(".").glob(pack_pattern)
 
     # A mapping from each pack's path to a dictionary of the pack's config.
-    pack_configs: dict[Path, dict[str, object]] = {}
+    pack_configs: dict[Path, dict[str, Unknown]] = {}
 
     for pack_path in pack_paths:
         if not pack_path.is_dir():
