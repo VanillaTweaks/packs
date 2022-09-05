@@ -30,8 +30,7 @@ advancement (pack / "summoned_invisible_item_frame") {
         }
     },
     "rewards": {
-        # TODO: Remove `str`.
-        "function": str(place_invisible_item_frame)
+        "function": place_invisible_item_frame
     }
 }
 
