@@ -75,9 +75,7 @@ def beet_default(ctx: Context):
                         "data_pack": {
                             "load": [
                                 {"data/lib/modules": "../../../lib"},
-                                # The `/_` is necessary so `bolt` resource locations
-                                #  don't conflict with `mcfunction` resource locations.
-                                {f"data/{namespace}/modules/_": "."},
+                                {f"data/pack/modules": "."},
                                 # Load the pack as a normal pack directory with a `data`
                                 #  folder.
                                 ".",
@@ -92,7 +90,7 @@ def beet_default(ctx: Context):
                         "pipeline": ["mecha", "beet.contrib.minify_json"],
                         "meta": {
                             "autosave": {"link": True},
-                            "bolt": {"entrypoint": f"{namespace}:*"},
+                            "bolt": {"entrypoint": "pack:*"},
                             "pack_config": pack_config,
                         },
                     }
