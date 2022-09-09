@@ -1,5 +1,21 @@
 from lib:base_locations import pack
 from lib:datapacks/function_wrappers/load import load
+# TODO: Remove import aliases.
+import lib:datapacks/info_advancements as info_advancements
 
 append function load(pack):
     say hi
+
+info_advancements.add_main(icon={"item": "minecraft:diamond"})
+
+info_advancements.add_command("/trigger sethome", "Sets home 1.")
+info_advancements.add_command("/trigger sethome set <ID number>", "Sets the home with the specified ID.")
+info_advancements.add_command("/trigger home", "Teleports you to home 1.")
+info_advancements.add_command("/trigger home set <ID number>", "Teleports you to the home with the specified ID.")
+info_advancements.add_command("/trigger homes", "Lists your homes.")
+info_advancements.add_command("/trigger namehome", "Lets you rename home 1.")
+info_advancements.add_command("/trigger namehome set <ID number>", "Lets you rename the home with the specified ID.")
+info_advancements.add_command("/trigger delhome", "Deletes home 1.")
+info_advancements.add_command("/trigger delhome set <ID number>", "Deletes the home with the specified ID.")
+
+info_advancements.add_op_command(f"/function {pack / 'config'}", "Displays global config options for the pack.")

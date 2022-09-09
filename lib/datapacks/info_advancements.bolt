@@ -1,5 +1,5 @@
 import itertools
-from collections import NamedTuple
+from collections import namedtuple
 
 from minecraft_text_components import join, style, whitespace
 
@@ -8,7 +8,7 @@ from lib.run_last import run_last
 
 from lib:base_locations import vt, pack
 
-info_root = vt / "info_root"
+info_root = vt / "info/root"
 advancement info_root {
     "display": {
         "icon": {
@@ -40,7 +40,7 @@ def generate_locations():
     global previous_location
 
     for i in itertools.count(1):
-        yield previous_location, info / i
+        yield (previous_location, info / i)
         previous_location = info / i
 
 
@@ -125,7 +125,7 @@ def add_op_command(command, description):
     op_commands.append(CommandInfo(command, description))
 
 
-COMMANDS_PER_ADVANCEMENT = 4
+COMMANDS_PER_ADVANCEMENT = 3
 
 
 def slice_commands(commands):
@@ -135,14 +135,25 @@ def slice_commands(commands):
 
 def generate_command_advancements(add_commands_function, commands):
     for commands_slice in slice_commands(commands):
-        command_components = (
-            [
-                {"text": command.text, "color": "yellow"},
-                "\n",
-                {"text": command.description, "color": "gold"},
-            ]
-            for command in commands
-        )
+        command_components = []
+        for command in commands_slice:
+            command_components.append(
+                [
+                    {"text": command.text, "color": "yellow"},
+                    "\n",
+                    {"text": command.description, "color": "gold"},
+                ]
+            )
+
+        # TODO: Remove the above and uncomment this when Bolt supports generator expressions.
+        # command_components = (
+        #     [
+        #         {"text": command.text, "color": "yellow"},
+        #         "\n",
+        #         {"text": command.description, "color": "gold"},
+        #     ]
+        #     for command in commands_slice
+        # )
 
         add_commands_function(description=join("\n\n", command_components))
 

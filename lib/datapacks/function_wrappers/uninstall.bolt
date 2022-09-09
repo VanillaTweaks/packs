@@ -1,14 +1,7 @@
-import itertools
-from collections import NamedTuple
-
-from minecraft_text_components import join, style, whitespace
-
-from lib.metadata import pack_config
-from lib.run_last import run_last
+from functools import cache
 
 from lib:base_locations import vt, pack
 from lib:datapacks/info_advancements import add_op_command
-
 
 @cache
 def uninstall(base_location):
