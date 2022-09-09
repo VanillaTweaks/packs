@@ -1,0 +1,153 @@
+import itertools
+from collections import NamedTuple
+
+from minecraft_text_components import join, style, whitespace
+
+from lib.metadata import pack_config
+from lib.run_last import run_last
+
+from lib:base_locations import vt, pack
+
+info_root = vt / "info_root"
+advancement info_root {
+    "display": {
+        "icon": {
+            "item": "minecraft:player_head",
+            # TODO: Maybe use NBT objects for this.
+            "nbt": "{SkullOwner:{Id:[I;-1422064857,-1009957322,-2144021055,1028438231],Properties:{textures:[{Value:'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWQ2OWYzZGRlMzRmMmE0NzhkZDMxNjk5ODAzMmNkM2E0MTBkZDdmOThhYzU0OTRhZTUwYjBmNmY1ZmI5OGQyOCJ9fX0='}]}}}"
+        },
+        "title": "Vanilla Tweaks",
+        "frame": "challenge",
+        "description": [
+            {"text": "All loaded Vanilla Tweaks data packs\n", "color": "gold"},
+            {"text": "vanillatweaks.net", "color": "yellow"}
+        ],
+        "background": "minecraft:textures/block/black_concrete.png",
+        "show_toast": false,
+        "announce_to_chat": false
+    },
+    "criteria": {
+        "tick": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}
+
+previous_location = info_root
+
+
+def generate_locations():
+    global previous_location
+
+    for i in itertools.count(1):
+        yield previous_location, info / i
+        previous_location = info / i
+
+
+locations = generate_locations()
+
+info = pack / "info"
+
+
+def add(icon, title, title_padding, description):
+    previous_location, location = next(locations)
+    advancement location {
+        "parent": previous_location,
+        "display": {
+            "icon": icon,
+            "title": [title, whitespace(title_padding)],
+            "description": style(description, color="gold"),
+            "show_toast": false,
+            "announce_to_chat": false
+        },
+        "criteria": {
+            "tick": {
+                "trigger": "minecraft:tick"
+            }
+        }
+    }
+
+def add_main(icon, title_padding=0, description=pack_config.description):
+    add(
+        icon=icon,
+        title=[
+            f"{pack_config.title} {pack_config.version}",
+            whitespace(title_padding),
+        ],
+        title_padding=title_padding,
+        description=description,
+    )
+
+
+def add_usage(description, title_padding=0):
+    add(
+        title=["How to Use", whitespace(title_padding)],
+        icon={"item": "minecraft:book"},
+        title_padding=title_padding,
+        description=style(description, color="gold"),
+    )
+
+
+def add_commands(description, title_padding=0):
+    add(
+        title=["Commands for Everyone", whitespace(title_padding)],
+        icon={"item": "minecraft:command_block"},
+        title_padding=title_padding,
+        description=style(description, color="gold"),
+    )
+
+
+def add_op_commands(description, title_padding=0):
+    add(
+        title=["Admin-Only Commands", whitespace(title_padding)],
+        icon={"item": "minecraft:repeating_command_block"},
+        title_padding=title_padding,
+        description=style(description, color="gold"),
+    )
+
+
+# TODO: Convert this to a `NamedTuple` class.
+CommandInfo = namedtuple("CommandInfo", ("text", "description"))
+
+commands = []
+op_commands = []
+
+
+def add_command(command, description):
+    # Adds a command to the commands info advancement.
+
+    commands.append(CommandInfo(command, description))
+
+
+def add_op_command(command, description):
+    # Adds a command to the op commands info advancement.
+
+    op_commands.append(CommandInfo(command, description))
+
+
+COMMANDS_PER_ADVANCEMENT = 4
+
+
+def slice_commands(commands):
+    for i in range(0, len(commands), COMMANDS_PER_ADVANCEMENT):
+        yield commands[i : i + COMMANDS_PER_ADVANCEMENT]
+
+
+def generate_command_advancements(add_commands_function, commands):
+    for commands_slice in slice_commands(commands):
+        command_components = (
+            [
+                {"text": command.text, "color": "yellow"},
+                "\n",
+                {"text": command.description, "color": "gold"},
+            ]
+            for command in commands
+        )
+
+        add_commands_function(description=join("\n\n", command_components))
+
+
+@run_last
+def generate_advancements():
+    generate_command_advancements(add_commands, commands)
+    generate_command_advancements(add_op_commands, op_commands)

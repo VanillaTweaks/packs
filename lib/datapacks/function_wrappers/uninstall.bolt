@@ -1,6 +1,13 @@
-from functools import cache
+import itertools
+from collections import NamedTuple
+
+from minecraft_text_components import join, style, whitespace
+
+from lib.metadata import pack_config
+from lib.run_last import run_last
 
 from lib:base_locations import vt, pack
+from lib:datapacks/info_advancements import add_op_command
 
 
 @cache
@@ -11,10 +18,16 @@ def uninstall(base_location):
     # >>> append function uninstall(pack):
     # >>>     # This runs on uninstall.
 
-    uninstall_function = base_location / "_uninstall"
-
     if base_location == pack:
         uninstall_function = base_location / "uninstall"
+
+        add_op_command(
+            f"/function {uninstall_function}",
+            "Deletes all of the pack's data from your world.",
+        )
+
+    else:
+        uninstall_function = base_location / "_uninstall"
 
     # Prepend instead of append so things are uninstalled in the reverse order that they
     #  are installed.

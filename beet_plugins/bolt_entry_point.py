@@ -8,10 +8,12 @@ def beet_default(ctx: Context):
     """
 
     ctx.data["pack"]["_entry_point"] = Module(
-        "\n".join(
-            # TODO: Remove import aliases.
+        # TODO: Remove import aliases.
+        # Ensure the main module runs first.
+        "import pack:main as _\n"
+        + "\n".join(
             f"import {module} as _"
             for module, _ in ctx.data.content
-            if module.startswith("pack:")
+            if module.startswith("pack:") and module != "pack:main"
         )
     )
