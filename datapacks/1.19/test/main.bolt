@@ -17,5 +17,3 @@ info_advancements.add_command("/trigger namehome", "Lets you rename home 1.")
 info_advancements.add_command("/trigger namehome set <ID number>", "Lets you rename the home with the specified ID.")
 info_advancements.add_command("/trigger delhome", "Deletes home 1.")
 info_advancements.add_command("/trigger delhome set <ID number>", "Deletes the home with the specified ID.")
-
-info_advancements.add_op_command(f"/function {pack / 'config'}", "Displays global config options for the pack.")
