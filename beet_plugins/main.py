@@ -5,6 +5,8 @@ from pathlib import Path
 import yaml
 from beet import Context, subproject
 
+from lib import metadata
+from lib.pack_config import PackConfig
 from lib.types import Unknown
 
 logger = logging.getLogger(__name__)
@@ -43,18 +45,18 @@ def beet_default(ctx: Context):
 
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
-    for pack_path, pack_config in pack_configs.items():
+    for pack_path, pack_config_json in pack_configs.items():
         logger.info("Building %s...", pack_path)
 
-        game_version = pack_path.parts[1]
-
-        namespace = pack_path.name
+        metadata.game_version = pack_path.parts[1]
+        metadata.namespace = pack_path.name
+        metadata.pack_config = PackConfig.parse_obj(pack_config_json)
 
         description = [
             {
                 "text": (
-                    f"{pack_config['title']} {pack_config['version']}"
-                    f" for MC {game_version}"
+                    f"{metadata.pack_config.title} {metadata.pack_config.version}"
+                    f" for MC {metadata.game_version}"
                 ),
                 "color": "gold",
             },
@@ -64,12 +66,12 @@ def beet_default(ctx: Context):
         ctx.require(
             subproject(
                 {
-                    "id": namespace,
-                    "name": pack_config["title"],
-                    "version": pack_config["version"],
+                    "id": metadata.namespace,
+                    "name": metadata.pack_config.title,
+                    "version": str(metadata.pack_config.version),
                     "directory": str(pack_path),
                     "output": "../../../dist",
-                    "minecraft": game_version,
+                    "minecraft": metadata.game_version,
                     "data_pack": {
                         "load": [
                             {"data/lib/modules": "../../../lib"},
@@ -93,7 +95,6 @@ def beet_default(ctx: Context):
                     "meta": {
                         "autosave": {"link": True},
                         "bolt": {"entrypoint": "lib:entry_point"},
-                        "pack_config": pack_config,
                     },
                 }
             )

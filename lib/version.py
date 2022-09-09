@@ -1,5 +1,5 @@
 import re
-from dataclasses import InitVar, dataclass, field
+from dataclasses import dataclass, field
 
 VERSION_PATTERN = re.compile(r"^(\d+).(\d+).(\d+)$")
 
@@ -7,8 +7,6 @@ VERSION_PATTERN = re.compile(r"^(\d+).(\d+).(\d+)$")
 @dataclass(order=True)
 class Version:
     """Model for semantic versioning."""
-
-    version_string: InitVar[str]
 
     major: int = field(init=False)
     minor: int = field(init=False)
@@ -30,7 +28,7 @@ class Version:
         return f"{self.major}.{self.minor}.{self.patch}"
 
     def __repr__(self):
-        return f'Version("{str(self)}")'
+        return f'Version("{self}")'
 
     def __iter__(self):
         yield "major", self.major

@@ -135,6 +135,17 @@ beet = ">=0.68.2"
 tokenstream = "1.4.2"
 
 [[package]]
+name = "minecraft-text-components"
+version = "2.1.0"
+description = "A library for manipulating Minecraft's raw JSON text components"
+category = "main"
+optional = false
+python-versions = ">=3.10,<4.0"
+
+[package.dependencies]
+typing-extensions = ">=4.3.0,<5.0.0"
+
+[[package]]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
@@ -183,7 +194,7 @@ test = ["appdirs (==1.4.4)", "pytest-cov (>=2.7)", "pytest-mock (>=3.6)", "pytes
 
 [[package]]
 name = "pydantic"
-version = "1.10.1"
+version = "1.10.2"
 description = "Data validation and settings management using python type hints"
 category = "main"
 optional = false
@@ -239,7 +250,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f48e7818a06f56d364e378655c0847c4dfa9f6e43b3e3a575e0be9f59c27af8b"
+content-hash = "bcc3d7072ce18d738b397c3cb28afbd2536cf08f2a23602a2e6c1215f25c93cc"
 
 [metadata.files]
 beet = []
@@ -308,6 +319,7 @@ markupsafe = [
     {file = "MarkupSafe-2.1.1.tar.gz", hash = "sha256:7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"},
 ]
 mecha = []
+minecraft-text-components = []
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},

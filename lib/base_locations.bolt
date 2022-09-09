@@ -1,5 +1,7 @@
 from functools import cache
 
+from lib import metadata
+from lib.metadata import pack_config
 from lib.resource_location import ResourceLocation
 
 
@@ -43,8 +45,4 @@ class VTResourceLocation(ResourceLocation):
 
 vt = VTResourceLocation("vanillatweaks", title="Vanilla Tweaks")
 
-pack = ResourceLocation(
-    ctx.project_id,
-    version=ctx.project_version,
-    title=ctx.project_name
-)
+pack = ResourceLocation(metadata.namespace, pack_config.version, pack_config.title)

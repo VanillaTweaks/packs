@@ -73,7 +73,6 @@ class ResourceLocation:
         self,
         base: str,
         /,
-        *,
         version: Version | str | None = None,
         title: str | None = None,
         external: bool = False,
