@@ -2,7 +2,6 @@ import logging
 import re
 from pathlib import Path
 
-import mecha
 import yaml
 from beet import Context, subproject
 
@@ -86,10 +85,14 @@ def beet_default(ctx: Context):
                         "bolt",
                         "beet_plugins.nbt_literals",
                     ],
-                    "pipeline": ["mecha", "beet.contrib.minify_json"],
+                    "pipeline": [
+                        "beet_plugins.bolt_entry_point",
+                        "mecha",
+                        "beet.contrib.minify_json",
+                    ],
                     "meta": {
                         "autosave": {"link": True},
-                        "bolt": {"entrypoint": "pack:*"},
+                        "bolt": {"entrypoint": "lib:entry_point"},
                         "pack_config": pack_config,
                     },
                 }
