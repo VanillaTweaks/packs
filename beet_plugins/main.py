@@ -45,61 +45,53 @@ def beet_default(ctx: Context):
         pack_configs[pack_path] = yaml.safe_load(pack_config_path.read_text())
 
     for pack_path, pack_config in pack_configs.items():
-        try:
-            logger.info("Building %s...", pack_path)
+        logger.info("Building %s...", pack_path)
 
-            game_version = pack_path.parts[1]
+        game_version = pack_path.parts[1]
 
-            namespace = pack_path.name
+        namespace = pack_path.name
 
-            description = [
+        description = [
+            {
+                "text": (
+                    f"{pack_config['title']} {pack_config['version']}"
+                    f" for MC {game_version}"
+                ),
+                "color": "gold",
+            },
+            {"text": "\nvanillatweaks.net", "color": "yellow"},
+        ]
+
+        ctx.require(
+            subproject(
                 {
-                    "text": (
-                        f"{pack_config['title']} {pack_config['version']}"
-                        f" for MC {game_version}"
-                    ),
-                    "color": "gold",
-                },
-                {"text": "\nvanillatweaks.net", "color": "yellow"},
-            ]
-
-            ctx.require(
-                subproject(
-                    {
-                        "id": namespace,
-                        "name": pack_config["title"],
-                        "version": pack_config["version"],
-                        "directory": str(pack_path),
-                        "output": "../../../dist",
-                        "minecraft": game_version,
-                        "data_pack": {
-                            "load": [
-                                {"data/lib/modules": "../../../lib"},
-                                {f"data/pack/modules": "."},
-                                # Load the pack as a normal pack directory with a `data`
-                                #  folder.
-                                ".",
-                            ],
-                            "description": description,
-                        },
-                        "require": [
-                            "beet_plugins.json_helpers.get_custom_json_values",
-                            "bolt",
-                            "beet_plugins.nbt_literals",
+                    "id": namespace,
+                    "name": pack_config["title"],
+                    "version": pack_config["version"],
+                    "directory": str(pack_path),
+                    "output": "../../../dist",
+                    "minecraft": game_version,
+                    "data_pack": {
+                        "load": [
+                            {"data/lib/modules": "../../../lib"},
+                            {f"data/pack/modules": "."},
+                            # Load the pack as a normal pack directory with a `data`
+                            #  folder.
+                            ".",
                         ],
-                        "pipeline": ["mecha", "beet.contrib.minify_json"],
-                        "meta": {
-                            "autosave": {"link": True},
-                            "bolt": {"entrypoint": "pack:*"},
-                            "pack_config": pack_config,
-                        },
-                    }
-                )
+                        "description": description,
+                    },
+                    "require": [
+                        "beet_plugins.json_helpers.get_custom_json_values",
+                        "bolt",
+                        "beet_plugins.nbt_literals",
+                    ],
+                    "pipeline": ["mecha", "beet.contrib.minify_json"],
+                    "meta": {
+                        "autosave": {"link": True},
+                        "bolt": {"entrypoint": "pack:*"},
+                        "pack_config": pack_config,
+                    },
+                }
             )
-
-        except mecha.diagnostic.DiagnosticErrorSummary:
-            pass
-
-        # TODO: log error but avoid the bubble up
-        # except Exception as error:
-        #     logger.exception(error)
+        )
