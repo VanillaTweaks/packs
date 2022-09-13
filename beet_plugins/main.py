@@ -94,6 +94,7 @@ def beet_default(ctx: Context):
                     ],
                     "meta": {
                         "autosave": {"link": True},
+                        "mecha": {"formatting": "minify"},
                         "bolt": {"entrypoint": "lib:entry_point"},
                     },
                 }

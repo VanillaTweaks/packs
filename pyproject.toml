@@ -6,9 +6,9 @@ authors = ["VanillaTweaks <team@vanillatweaks.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.71.0"
-mecha = ">=0.54.9"
-bolt = ">=0.17.7"
+beet = ">=0.71.2"
+mecha = ">=0.56.0"
+bolt = ">=0.19.1"
 PyYAML = "^6.0"
 minecraft-text-components = "^3.0.0"
 pydantic = "^1.10.2"
