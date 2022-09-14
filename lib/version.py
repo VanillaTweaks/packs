@@ -1,16 +1,16 @@
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 VERSION_PATTERN = re.compile(r"^(\d+).(\d+).(\d+)$")
 
 
-@dataclass(order=True)
+@dataclass(frozen=True, order=True)
 class Version:
     """Model for semantic versioning."""
 
-    major: int = field(init=False)
-    minor: int = field(init=False)
-    patch: int = field(init=False)
+    major: int
+    minor: int
+    patch: int
 
     def __init__(self, version_string: str):
         version_match = VERSION_PATTERN.match(version_string)
@@ -20,9 +20,11 @@ class Version:
                 f"The following version is invalid: {repr(version_string)}"
             )
 
-        self.major, self.minor, self.patch = (
-            int(value) for value in version_match.groups()
-        )
+        major, minor, patch = (int(value) for value in version_match.groups())
+
+        object.__setattr__(self, "major", major)
+        object.__setattr__(self, "minor", minor)
+        object.__setattr__(self, "patch", patch)
 
     def __str__(self):
         return f"{self.major}.{self.minor}.{self.patch}"
