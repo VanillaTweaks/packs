@@ -38,37 +38,37 @@ def set(base_location):
 
     load_status_score_holder = score_holder(base_location)
 
-    append function load(base_location):
+    prepend function load(base_location):
         scoreboard players set load_status_score_holder lantern_load.status 1
 
-    append function uninstall(base_location):
+        if base_location["version"]:
+            for key, value in base_location["version"]:
+                scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status value
+
+    prepend function uninstall(base_location):
         # Set to -1 instead of 0 so predicates can distinguish between uninstalled and
         #  not loaded.
         scoreboard players set load_status_score_holder lantern_load.status -1
 
-    if base_location["version"]:
-        for key, value in base_location["version"]:
-            prepend function load(base_location):
-                scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status value
-
-            append function uninstall(base_location):
+        if base_location["version"]:
+            for key, value in base_location["version"]:
                 scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status 0
 
 
 def check(base_location=pack):
-    # Returns a predicate condition which ensures a resource location (the `pack` by
+    # Returns a predicate condition that ensures a resource location (the `pack` by
     #  default) is loaded.
     #
     # This should be included in the `player` condition of practically every technical
-    #  advancement with a function reward, since otherwise an advancement's reward
-    #  function could run even after everything is supposed to be uninstalled, or while
-    #  the `function-permission-level` is too low.
+    #  advancement, since otherwise an advancement (and its reward) could be granted
+    #  even after everything is supposed to be uninstalled, or while the
+    #  `function-permission-level` is too low.
     #
-    # Be sure to account for what happens when a criterion is triggered but isn't
-    #  granted due to this check failing. For example, if this check is included in the
-    #  condition of a `minecraft:recipe_unlocked` criterion, then you might want to take
-    #  the recipe on `load_or_join` in case they unlocked it before the check succeeded.
-    #  Otherwise they'd keep the recipe and be unable to earn the advancement.
+    # Be sure to consider what happens when a criterion is triggered but isn't granted
+    #  due to this check failing. For example, if a `minecraft:recipe_unlocked`
+    #  criterion's condition includes this check, then on `load_or_join`, you might want
+    #  to take the recipe in case they unlocked it before the check succeeded. Otherwise
+    #  they'd keep the recipe and be unable to earn the advancement.
 
     from lib:datapacks/lantern_load import lantern_load
 
