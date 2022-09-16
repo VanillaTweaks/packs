@@ -1,6 +1,6 @@
 [[package]]
 name = "beet"
-version = "0.71.2"
+version = "0.72.1"
 description = "The Minecraft pack development kit"
 category = "main"
 optional = false
@@ -250,7 +250,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2a4de35fb06dcad4410c7b167ab12d33a6d2eaa794e054b7815c4f752475cf4e"
+content-hash = "b5384046c9743fe74c42c99bfb231454621fac0c806c43b8940d7334a209327a"
 
 [metadata.files]
 beet = []

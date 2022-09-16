@@ -90,10 +90,14 @@ def beet_default(ctx: Context):
                     "pipeline": [
                         "beet_plugins.bolt_entry_point",
                         "mecha",
+                        "beet.contrib.line_endings",
                         "beet.contrib.minify_json",
+                        "beet.contrib.strip_final_newlines",
                     ],
                     "meta": {
                         "autosave": {"link": True},
+                        # Force LF line endings on all platforms.
+                        "line_endings": {"newline": "\n"},
                         "mecha": {"formatting": "minify"},
                         "bolt": {"entrypoint": "lib:entry_point"},
                     },
