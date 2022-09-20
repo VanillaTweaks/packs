@@ -1,4 +1,5 @@
-from lib:datapacks/scoreboard/objectives import objectives
+# TODO: Remove import aliases.
+import lib:datapacks/scoreboard/objectives as objectives
 from lib:base_locations import pack
 from lib:datapacks/function_wrappers/clock import clock
 
