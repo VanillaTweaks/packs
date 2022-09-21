@@ -17,3 +17,129 @@ info_advancements.add_command("/trigger namehome", "Lets you rename home 1.")
 info_advancements.add_command("/trigger namehome set <ID number>", "Lets you rename the home with the specified ID.")
 info_advancements.add_command("/trigger delhome", "Deletes home 1.")
 info_advancements.add_command("/trigger delhome set <ID number>", "Deletes the home with the specified ID.")
+
+server_config.add_option(
+    target="$robbing",
+    type=bool,
+    name="Grave Robbing",
+    description="When enabled, players can open graves dropped by other players.",
+    default=False,
+)
+server_config.add_option(
+    target="$collect_xp",
+    type=bool,
+    name="Collect XP",
+    description="When enabled, graves collect XP dropped on death.\nNote that, in "
+    "vanilla, players don't drop all their XP on death.",
+    default=True,
+)
+server_config.add_option(
+    target="$despawn_time",
+    type="0..",
+    name="Despawn Time",
+    description=[
+        "Click to enter the number of seconds after which a grave is deleted.\nA "
+        "grave's despawn timer only runs while the grave is loaded.\nEnter ",
+        {"text": "0", "color": "white"},
+        " to disable grave despawning.\nItems normally take ",
+        {"text": "300", "color": "white"},
+        " seconds (5 minutes) to despawn.",
+    ],
+    default=0,
+)
+
+player_config.add_option(
+    objective=pack.display_mode,
+    name="Display Mode",
+    description="How sleeping players are displayed.",
+    choices=[
+        ConfigOptionChoice(
+            name="Hidden",
+            description="The data pack won't display anything about sleeping players.\n"
+            "Note: This will not prevent vanilla from displaying information.",
+        ),
+        ConfigOptionChoice(
+            name="Chat",
+            description="If a player sleeps, their username and the fraction of "
+            "sleeping players needed to pass the night will be displayed in chat, "
+            "along with a clickable option to kick the player from their bed if that's "
+            "enabled.",
+        ),
+        ConfigOptionChoice(
+            name="Chat (Delayed)",
+            description=[
+                "This does the same as the ",
+                {"text": "Chat", "color": "white"},
+                " display mode, but the message is only displayed after 5 seconds when "
+                "the player is fully asleep rather than as soon as they get in bed.",
+            ],
+        ),
+        ConfigOptionChoice(
+            name="Action Bar",
+            description="The fraction of sleeping players needed to pass the night will"
+            " be displayed above the hotbar.",
+        ),
+        ConfigOptionChoice(
+            name="Boss Bar",
+            description="The fraction of sleeping players needed to pass the night will"
+            " be displayed in a progress bar at the top of the screen, with the same "
+            "information written in text below it.",
+        ),
+    ],
+    default=ServerConfigOption(
+        target="$default_display_mode",
+        default=1,
+    ),
+)
+
+player_config.add_option(
+    objective=pack.hand_items,
+    type=bool,
+    name="Ping for Hand Items",
+    description="Enables durability pings for items in the mainhand or offhand slots.",
+)
+player_config.add_option(
+    objective=pack.armor_items,
+    type=bool,
+    name="Ping for Armor Items",
+    description="Enables durability pings for items in the armor slots.",
+)
+player_config.add_option(
+    objective=pack.sound,
+    type=bool,
+    name="Ping With Sound",
+    description="Enables durability pings for items in the armor slots.",
+)
+player_config.add_option(
+    objective=pack.display_mode
+    name="Display Mode",
+    description="How the durability ping text is displayed.",
+    choices=[
+        ConfigOptionChoice(
+            name="Hidden",
+            description="No text will be displayed when pinging.",
+        ),
+        ConfigOptionChoice(
+            name="Chat",
+            description="The ping text will be displayed in chat.",
+        ),
+        ConfigOptionChoice(
+            name="Title",
+            description="The ping text will be displayed in the middle of the screen, "
+            "with one large line of text first and a second, smaller line below it.",
+        ),
+        ConfigOptionChoice(
+            name="Subtitle",
+            description="The ping text will be displayed as a small line of text in the"
+            " middle of the screen.",
+        ),
+        ConfigOptionChoice(
+            name="Action Bar",
+            description="The ping text will be displayed just above the hotbar.",
+        ),
+    ],
+    default=ServerConfigOption(
+        target="$default_display_mode",
+        default=3,
+    ),
+)
