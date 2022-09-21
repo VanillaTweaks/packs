@@ -1,6 +1,6 @@
 [[package]]
 name = "beet"
-version = "0.72.1"
+version = "0.73.3"
 description = "The Minecraft pack development kit"
 category = "main"
 optional = false
@@ -124,19 +124,19 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "mecha"
-version = "0.56.0"
+version = "0.57.0"
 description = "A powerful Minecraft command library"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-beet = ">=0.71.0"
+beet = ">=0.73.3"
 tokenstream = ">=1.4.2,<2.0.0"
 
 [[package]]
 name = "minecraft-text-components"
-version = "3.0.0"
+version = "3.0.1"
 description = "A library for manipulating Minecraft's raw JSON text components"
 category = "main"
 optional = false
@@ -250,7 +250,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b5384046c9743fe74c42c99bfb231454621fac0c806c43b8940d7334a209327a"
+content-hash = "c8d15f35f8fc4a278041094d623994b6c303758cd2ee407a166833c7a512a0e1"
 
 [metadata.files]
 beet = []
