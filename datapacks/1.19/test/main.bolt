@@ -86,10 +86,7 @@ player_config.add_option(
             "information written in text below it.",
         ),
     ],
-    default=ServerConfigOption(
-        target="$default_display_mode",
-        default=1,
-    ),
+    default=1,
 )
 
 player_config.add_option(
@@ -97,18 +94,21 @@ player_config.add_option(
     type=bool,
     name="Ping for Hand Items",
     description="Enables durability pings for items in the mainhand or offhand slots.",
+    default=True,
 )
 player_config.add_option(
     objective=pack.armor_items,
     type=bool,
     name="Ping for Armor Items",
     description="Enables durability pings for items in the armor slots.",
+    default=True,
 )
 player_config.add_option(
     objective=pack.sound,
     type=bool,
     name="Ping With Sound",
     description="Enables durability pings for items in the armor slots.",
+    default=True,
 )
 player_config.add_option(
     objective=pack.display_mode
@@ -138,8 +138,5 @@ player_config.add_option(
             description="The ping text will be displayed just above the hotbar.",
         ),
     ],
-    default=ServerConfigOption(
-        target="$default_display_mode",
-        default=3,
-    ),
+    default=3,
 )
