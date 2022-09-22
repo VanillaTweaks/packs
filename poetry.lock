@@ -136,7 +136,7 @@ tokenstream = ">=1.4.2,<2.0.0"
 
 [[package]]
 name = "minecraft-text-components"
-version = "3.1.0"
+version = "3.1.1"
 description = "A library for manipulating Minecraft's raw JSON text components"
 category = "main"
 optional = false
