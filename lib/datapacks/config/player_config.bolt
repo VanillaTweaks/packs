@@ -1,0 +1,32 @@
+from lib.datapacks.config.helpers import adds_option
+from lib.datapacks.config.types import (
+    PlayerBoolConfigOption,
+    PlayerChoiceConfigOption,
+    PlayerIntConfigOption,
+)
+
+# TODO: Remove import aliases.
+import lib:datapacks/info_advancements as info_advancements
+from lib:base_locations import pack
+
+info_advancements.add_command(
+    f"/trigger {pack.config}",
+    "Displays the pack's interactive personal config menu.",
+)
+
+options = []
+
+
+@adds_option(options.append, PlayerBoolConfigOption)
+def add_bool_option():
+    ...
+
+
+@adds_option(options.append, PlayerIntConfigOption)
+def add_int_option():
+    ...
+
+
+@adds_option(options.append, PlayerChoiceConfigOption)
+def add_choice_option():
+    ...

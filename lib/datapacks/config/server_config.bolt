@@ -1,0 +1,34 @@
+from lib.datapacks.config.helpers import adds_option
+from lib.datapacks.config.types import (
+    ServerBoolConfigOption,
+    ServerChoiceConfigOption,
+    ServerIntConfigOption,
+)
+
+# TODO: Remove import aliases.
+import lib:datapacks/info_advancements as info_advancements
+from lib:base_locations import pack
+
+config_function = pack / "config"
+
+info_advancements.add_op_command(
+    f"/function {config_function}",
+    "Displays the pack's interactive server config menu.",
+)
+
+options = []
+
+
+@adds_option(options.append, ServerBoolConfigOption)
+def add_bool_option():
+    ...
+
+
+@adds_option(options.append, ServerIntConfigOption)
+def add_int_option():
+    ...
+
+
+@adds_option(options.append, ServerChoiceConfigOption)
+def add_choice_option():
+    ...
