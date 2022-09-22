@@ -111,7 +111,7 @@ player_config.add_option(
     default=True,
 )
 player_config.add_option(
-    objective=pack.display_mode
+    objective=pack.display_mode,
     name="Display Mode",
     description="How the durability ping text is displayed.",
     choices=[
