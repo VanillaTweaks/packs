@@ -124,7 +124,7 @@ player_config.add_choice_option(
             "with one large line of text first and a second, smaller line below it.",
         ),
         ConfigOptionChoice(
-            default=True
+            default=True,
             name="Subtitle",
             description="The ping text will be displayed as a small line of text in the"
             " middle of the screen.",
