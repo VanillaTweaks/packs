@@ -2,12 +2,12 @@
 #  function reference to their `#minecraft:load` tag, causing the entire
 #  `#minecraft:load` tag to fail to load for all data packs.
 
-from lib:base_locations import vt, pack
-from lib:datapacks/lantern_load import lantern_load
 # TODO: Remove import aliases.
 import lib:datapacks/load_status as load_status
 import lib:datapacks/fault_checking/function_permission_level as function_permission_level
 import lib:datapacks/fault_checking/max_command_chain_length as max_command_chain_length
+from lib:base_locations import vt, pack
+from lib:datapacks/lantern_load import lantern_load
 from lib:datapacks/fault_checking/vt_not_uninstalled import vt_not_uninstalled
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
 from lib:datapacks/function_wrappers/load import load

@@ -1,6 +1,6 @@
-from lib:base_locations import vt
 # TODO: Remove import aliases.
 import lib:datapacks/load_status as load_status
+from lib:base_locations import vt
 from lib:datapacks/function_wrappers/clock import clock
 from lib:datapacks/function_wrappers/join_or_load import join_or_load
 from lib:datapacks/scoreboard/objectives import objectives

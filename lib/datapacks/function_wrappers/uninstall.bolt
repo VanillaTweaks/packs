@@ -1,7 +1,8 @@
 from functools import cache
 
+# TODO: Remove import aliases.
+import lib:datapacks/info_advancements as info_advancements
 from lib:base_locations import vt, pack
-from lib:datapacks/info_advancements import add_op_command
 
 @cache
 def uninstall(base_location):
@@ -14,7 +15,7 @@ def uninstall(base_location):
     if base_location == pack:
         uninstall_function = base_location / "uninstall"
 
-        add_op_command(
+        info_advancements.add_op_command(
             f"/function {uninstall_function}",
             "Deletes all of the pack's data from your world.",
         )

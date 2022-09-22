@@ -1,7 +1,7 @@
-from lib:base_locations import pack
-from lib:datapacks/function_wrappers/load import load
 # TODO: Remove import aliases.
 import lib:datapacks/info_advancements as info_advancements
+from lib:base_locations import pack
+from lib:datapacks/function_wrappers/load import load
 
 append function load(pack):
     say hi
