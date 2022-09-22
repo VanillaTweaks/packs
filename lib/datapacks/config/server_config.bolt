@@ -1,5 +1,5 @@
 from lib.datapacks.config.helpers import adds_option
-from lib.datapacks.config.types import (
+from lib.datapacks.config.models import (
     ServerBoolConfigOption,
     ServerChoiceConfigOption,
     ServerIntConfigOption,
