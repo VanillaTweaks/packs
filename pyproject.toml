@@ -10,7 +10,7 @@ beet = ">=0.73.3"
 mecha = ">=0.57.0"
 bolt = ">=0.19.1"
 PyYAML = "^6.0"
-minecraft-text-components = "^3.0.1"
+minecraft-text-components = {extras = ["beet"], version = "^3.1.0"}
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]

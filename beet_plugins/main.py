@@ -86,6 +86,7 @@ def beet_default(ctx: Context):
                         "beet_plugins.json_helpers.get_custom_json_values",
                         "bolt",
                         "beet_plugins.nbt_literals",
+                        "minecraft_text_components.contrib.beet_minify",
                     ],
                     "pipeline": [
                         "beet_plugins.bolt_entry_point",
