@@ -3,7 +3,7 @@ from pydantic import BaseModel, validator
 from lib.version import Version
 
 
-class PackConfig(BaseModel):
+class PackConfig(BaseModel, frozen=True):
     """A representation of the information in `pack.yaml`."""
 
     title: str
@@ -14,6 +14,3 @@ class PackConfig(BaseModel):
     @validator("version", pre=True)
     def convert_version(cls, value: str):
         return Version(value)
-
-    class Config:
-        frozen=True

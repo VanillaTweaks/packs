@@ -1,11 +1,6 @@
-from collections.abc import Callable
-from typing import TypeVar
+from lib.types import Function, FunctionType
 
-from lib.types import Unknown
-
-FunctionType = TypeVar("FunctionType", bound=Callable[..., Unknown])
-
-functions_to_run_last: list[Callable[..., Unknown]] = []
+functions_to_run_last: list[Function] = []
 
 
 def run_last(function: FunctionType) -> FunctionType:
