@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import ParamSpec, TypeVar
 
-from lib.datapacks.config.types import ConfigOption
+from lib.datapacks.config.models import ConfigOption
 
 ConfigOptionType = TypeVar("ConfigOptionType", bound=ConfigOption)
 Params = ParamSpec("Params")
