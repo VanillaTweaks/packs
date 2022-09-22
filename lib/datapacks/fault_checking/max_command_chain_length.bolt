@@ -26,7 +26,7 @@ function warn:
         run tellraw @a [
             {"text": "Do not set the ", "color": "red"},
             {"text": "maxCommandChainLength", "color": "gold"},
-            {"text": f" game rule below its default value of {DEFAULT_MAX_COMMAND_CHAIN_LENGTH}. Setting it too low often breaks data packs. For that reason, it has automatically been reset to the default value.", "color": "red"}
+            f" game rule below its default value of {DEFAULT_MAX_COMMAND_CHAIN_LENGTH}. Setting it too low often breaks data packs. For that reason, it has automatically been reset to the default value."
         ]
 
 schedule_fix = max_command_chain_length / "_schedule"
