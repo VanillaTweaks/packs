@@ -18,24 +18,21 @@ info_advancements.add_command("/trigger namehome set <ID number>", "Lets you ren
 info_advancements.add_command("/trigger delhome", "Deletes home 1.")
 info_advancements.add_command("/trigger delhome set <ID number>", "Deletes the home with the specified ID.")
 
-server_config.add_option(
+server_config.add_bool_option(
     target="$robbing",
-    type=bool,
     name="Grave Robbing",
     description="When enabled, players can open graves dropped by other players.",
     default=False,
 )
-server_config.add_option(
+server_config.add_bool_option(
     target="$collect_xp",
-    type=bool,
     name="Collect XP",
     description="When enabled, graves collect XP dropped on death.\nNote that, in "
     "vanilla, players don't drop all their XP on death.",
     default=True,
 )
-server_config.add_option(
+server_config.add_int_option(
     target="$despawn_time",
-    type="0..",
     name="Despawn Time",
     description=[
         "Click to enter the number of seconds after which a grave is deleted.\nA "
@@ -45,10 +42,11 @@ server_config.add_option(
         {"text": "300", "color": "white"},
         " seconds (5 minutes) to despawn.",
     ],
+    range="0..",
     default=0,
 )
 
-player_config.add_option(
+player_config.add_choice_option(
     objective=pack.display_mode,
     name="Display Mode",
     description="How sleeping players are displayed.",
@@ -59,6 +57,7 @@ player_config.add_option(
             "Note: This will not prevent vanilla from displaying information.",
         ),
         ConfigOptionChoice(
+            default=True,
             name="Chat",
             description="If a player sleeps, their username and the fraction of "
             "sleeping players needed to pass the night will be displayed in chat, "
@@ -86,31 +85,27 @@ player_config.add_option(
             "information written in text below it.",
         ),
     ],
-    default=1,
 )
 
-player_config.add_option(
+player_config.add_bool_option(
     objective=pack.hand_items,
-    type=bool,
     name="Ping for Hand Items",
     description="Enables durability pings for items in the mainhand or offhand slots.",
     default=True,
 )
-player_config.add_option(
+player_config.add_bool_option(
     objective=pack.armor_items,
-    type=bool,
     name="Ping for Armor Items",
     description="Enables durability pings for items in the armor slots.",
     default=True,
 )
-player_config.add_option(
+player_config.add_bool_option(
     objective=pack.sound,
-    type=bool,
     name="Ping With Sound",
     description="Enables durability pings for items in the armor slots.",
     default=True,
 )
-player_config.add_option(
+player_config.add_choice_option(
     objective=pack.display_mode,
     name="Display Mode",
     description="How the durability ping text is displayed.",
@@ -129,6 +124,7 @@ player_config.add_option(
             "with one large line of text first and a second, smaller line below it.",
         ),
         ConfigOptionChoice(
+            default=True
             name="Subtitle",
             description="The ping text will be displayed as a small line of text in the"
             " middle of the screen.",
@@ -138,5 +134,4 @@ player_config.add_option(
             description="The ping text will be displayed just above the hotbar.",
         ),
     ],
-    default=3,
 )
