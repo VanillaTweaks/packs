@@ -55,8 +55,13 @@ class ResourceLocation:
     "external_pack:api/_test"
     """
 
-    # TODO: handle versioning for LL (specifically, creating a versioned path. ex: `rx.playerdb:impl/v2.0.1/<internals>`)
-    #  also consider how child base locations are created depending on that version (i.e. in __truediv__)
+    # These attributes are prefixed with underscores so they don't conflict with keys
+    #  intended to call `__getattr__`. For example, `vt.title` should evaluate to
+    #  `"vanillatweaks.title"`, not `"Vanilla Tweaks"`.
+    # Outside this class, what would otherwise be `resource_location._key` can instead
+    #  be accessed via `resource_location["key"]`. Though note that this is often not
+    #  necessary for the `pack` resource location, because most of `pack`'s attributes
+    #  can be found in the `metadata` module instead.
 
     _namespace: str
     # A tuple of the components of the resource location's actual path.
