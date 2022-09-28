@@ -94,13 +94,12 @@ class ResourceLocation:
 
             path_components = abstract_path.split("/")
 
-            if not external:
-                # The underscore has to be on the last path component so that whether a
-                #  resource location is private must be explicitly set each time rather
-                #  than stored in a parent resource location and then forgotten about.
-                if path_components[-1].startswith("_"):
-                    path_components[-1] = path_components[-1].removeprefix("_")
-                    path_components = PRIVATE_PATH.split("/") + path_components
+            # The underscore has to be on the last path component so that whether a
+            #  resource location is private must be explicitly set each time rather than
+            #  stored in a parent resource location and then forgotten about.
+            if not external and path_components[-1].startswith("_"):
+                path_components[-1] = path_components[-1].removeprefix("_")
+                path_components = PRIVATE_PATH.split("/") + path_components
 
             self._path_components = tuple(path_components)
 
@@ -113,7 +112,7 @@ class ResourceLocation:
         if not VALID_RESOURCE_NAME.match(name):
             raise ValueError(f"The following name is invalid: {repr(name)}")
 
-        if not (CONVENTIONAL_RESOURCE_NAME.match(name) or self.external):
+        if not (self.external or CONVENTIONAL_RESOURCE_NAME.match(name)):
             raise ValueError(f"The following name is unconventional: {repr(name)}")
 
     def _get_ast_json_value_(self):
