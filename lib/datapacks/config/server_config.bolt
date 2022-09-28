@@ -1,12 +1,11 @@
-from lib.datapacks.config.models import (
+import lib:datapacks/info_advancements as info_advancements
+from lib:datapacks/config/config import adds_option
+# TODO: Remove import aliases.
+from lib:datapacks/config/models import (
     ServerBoolConfigOption,
     ServerChoiceConfigOption,
     ServerIntConfigOption,
 )
-
-from lib:datapacks/config/config import adds_option
-# TODO: Remove import aliases.
-import lib:datapacks/info_advancements as info_advancements
 from lib:base_locations import pack
 
 config_function = pack / "config"
