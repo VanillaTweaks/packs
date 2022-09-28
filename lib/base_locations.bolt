@@ -6,7 +6,7 @@ from lib.resource_location import ResourceLocation
 
 
 @cache
-def add_temp_objective():
+def add_temp_objective(temp):
     from lib:datapacks/lantern_load import lantern_load
 
     vt_temp_objective = vt / "temp_objective"
@@ -38,9 +38,11 @@ class VTResourceLocation(ResourceLocation):
     def temp(self):
         # An objective only for temporary scores that can safely be reset anytime.
 
-        add_temp_objective()
+        temp = super().temp
 
-        return super().temp
+        add_temp_objective(temp)
+
+        return temp
 
 
 vt = VTResourceLocation("vanillatweaks", title="Vanilla Tweaks")
