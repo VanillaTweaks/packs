@@ -7,6 +7,7 @@ from lib.resource_location import ResourceLocation
 
 @cache
 def add_temp_objective(temp):
+    # TODO: Remove import aliases.
     from lib:datapacks/lantern_load import lantern_load
 
     vt_temp_objective = vt / "temp_objective"
