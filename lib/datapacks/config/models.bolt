@@ -2,6 +2,8 @@ from typing import Any, final
 
 from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
 
+from lib:base_locations import pack
+
 
 class ConfigOptionBase(BaseModel, frozen=True):
     name: StrictStr
@@ -12,9 +14,11 @@ class ConfigOptionBase(BaseModel, frozen=True):
 class ServerConfigOptionBase(ConfigOptionBase):
     # Which target of the `pack.config` objective to store the option's value in.
     target: StrictStr
+    objective = pack.config
 
 
 class PlayerConfigOptionBase(ConfigOptionBase):
+    target = "@s"
     # The objective that stores the option's value for each player, and stores the
     #  current server default value in `$default`.
     objective: StrictStr
