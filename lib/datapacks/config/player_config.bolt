@@ -1,10 +1,10 @@
-from lib.datapacks.config.helpers import adds_option
 from lib.datapacks.config.models import (
     PlayerBoolConfigOption,
     PlayerChoiceConfigOption,
     PlayerIntConfigOption,
 )
 
+from lib:datapacks/config/config import adds_option
 # TODO: Remove import aliases.
 import lib:datapacks/info_advancements as info_advancements
 from lib:base_locations import pack
