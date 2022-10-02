@@ -1,7 +1,7 @@
 import itertools
 from collections import namedtuple
 
-from minecraft_text_components import join, style, whitespace
+from minecraft_text_components import join, style, whitespace, minify
 
 from lib.metadata import pack_config
 from lib.run_last import run_last
@@ -55,7 +55,7 @@ def add(icon, title, title_padding, description):
         "parent": previous_location,
         "display": {
             "icon": icon,
-            "title": [title, whitespace(title_padding)],
+            "title": minify([title, whitespace(title_padding)]),
             "description": style(description, color="gold"),
             "show_toast": false,
             "announce_to_chat": false
@@ -67,13 +67,11 @@ def add(icon, title, title_padding, description):
         }
     }
 
+
 def add_main(icon, title_padding=0, description=pack_config.description):
     add(
         icon=icon,
-        title=[
-            f"{pack_config.title} {pack_config.version}",
-            whitespace(title_padding),
-        ],
+        title=f"{pack_config.title} {pack_config.version}",
         title_padding=title_padding,
         description=description,
     )
@@ -81,7 +79,7 @@ def add_main(icon, title_padding=0, description=pack_config.description):
 
 def add_usage(description, title_padding=0):
     add(
-        title=["How to Use", whitespace(title_padding)],
+        title="How to Use",
         icon={"item": "minecraft:book"},
         title_padding=title_padding,
         description=style(description, color="gold"),
@@ -90,7 +88,7 @@ def add_usage(description, title_padding=0):
 
 def add_commands(description, title_padding=0):
     add(
-        title=["Commands for Everyone", whitespace(title_padding)],
+        title="Commands for Everyone",
         icon={"item": "minecraft:command_block"},
         title_padding=title_padding,
         description=style(description, color="gold"),
@@ -99,7 +97,7 @@ def add_commands(description, title_padding=0):
 
 def add_op_commands(description, title_padding=0):
     add(
-        title=["Admin-Only Commands", whitespace(title_padding)],
+        title="Admin-Only Commands",
         icon={"item": "minecraft:repeating_command_block"},
         title_padding=title_padding,
         description=style(description, color="gold"),
