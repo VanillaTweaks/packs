@@ -1,12 +1,11 @@
-from lib.datapacks.config.models import (
+# TODO: Remove import aliases.
+import lib:datapacks/info_advancements as info_advancements
+from lib:datapacks/config/config import get_add_option_function
+from lib:datapacks/config/models import (
     PlayerBoolConfigOption,
     PlayerChoiceConfigOption,
     PlayerIntConfigOption,
 )
-
-from lib:datapacks/config/config import adds_option
-# TODO: Remove import aliases.
-import lib:datapacks/info_advancements as info_advancements
 from lib:base_locations import pack
 
 info_advancements.add_command(
@@ -16,17 +15,8 @@ info_advancements.add_command(
 
 options = []
 
+add_bool_option = get_add_option_function(options.append, PlayerBoolConfigOption)
 
-@adds_option(options.append, PlayerBoolConfigOption)
-def add_bool_option():
-    ...
+add_int_option = get_add_option_function(options.append, PlayerIntConfigOption)
 
-
-@adds_option(options.append, PlayerIntConfigOption)
-def add_int_option():
-    ...
-
-
-@adds_option(options.append, PlayerChoiceConfigOption)
-def add_choice_option():
-    ...
+add_choice_option = get_add_option_function(options.append, PlayerChoiceConfigOption)

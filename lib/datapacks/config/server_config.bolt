@@ -2,7 +2,7 @@ from lib.run_last import run_last
 
 # TODO: Remove import aliases.
 import lib:datapacks/info_advancements as info_advancements
-from lib:datapacks/config/config import adds_option
+from lib:datapacks/config/config import get_add_option_function
 from lib:datapacks/config/models import (
     ServerBoolConfigOption,
     ServerChoiceConfigOption,
@@ -19,20 +19,11 @@ info_advancements.add_op_command(
 
 options = []
 
+add_bool_option = get_add_option_function(options.append, ServerBoolConfigOption)
 
-@adds_option(options.append, ServerBoolConfigOption)
-def add_bool_option():
-    ...
+add_int_option = get_add_option_function(options.append, ServerIntConfigOption)
 
-
-@adds_option(options.append, ServerIntConfigOption)
-def add_int_option():
-    ...
-
-
-@adds_option(options.append, ServerChoiceConfigOption)
-def add_choice_option():
-    ...
+add_choice_option = get_add_option_function(options.append, ServerChoiceConfigOption)
 
 
 @run_last

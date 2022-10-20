@@ -7,21 +7,15 @@ ConfigOptionType = TypeVar("ConfigOptionType", bound=ConfigOption)
 Params = ParamSpec("Params")
 
 
-def adds_option(
+def get_add_option_function(
     add_option: Callable[[ConfigOptionType], None],
     ConfigOptionClass: Callable[Params, ConfigOptionType],
 ):
-    # Makes the decorated function construct the specified class from its arguments and
-    # pass the new instance of that class into the specified `add_option` callback.
-    #
-    # The decorated function should have no parameters or body, because this decorator
-    # automatically generates them for the function.
+    # Returns a function which constructs the specified class from its arguments and
+    # passes the new instance of that class into the specified `add_option` callback.
 
-    def decorator(_: Callable[[], None]) -> Callable[Params, None]:
-        def decorated_function(*args: Params.args, **kwargs: Params.kwargs):
-            option = ConfigOptionClass(*args, **kwargs)
-            add_option(option)
+    def add_option_function(*args: Params.args, **kwargs: Params.kwargs):
+        option = ConfigOptionClass(*args, **kwargs)
+        add_option(option)
 
-        return decorated_function
-
-    return decorator
+    return add_option_function
