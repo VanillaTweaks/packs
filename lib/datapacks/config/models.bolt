@@ -27,11 +27,20 @@ class PlayerConfigOptionBase(ConfigOptionBase):
 class BoolConfigOptionBase(ConfigOptionBase):
     default: StrictBool
 
+    def render(self):
+        execute if score self.target self.objective matches 0
+            run tellraw @s [x, blah blah blah]
+        execute if score self.target self.objective matches 1
+            run tellraw @s [check, blah blah blah]
+
 
 class IntConfigOptionBase(ConfigOptionBase):
     # A string of the range of integers this option accepts (e.g. `"0..100"`, `"1.."`).
     accepts: StrictStr
     default: StrictInt
+
+    def render(self):
+        tellraw @s [pencil icon, blah blah blah]
 
 
 @final
