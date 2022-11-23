@@ -1,6 +1,0 @@
-from lib.run_last import run_last_functions
-
-# TODO: Remove import aliases.
-import pack:_entry_point as _
-
-run_last_functions()

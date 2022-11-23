@@ -4,7 +4,6 @@ from collections import namedtuple
 from minecraft_text_components import join, style, whitespace, minify
 
 from lib.metadata import pack_config
-from lib.run_last import run_last
 
 from lib:base_locations import vt, pack
 
@@ -156,7 +155,7 @@ def generate_command_advancements(add_commands_function, commands):
         add_commands_function(description=join("\n\n", command_components))
 
 
-@run_last
+@defer
 def generate_advancements():
     generate_command_advancements(add_commands, commands)
     generate_command_advancements(add_op_commands, op_commands)

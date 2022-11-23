@@ -1,6 +1,6 @@
 [[package]]
 name = "beet"
-version = "0.73.3"
+version = "0.80.1"
 description = "The Minecraft pack development kit"
 category = "main"
 optional = false
@@ -43,15 +43,15 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "bolt"
-version = "0.19.1"
+version = "0.21.0"
 description = "Supercharge Minecraft commands with Python"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-beet = ">=0.71.2"
-mecha = ">=0.55.1"
+beet = ">=0.80.1"
+mecha = ">=0.61.0"
 
 [[package]]
 name = "click"
@@ -124,31 +124,31 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "mecha"
-version = "0.57.0"
+version = "0.61.0"
 description = "A powerful Minecraft command library"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-beet = ">=0.73.3"
+beet = ">=0.80.1"
 tokenstream = ">=1.4.2,<2.0.0"
 
 [[package]]
 name = "minecraft-text-components"
-version = "3.1.1"
+version = "3.1.2"
 description = "A library for manipulating Minecraft's raw JSON text components"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-beet = {version = ">=0.73.3,<0.74.0", optional = true, markers = "extra == \"beet\""}
-mecha = {version = ">=0.57.0,<0.58.0", optional = true, markers = "extra == \"beet\""}
-typing-extensions = ">=4.3.0,<5.0.0"
+beet = {version = ">=0.80.1,<1", optional = true, markers = "extra == \"beet\""}
+mecha = {version = ">=0.61.0,<1", optional = true, markers = "extra == \"beet\""}
+typing-extensions = ">=4.4.0,<5.0.0"
 
 [package.extras]
-beet = ["beet (>=0.73.3,<0.74.0)", "mecha (>=0.57.0,<0.58.0)"]
+beet = ["beet (>=0.80.1,<1)", "mecha (>=0.61.0,<1)"]
 
 [[package]]
 name = "mypy-extensions"
@@ -246,7 +246,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "typing-extensions"
-version = "4.3.0"
+version = "4.4.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 category = "main"
 optional = false
@@ -255,7 +255,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d434f019c1d00367baeb68c6ea8ec004fc92e8bf5e29f5053622627b47dd2f9a"
+content-hash = "66dcc4abc2a33a83c40b48a384f10d42fd04dd089db85b7de92bd9da71bed944"
 
 [metadata.files]
 beet = []

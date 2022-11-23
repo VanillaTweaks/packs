@@ -85,11 +85,11 @@ def beet_default(ctx: Context):
                     "require": [
                         "beet_plugins.json_helpers.get_custom_json_values",
                         "bolt",
+                        "bolt.contrib.defer",
                         "beet_plugins.nbt_literals",
                         "minecraft_text_components.contrib.beet_minify",
                     ],
                     "pipeline": [
-                        "beet_plugins.bolt_entry_point",
                         "mecha",
                         "beet.contrib.line_endings",
                         "beet.contrib.minify_json",
@@ -100,7 +100,7 @@ def beet_default(ctx: Context):
                         # Force LF line endings on all platforms.
                         "line_endings": {"newline": "\n"},
                         "mecha": {"formatting": "minify"},
-                        "bolt": {"entrypoint": "lib:entry_point"},
+                        "bolt": {"entrypoint": "pack:*"},
                     },
                 }
             )

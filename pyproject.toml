@@ -6,11 +6,11 @@ authors = ["VanillaTweaks <team@vanillatweaks.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.73.3"
-mecha = ">=0.57.0"
-bolt = ">=0.19.1"
+beet = "^0.80.1"
+mecha = "^0.61.0"
+bolt = "^0.21.0"
 PyYAML = "^6.0"
-minecraft-text-components = {extras = ["beet"], version = "^3.1.0"}
+minecraft-text-components = {extras = ["beet"], version = "^3.1.2"}
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]

@@ -1,5 +1,3 @@
-from lib.run_last import run_last
-
 # TODO: Remove import aliases.
 import lib:datapacks/info_advancements as info_advancements
 from lib:datapacks/config/config import get_add_option_function
@@ -26,7 +24,7 @@ add_int_option = get_add_option_function(options.append, ServerIntConfigOption)
 add_choice_option = get_add_option_function(options.append, ServerChoiceConfigOption)
 
 
-@run_last
+@defer
 def render():
     function config_function:
 
