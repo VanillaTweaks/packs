@@ -1,3 +1,6 @@
+from lib.resource_location import ResourceLocation
+from lib.types import Unknown
+
 # TODO: Remove import aliases.
 import lib:datapacks/load_status as load_status
 from lib:base_locations import vt
@@ -48,7 +51,7 @@ function craft_any_function_recipe:
                 nbt={Item:{id:"minecraft:knowledge_book"}},
                 # Ensure the knowledge book being killed doesn't have any NBT on it, so
                 #  it likely came from crafting output and isn't a meaningful item.
-                nbt=!{Item:{tag:{}}}
+                nbt=!{Item:{tag:{}}},
             ]
     # Or if they bundled it, just let them have it.
 
@@ -58,19 +61,20 @@ function craft_any_function_recipe:
 
 
 def craft(
-    base_location,
+    base_location: ResourceLocation,
     # The non-namespaced name of the recipe.
-    name,
+    name: str,
     # The crafting recipe JSON, excluding the `result`.
     #
     # The `type` must be either `minecraft:crafting_shaped` or
     #  `minecraft:crafting_shapeless`.
-    recipe_data
+    recipe_data: dict[str, Unknown]
 ):
-    # Creates a crafting recipe that outputs a knowledge book which runs the returned
-    #  function `as` and `at` the player when taken from the crafting output.
-    #
-    # ⚠️ Always use this via `append function craft(...)`.
+    """Creates a crafting recipe that outputs a knowledge book which runs the returned
+    function `as` and `at` the player when taken from the crafting output.
+
+    ⚠️ Always use this via `append function craft(...)`.
+    """
 
     function_recipes = base_location / "function_recipes"
 

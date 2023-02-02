@@ -1,9 +1,10 @@
 import itertools
-from collections import namedtuple
+from typing import NamedTuple, Protocol, Sequence
 
-from minecraft_text_components import join, style, whitespace, minify
+from minecraft_text_components import TextComponent, join, minify, style, whitespace
 
 from lib.metadata import pack_config
+from lib.types import Unknown
 
 from lib:base_locations import vt, pack
 
@@ -48,7 +49,12 @@ locations = generate_locations()
 info = pack / "info"
 
 
-def add(icon, title, title_padding, description):
+def add(
+    icon: dict[str, Unknown],
+    title: TextComponent,
+    title_padding: float,
+    description: TextComponent,
+):
     previous_location, location = next(locations)
     advancement location {
         "parent": previous_location,
@@ -67,7 +73,11 @@ def add(icon, title, title_padding, description):
     }
 
 
-def add_main(icon, title_padding=0, description=pack_config.description):
+def add_main(
+    icon: dict[str, Unknown],
+    title_padding: float = 0,
+    description: TextComponent = pack_config.description,
+):
     add(
         icon=icon,
         title=f"{pack_config.title} {pack_config.version}",
@@ -76,7 +86,10 @@ def add_main(icon, title_padding=0, description=pack_config.description):
     )
 
 
-def add_usage(description, title_padding=0):
+def add_usage(
+    description: TextComponent,
+    title_padding: float = 0,
+):
     add(
         title="How to Use",
         icon={"item": "minecraft:book"},
@@ -85,7 +98,19 @@ def add_usage(description, title_padding=0):
     )
 
 
-def add_commands(description, title_padding=0):
+class AddCommandsFunction(Protocol):
+    def __call__(
+        self,
+        description: TextComponent,
+        title_padding: float = 0,
+    ):
+        ...
+
+
+def add_commands(
+    description: TextComponent,
+    title_padding: float = 0,
+):
     add(
         title="Commands for Everyone",
         icon={"item": "minecraft:command_block"},
@@ -94,7 +119,10 @@ def add_commands(description, title_padding=0):
     )
 
 
-def add_op_commands(description, title_padding=0):
+def add_op_commands(
+    description: TextComponent,
+    title_padding: float = 0,
+):
     add(
         title="Admin-Only Commands",
         icon={"item": "minecraft:repeating_command_block"},
@@ -103,21 +131,23 @@ def add_op_commands(description, title_padding=0):
     )
 
 
-# TODO: Convert this to a `NamedTuple` class.
-CommandInfo = namedtuple("CommandInfo", ("text", "description"))
-
-commands = []
-op_commands = []
+class CommandInfo(NamedTuple):
+    text: str
+    description: str
 
 
-def add_command(command, description):
-    # Adds a command to the commands info advancement.
+commands: list[CommandInfo] = []
+op_commands: list[CommandInfo] = []
+
+
+def add_command(command: str, description: str):
+    """Adds a command to the commands info advancement."""
 
     commands.append(CommandInfo(command, description))
 
 
-def add_op_command(command, description):
-    # Adds a command to the op commands info advancement.
+def add_op_command(command: str, description: str):
+    """Adds a command to the op commands info advancement."""
 
     op_commands.append(CommandInfo(command, description))
 
@@ -125,14 +155,21 @@ def add_op_command(command, description):
 COMMANDS_PER_ADVANCEMENT = 3
 
 
-def slice_commands(commands):
+def slice_commands(commands: Sequence[CommandInfo]):
+    """Yields each slice of the inputted sequence of commands that can fit into an
+    advancement, based on `COMMANDS_PER_ADVANCEMENT`.
+    """
+
     for i in range(0, len(commands), COMMANDS_PER_ADVANCEMENT):
         yield commands[i : i + COMMANDS_PER_ADVANCEMENT]
 
 
-def generate_command_advancements(add_commands_function, commands):
+def generate_command_advancements(
+    add_commands_function: AddCommandsFunction,
+    commands: Sequence[CommandInfo],
+):
     for commands_slice in slice_commands(commands):
-        command_components = []
+        command_components: list[TextComponent] = []
         for command in commands_slice:
             command_components.append(
                 [

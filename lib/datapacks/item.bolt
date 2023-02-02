@@ -1,31 +1,24 @@
-from dataclasses import dataclass, field
-
-from nbtlib import Compound
+from dataclasses import dataclass
 
 from lib.resource_location import ResourceLocation
 from lib.types import Unknown
 
+from nbtlib import Compound
+
 from lib:datapacks/give_loot_table import give_loot_table
 from lib:base_locations import vt
 
+
 @dataclass
 class Item:
-    # An abstraction for a custom NBT item.
+    """An abstraction for a custom NBT item."""
 
-    # TODO: Use actual annotations and remove the `field` import and calls.
-    __annotations__ = {
-        "base_location": ResourceLocation,
-        "name": str,
-        "real_item": str,
-        "nbt": dict[str, Unknown]
-    }
-
-    base_location = field()
+    base_location: ResourceLocation
     # The non-namespaced name of the item.
-    name = field()
+    name: str
     # The ID of the actual item this is based on.
-    real_item = field()
-    nbt = field()
+    real_item: str
+    nbt: dict[str, Unknown]
 
     def __post_init__(self):
         # The namespaced ID of the custom item.

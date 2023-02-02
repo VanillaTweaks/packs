@@ -7,7 +7,7 @@ This is the official repo for the source of some of the Vanilla Tweaks packs.
 ### Setup
 
 Requirements:
-* [`python`](https://python.org) 3.10+
+* [`python`](https://python.org) 3.11+
 * [`poetry`](https://python-poetry.org)
 
 After cloning the repo and installing the above requirements, run the following inside the repo to install dependencies.

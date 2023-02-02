@@ -5,8 +5,13 @@ from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
 
 
-def add(base_location, name, criterion="dummy", display_name=None):
-    # Adds an objective to `base_location`'s load and uninstall functions.
+def add(
+    base_location: ResourceLocation,
+    name: str,
+    criterion: str = "dummy",
+    display_name: str | None = None,
+):
+    """Adds an objective to `base_location`'s load and uninstall functions."""
 
     # Prepend and not append so other commands in the load function can use this
     #  objective.

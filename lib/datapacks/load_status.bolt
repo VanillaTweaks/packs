@@ -1,15 +1,18 @@
 from functools import cache
 
+from lib.resource_location import ResourceLocation
+
 from lib:base_locations import pack
 
 
-def score_holder(base_location):
-    # Gets the score holder of a resource location's `lantern_load.status` score.
-    #
-    # >>> load_status.score_holder(pack)
-    # "$" + pack["namespace"]
-    # >>> load_status.score_holder(vt / "example/directory")
-    # "$vanillatweaks.example.directory"
+def score_holder(base_location: ResourceLocation):
+    """Gets the score holder of a resource location's `lantern_load.status` score.
+
+    >>> load_status.score_holder(pack)
+    "$" + pack["namespace"]
+    >>> load_status.score_holder(vt / "example/directory")
+    "$vanillatweaks.example.directory"
+    """
 
     namespace = base_location["namespace"]
     path_components = base_location["path_components"]
@@ -22,11 +25,12 @@ set_base_locations = set()
 
 
 @cache
-def set(base_location):
-    # Sets a resource location's `lantern_load.status` scores on load and on uninstall.
-    #
-    # ⚠️ This already runs automatically for any resource location which `load` is
-    #  called on.
+def set(base_location: ResourceLocation):
+    """Sets a resource location's `lantern_load.status` scores on load and on uninstall.
+
+    ⚠️ This already runs automatically for any resource location which `load` is called
+    on.
+    """
 
     if base_location in set_base_locations:
         return
@@ -55,20 +59,21 @@ def set(base_location):
                 scoreboard players set f"{load_status_score_holder}.{key}" lantern_load.status 0
 
 
-def check(base_location=pack):
-    # Returns a predicate condition that ensures a resource location (the `pack` by
-    #  default) is loaded.
-    #
-    # This should be included in the `player` condition of practically every technical
-    #  advancement, since otherwise an advancement (and its reward) could be granted
-    #  even after everything is supposed to be uninstalled, or while the
-    #  `function-permission-level` is too low.
-    #
-    # Be sure to consider what happens when a criterion is triggered but isn't granted
-    #  due to this check failing. For example, if a `minecraft:recipe_unlocked`
-    #  criterion's condition includes this check, then on `load_or_join`, you might want
-    #  to take the recipe in case they unlocked it before the check succeeded. Otherwise
-    #  they'd keep the recipe and be unable to earn the advancement.
+def check(base_location: ResourceLocation = pack):
+    """Returns a predicate condition that ensures a resource location (the `pack` by
+    default) is loaded.
+
+    This should be included in the `player` condition of practically every technical
+    advancement, since otherwise an advancement (and its reward) could be granted even
+    after everything is supposed to be uninstalled, or while the
+    `function-permission-level` is too low for the reward to work properly.
+
+    Be sure to consider what happens when a criterion is triggered but isn't granted due
+    to this check failing. For example, if a `minecraft:recipe_unlocked` criterion's
+    condition includes this check, then on `load_or_join`, you might want to take the
+    recipe in case they unlocked it before the check succeeded. Otherwise they'd keep
+    the recipe and be unable to earn the advancement.
+    """
 
     from lib:datapacks/lantern_load import lantern_load
 

@@ -11,8 +11,9 @@ def get_add_option_function(
     add_option: Callable[[ConfigOptionType], None],
     ConfigOptionClass: Callable[Params, ConfigOptionType],
 ):
-    # Returns a function which constructs the specified class from its arguments and
-    # passes the new instance of that class into the specified `add_option` callback.
+    """Returns a function which constructs the specified class from its arguments and
+    passes the new instance of that class into the specified `add_option` callback.
+    """
 
     def add_option_function(*args: Params.args, **kwargs: Params.kwargs):
         option = ConfigOptionClass(*args, **kwargs)

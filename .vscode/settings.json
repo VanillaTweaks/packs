@@ -20,5 +20,6 @@
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
-    }
+    },
+    "python.analysis.typeCheckingMode": "basic"
 }

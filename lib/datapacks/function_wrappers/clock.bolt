@@ -1,15 +1,18 @@
 from functools import cache
 
+from lib.resource_location import ResourceLocation
+
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/uninstall import uninstall
 
 
 @cache
-def clock(duration, base_location):
-    # Runs a function one tick after the pack loads and then on a periodical schedule.
-    #
-    # >>> append function clock('1t', pack):
-    # >>>     # This runs every tick.
+def clock(duration: str, base_location: ResourceLocation):
+    """Runs a function one tick after the pack loads and then on a periodical schedule.
+
+    >>> append function clock('1t', pack):
+    >>>     # This runs every tick.
+    """
 
     clock_function_name = duration
     if clock_function_name == "1t":

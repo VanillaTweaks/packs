@@ -59,7 +59,7 @@ append function clock("1t", pack):
                     }
                 },
                 nbt=!{Item: {tag: {EntityTag: {}}}},
-                limit=1
+                limit=1,
             ] {Item: {tag: invisible_item_frame.nbt}}
 
             kill @s

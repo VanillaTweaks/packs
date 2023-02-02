@@ -6,7 +6,7 @@ from lib.resource_location import ResourceLocation
 
 
 @cache
-def add_temp_objective(temp):
+def add_temp_objective(temp: str):
     # TODO: Remove import aliases.
     from lib:datapacks/lantern_load import lantern_load
 
@@ -37,7 +37,7 @@ def add_temp_objective(temp):
 class VTResourceLocation(ResourceLocation):
     @property
     def temp(self):
-        # An objective only for temporary scores that can safely be reset anytime.
+        """An objective only for temporary scores that can safely be reset anytime."""
 
         temp = super().temp
 

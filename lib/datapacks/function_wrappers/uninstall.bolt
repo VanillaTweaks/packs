@@ -1,16 +1,19 @@
 from functools import cache
 
+from lib.resource_location import ResourceLocation
+
 # TODO: Remove import aliases.
 import lib:datapacks/info_advancements as info_advancements
 from lib:base_locations import vt, pack
 
 @cache
-def uninstall(base_location):
-    # Adds to a resource location's uninstall function, and adds that uninstall function
-    #  to the uninstall tag.
-    #
-    # >>> append function uninstall(pack):
-    # >>>     # This runs on uninstall.
+def uninstall(base_location: ResourceLocation):
+    """Adds to a resource location's uninstall function, and adds that uninstall
+    function to the uninstall tag.
+
+    >>> append function uninstall(pack):
+    >>>     # This runs on uninstall.
+    """
 
     if base_location == pack:
         uninstall_function = base_location / "uninstall"

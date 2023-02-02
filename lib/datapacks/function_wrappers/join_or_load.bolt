@@ -1,5 +1,7 @@
 from functools import cache
 
+from lib.resource_location import ResourceLocation
+
 from lib:base_locations import vt
 from lib:datapacks/function_wrappers/load import load
 from lib:datapacks/function_wrappers/clock import clock
@@ -35,15 +37,16 @@ append function clock("1t", vt_join_or_load):
 
 
 @cache
-def join_or_load(base_location):
-    # Runs something as any player who joins the world and as `@a` on load.
-    #
-    # ⚠️ To avoid creating an unnecessary function, use
-    #  `append function_tag join_or_load_tag` instead if the resource location's
-    #  `join_or_load` function would otherwise only have one `function` command.
-    #
-    # >>> append function join_or_load(pack):
-    # >>>     # This runs as any player who joins the world and as `@a` on load.
+def join_or_load(base_location: ResourceLocation):
+    """Runs something as any player who joins the world and as `@a` on load.
+
+    ⚠️ To avoid creating an unnecessary function, use
+    `append function_tag join_or_load_tag` instead if the resource location's
+    `join_or_load` function would otherwise only have one `function` command.
+
+    >>> append function join_or_load(pack):
+    >>>     # This runs as any player who joins the world and as `@a` on load.
+    """
 
     join_or_load_function = base_location / "_join_or_load"
 

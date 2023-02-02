@@ -16,12 +16,13 @@ def import_load_tag_not_loaded_fault_check():
 
 
 @cache
-def load(base_location):
-    # Adds to a resource location's load function, which is (indirectly) called by
-    #  `#minecraft:load`.
-    #
-    # >>> append function load(pack):
-    # >>>     # This runs on load.
+def load(base_location: ResourceLocation):
+    """Adds to a resource location's load function, which is (indirectly) called by
+    `#minecraft:load`.
+
+    >>> append function load(pack):
+    >>>     # This runs on load.
+    """
 
     load_status.set(vt)
     load_status.set(base_location)
