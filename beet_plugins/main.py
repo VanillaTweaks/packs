@@ -75,7 +75,7 @@ def beet_default(ctx: Context):
                     "data_pack": {
                         "load": [
                             {"data/lib/modules": "../../../lib"},
-                            {f"data/pack/modules": "."},
+                            {"data/pack/modules": "."},
                             # Load the pack as a normal pack directory with a `data`
                             #  folder.
                             ".",
